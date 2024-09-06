@@ -77,18 +77,33 @@
                         <q-menu>
                           <q-list dense>
                             <q-item clickable v-close-popup>
+                              <q-item-section side>
+                                <q-icon name="error" />
+                              </q-item-section>
                               <q-item-section>View Project</q-item-section>
                             </q-item>
                             <q-item clickable v-close-popup>
+                              <q-item-section side>
+                                <q-icon name="open_in_new" />
+                              </q-item-section>
+                              <q-item-section>Open Board</q-item-section>
+                            </q-item>
+                            <q-item clickable v-close-popup>
+                              <q-item-section side>
+                                <q-icon name="share" />
+                              </q-item-section>
                               <q-item-section>Share</q-item-section>
                             </q-item>
                             <q-item clickable v-close-popup>
+                              <q-item-section side>
+                                <q-icon name="autorenew" />
+                              </q-item-section>
                               <q-item-section>Planning</q-item-section>
                             </q-item>
                             <q-item clickable v-close-popup>
-                              <q-item-section>Roadmaps</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
+                              <q-item-section side>
+                                <q-icon name="edit_note" />
+                              </q-item-section>
                               <q-item-section>Activities</q-item-section>
                             </q-item>
                           </q-list>
@@ -97,268 +112,308 @@
                     </div>
                     <div class="progress-and-members">
                       <div class="progress-container">
-                        <q-circular-progress size="99px" font-size="15px" :value="40" color="pink" track-color="grey-3"
+                        <q-circular-progress size="100px" font-size="15px" :value="40" color="pink" track-color="grey-3"
                           show-value>Progress <br> 40%</q-circular-progress>
                       </div>
                       <div class="members-container">
                         <div>15 Members</div>
                         <div class="avatar-container">
                           <div class="avatar-group">
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="more-count">+10</div>
+                            <div class="avatar" style="background-image: url('src/assets/aura.png');">
+                              <div class="inline bg-amber rounded-borders cursor-pointer" style="max-width: 300px">
+                                <q-tooltip>
+                                  I am groot!
+                                </q-tooltip>
+                              </div>
+                            </div>
                           </div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');">
+                            <div class="popup">Sealsea</div>
+                          </div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');">
+                            <div class="popup">Rambu</div>
+                          </div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');">
+                            <div class="popup">Bintani</div>
+                          </div>
+                          <div class="more-count">+10</div>
                         </div>
                       </div>
                     </div>
-                  </q-card>
-                </div>
-                <div class="col-4">
-                  <q-card class="q-pa-md ">
-                    <div class="text-cora">CORA 2.0 <q-btn flat dense icon="more_vert" class="btncora"
-                        @click="menu = true">
-                        <q-menu>
-                          <q-list dense>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>View Project</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Share</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Planning</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Roadmaps</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Activities</q-item-section>
-                            </q-item>
-                          </q-list>
-                        </q-menu>
-                      </q-btn>
-                    </div>
-                    <div class="progress-and-members">
-                      <div class="progress-container">
-                        <q-circular-progress size="99px" font-size="15px" :value="90" color="green" track-color="grey-3"
-                          show-value>Progress <br> 90%</q-circular-progress>
-                      </div>
-                      <div class="members-container">
-                        <div>15 Members</div>
-                        <div class="avatar-container">
-                          <div class="avatar-group">
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="more-count">+10</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </q-card>
-                </div>
-                <div class="col-4">
-                  <q-card class="q-pa-md ">
-                    <div class="text-plant">Plant Maintenance Phase 3 <q-btn flat dense icon="more_vert"
-                        class="btnplant" @click="menu = true">
-                        <q-menu>
-                          <q-list dense style="min-width: 200px">
-                            <q-item clickable v-close-popup>
-                              <q-item-section>View Project</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Share</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Planning</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Roadmaps</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section>Activities</q-item-section>
-                            </q-item>
-                          </q-list>
-                        </q-menu>
-                      </q-btn>
-                    </div>
-                    <div class="progress-and-members">
-                      <div class="progress-container">
-                        <q-circular-progress size="99px" font-size="15px" :value="70" color="yellow"
-                          track-color="grey-3" show-value>Progress <br> 70%</q-circular-progress>
-                      </div>
-                      <div class="members-container">
-                        <div>15 Members</div>
-                        <div class="avatar-container">
-                          <div class="avatar-group">
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                            <div class="more-count">+10</div>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </q-card>
-                </div>
+                </q-card>
               </div>
-              <!-- EPIC kiri  -->
-              <div class="col">
-                <div class="epic-container">
-                  <div class="logo-page">Epic</div>
-                  <span style="
+              <div class="col-4">
+                <q-card class="q-pa-md ">
+                  <div class="text-cora">CORA 2.0 <q-btn flat dense icon="more_vert" class="btncora"
+                      @click="menu = true">
+                      <q-menu>
+                        <q-list dense>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="error" />
+                            </q-item-section>
+                            <q-item-section>View Project</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="open_in_new" />
+                            </q-item-section>
+                            <q-item-section>Open Board</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="share" />
+                            </q-item-section>
+                            <q-item-section>Share</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="autorenew" />
+                            </q-item-section>
+                            <q-item-section>Planning</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="edit_note" />
+                            </q-item-section>
+                            <q-item-section>Activities</q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+                    </q-btn>
+                  </div>
+                  <div class="progress-and-members">
+                    <div class="progress-container">
+                      <q-circular-progress size="100px" font-size="15px" :value="90" color="green" track-color="grey-3"
+                        show-value>Progress <br> 90%</q-circular-progress>
+                    </div>
+                    <div class="members-container">
+                      <div>15 Members</div>
+                      <div class="avatar-container">
+                        <div class="avatar-group">
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="more-count">+10</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </q-card>
+              </div>
+              <div class="col-4">
+                <q-card class="q-pa-md ">
+                  <div class="text-plant">Plant Maintenance Phase 3 <q-btn flat dense icon="more_vert" class="btnplant"
+                      @click="menu = true">
+                      <q-menu>
+                        <q-list dense>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="error" />
+                            </q-item-section>
+                            <q-item-section>View Project</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="open_in_new" />
+                            </q-item-section>
+                            <q-item-section>Open Board</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="share" />
+                            </q-item-section>
+                            <q-item-section>Share</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="autorenew" />
+                            </q-item-section>
+                            <q-item-section>Planning</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="edit_note" />
+                            </q-item-section>
+                            <q-item-section>Activities</q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+                    </q-btn>
+                  </div>
+                  <div class="progress-and-members">
+                    <div class="progress-container">
+                      <q-circular-progress size="100px" font-size="15px" :value="70" color="yellow" track-color="grey-3"
+                        show-value>Progress <br> 70%</q-circular-progress>
+                    </div>
+                    <div class="members-container">
+                      <div>15 Members</div>
+                      <div class="avatar-container">
+                        <div class="avatar-group">
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="more-count">+10</div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </q-card>
+              </div>
+            </div>
+            <!-- EPIC kiri  -->
+            <div class="col">
+              <div class="epic-container">
+                <div class="logo-page">Epic</div>
+                <span style="
       background-color: pink;
       color: black;
       border-radius: 15%;
       padding: 3px 6px;
       font-size: 12px;
     ">
-                    20
-                  </span>
-                  <q-btn class="button-search" flat icon="search" label="Search" :style="{
-                    'text-transform': 'none',
-                    'font-size': '16px',
-                    'border-radius': '12px',
-                    'padding-left': '15px',
-                    'align-items': 'center',
-                    height: '20px',
-                    border: '1px solid #CED3D7',
-                    color: '#585858',
-                    width: '250px',
-                  }" />
-                </div>
-                <div class="row q-gutter-md">
-                  <q-card class="q-pa-xs card-table">
+                  20
+                </span>
+                <q-btn class="button-search" flat icon="search" label="Search" :style="{
+                  'text-transform': 'none',
+                  'font-size': '13px',
+                  'border-radius': '11px',
+                  'padding-left': '15px',
+                  'align-items': 'center',
+                  'margin-left': '619px',
+                  'padding': '3px 3px',
+                  height: '20px',
+                  border: '1px solid #CED3D7',
+                  color: '#585858',
+                  width: '240px',
+                }" />
+              </div>
+              <div class="row q-gutter-md" style="margin-top: 2px;">
+                <q-card class="q-pa-s card-table">
 
-                    <q-table :rows="rows" :columns="columns" flat table-style="table-layout: auto;"
-                      :pagination="initialPagination" hide-bottom>
-                      <template v-slot:body-cell="props">
-                        <q-td :props="props">
-                          <div v-if="props.col.field === 'progress'" class="q-mt-xs flex items-center">
-                            <span>{{ props.row.progress }}%</span>
-                            <q-icon name="more_vert" class="q-ml-xl cursor-pointer absolute"
-                              @click="onIconClick(props.row)" />
-                            <q-menu>
-                              <q-list dense style="min-width: 200px">
-                                <q-item clickable v-close-popup>
-                                  <q-item-section>Detail</q-item-section>
-                                </q-item>
-                                <q-item clickable v-close-popup>
-                                  <q-item-section>Share</q-item-section>
-                                </q-item>
-                              </q-list>
-                            </q-menu>
-                          </div>
-                          <div v-else-if="props.col.field === 'stakeholders'" class="q-gutter-xs flex">
-                            <div class="sketh" style="background-image: url('path/to/avatar1.jpg');"></div>
-                          </div>
-                          <q-badge v-else-if="props.col.field === 'type'" :color="typeColor(props.row.type)"
-                            align="center">
-                            {{ props.row.type }}
-                          </q-badge>
-                          <div v-else>
-                            {{ props.row[props.col.field] }}
-                          </div>
-                        </q-td>
-                      </template>
-                    </q-table>
-                  </q-card>
-                </div>
+                  <q-table :rows="rows" :columns="columns" flat table-style="table-layout: auto;"
+                    :pagination="initialPagination" hide-bottom>
+                    <template v-slot:body-cell="props">
+                      <q-td :props="props">
+                        <div v-if="props.col.field === 'progress'" class="q-mt-xs flex items-center">
+                          <span>{{ props.row.progress }}%</span>
+                          <q-icon name="more_vert" class="q-ml-xl cursor-pointer absolute"
+                            @click="onIconClick(props.row)" />
+                          <q-menu>
+                            <q-list dense style="min-width: 200px">
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="visibility" />
+                                </q-item-section>
+                                <q-item-section>Detail</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="share" />
+                                </q-item-section>
+                                <q-item-section>Share</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </div>
+                        <div v-else-if="props.col.field === 'stakeholders'" class="q-gutter-xs flex">
+                          <div class="sketh" style="background-image: url('path/to/avatar1.jpg');"></div>
+                        </div>
+                        <q-badge v-else-if="props.col.field === 'type'" :color="typeColor(props.row.type)"
+                          align="center">
+                          {{ props.row.type }}
+                        </q-badge>
+                        <div v-else>
+                          {{ props.row[props.col.field] }}
+                        </div>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </q-card>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Performance Section -->
-          <div class="col-4 q-pl-md">
+        <!-- Performance Section -->
+        <div class="col-4 q-pl-md">
 
-            <q-btn-group unelevated>
-              <q-btn label="Performance" :style="{
-                'text-transform': 'none',
-                'font-size': '16px',
-                color: !isPerformanceActive ? '#585858' : '',
-              }" :class="{ activeButton: isPerformanceActive }" @click="activatePerformance" />
-              <q-btn label="Active Sprint" :style="{
-                'text-transform': 'none',
-                'font-size': '16px',
-                color: !isSprintActive ? '#585858' : '',
-              }" :class="{ activeButton: isSprintActive }" @click="activateSprint" />
-            </q-btn-group>
-            <div v-if="isSprintActive">
-              <div class="logo-page">Sprint 1</div>
-              <div class="font-active">
-                <q-expansion-item switch-toggle-side v-for="(item, index) in sprintItems" :key="index"
-                  :label="item.story" v-model:expanded="item.expanded">
-                  <q-item v-for="(task, idx) in item.tasks" :key="idx">
-                    <q-item-section class="q-ml-xl">{{ task.name }}</q-item-section>
-                    <q-item-section side>
-                      <div class="sketh" style="background-image: url('path/to/avatar1.jpg');"></div>
-                    </q-item-section>
-                    <q-item-section side>{{ task.progress }}%</q-item-section>
-                  </q-item>
-                </q-expansion-item>
-              </div>
-            </div>
-            <div v-if="isPerformanceActive">
-
-              <!-- First Card -->
-              <div class="row q-mt-s justify-center">
-                <div class="col-4">
-                  <q-avatar size="150px" :src="topPerformers[1].src" class="q-mb-sm" />
-                  <q-card flat bordered class="text-center">
-                    <q-card-section>
-                      <div>{{ topPerformers[1].name }}</div>
-                      <div>{{ topPerformers[1].points }} Pts</div>
-                      <div>{{ topPerformers[1].tasks }} Tasks</div>
-                    </q-card-section>
-                  </q-card>
-                </div>
-                <div class="col-4 q-mt-s">
-                  <q-avatar size="200px" :src="topPerformers[0].src" class="q-mb-sm" />
-                  <q-card flat bordered class="text-center bg-warning">
-                    <q-card-section>
-                      <div>{{ topPerformers[0].name }}</div>
-                      <div>{{ topPerformers[0].points }} Pts</div>
-                      <div>{{ topPerformers[0].tasks }} Tasks</div>
-                    </q-card-section>
-                  </q-card>
-                </div>
-                <div class="col-4">
-                  <q-avatar size="150px" :src="topPerformers[2].src" class="q-mb-sm" />
-                  <q-card flat bordered class="text-center">
-                    <q-card-section>
-                      <div>{{ topPerformers[2].name }}</div>
-                      <div>{{ topPerformers[2].points }} Pts</div>
-                      <div>{{ topPerformers[2].tasks }} Tasks</div>
-                    </q-card-section>
-                  </q-card>
-                </div>
-              </div>
-
-              <!-- Other Performers List -->
-              <q-list class="q-mt-md">
-                <q-item v-for="performer in otherPerformers" :key="performer.name">
-                  <q-item-section avatar>
-                    <q-avatar :src="performer.src" />
+          <q-btn-group unelevated>
+            <q-btn label="Performance" :style="{
+              'text-transform': 'none',
+              'font-size': '16px',
+              color: !isPerformanceActive ? '#585858' : '',
+            }" :class="{ activeButton: isPerformanceActive }" @click="activatePerformance" />
+            <q-btn label="Active Sprint" :style="{
+              'text-transform': 'none',
+              'font-size': '16px',
+              color: !isSprintActive ? '#585858' : '',
+            }" :class="{ activeButton: isSprintActive }" @click="activateSprint" />
+          </q-btn-group>
+          <div v-if="isSprintActive">
+            <div class="logo-page">Sprint 1</div>
+            <div class="font-active">
+              <q-expansion-item switch-toggle-side v-for="(item, index) in sprintItems" :key="index" :label="item.story"
+                v-model:expanded="item.expanded">
+                <q-item v-for="(task, idx) in item.tasks" :key="idx">
+                  <q-item-section class="q-ml-xl">{{ task.name }}</q-item-section>
+                  <q-item-section side>
+                    <div class="sketh" style="background-image: url('src/assets/aura.png');"></div>
                   </q-item-section>
-                  <q-item-section>
-                    <q-item-label>{{ performer.name }}</q-item-label>
-                    <q-item-label caption>{{ performer.points }} Pts</q-item-label>
-                  </q-item-section>
+                  <q-item-section side>{{ task.progress }}%</q-item-section>
                 </q-item>
-              </q-list>
+              </q-expansion-item>
             </div>
           </div>
+          <div v-if="isPerformanceActive">
+
+            <div class="q-pa-md flex flex-center column items-center">
+              <!-- Podium Structure -->
+              <div class="podium-container row justify-center items-end">
+                <!-- 2nd place -->
+                <div class="q-pa-md podium podium-2">
+                  <img src="src/assets/aura.png" alt="Febby" class="podium-image" />
+                  <div class="podium-info">
+                    <div class="podium-name">2</div>
+                    <div class="podium-stats">230 Pts</div>
+                    <div class="podium-stats">199 Task</div>
+                  </div>
+                </div>
+
+                <!-- 1st place (center, taller) -->
+                <div class="q-pa-md podium podium-1">
+                  <img src="src/assets/aura.png" alt="Alex" class="podium-image" />
+                  <div class="podium-info">
+                    <div class="podium-name">1</div>
+                    <div class="podium-stats">251 Pts</div>
+                    <div class="podium-stats">232 Task</div>
+                  </div>
+                </div>
+
+                <!-- 3rd place -->
+                <div class="q-pa-md podium podium-3">
+                  <img src="src/assets/aura.png" alt="Jassy" class="podium-image" />
+                  <div class="podium-info">
+                    <div class="podium-name">3</div>
+                    <div class="podium-stats">200 Pts</div>
+                    <div class="podium-stats">200 Task</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rankings Table -->
+              <q-table :rows="rankingData" :columns="columnsrank" row-key="rank" flat class="q-my-md"
+                :pagination="initialPagination" hide-bottom />
+            </div>
+          </div>
+        </div>
         </div>
       </q-page>
     </q-page-container>
   </q-layout>
-
-  <!-- Page -->
 </template>
 
 <script setup>
@@ -383,10 +438,31 @@ const members = [
 const menu = ref(false)
 const selectedTab = ref('Active Sprint')
 
+const columnsrank = [
+  { name: 'rank', label: '#', field: 'rank', align: 'center' },
+  { name: 'name', label: 'Name', field: 'name', align: 'left' },
+  { name: 'points', label: 'Points', field: 'points', align: 'center' },
+  { name: 'tasks', label: 'Tasks', field: 'tasks', align: 'center' },
+]
+
+const rankingData = [
+  { rank: 4, name: 'Aryo Yudho', points: '190 Pts', tasks: '235 Task' },
+  { rank: 5, name: 'Alfaturr Rahman', points: '180 Pts', tasks: '200 Task' },
+  { rank: 6, name: 'Margareth Meylia', points: '170 Pts', tasks: '235 Task' },
+  { rank: 7, name: 'Steven Lim', points: '160 Pts', tasks: '199 Task' },
+  { rank: 8, name: 'Deni Andrian', points: '155 Pts', tasks: '170 Task' },
+  { rank: 9, name: 'Vincent', points: '155 Pts', tasks: '180 Task' },
+  { rank: 10, name: 'Muhammad Raffi', points: '140 Pts', tasks: '235 Task' },
+  { rank: 11, name: 'Muhammad Chandra', points: '140 Pts', tasks: '150 Task' },
+  { rank: 12, name: 'Febri Dwi', points: '140 Pts', tasks: '150 Task' },
+  { rank: 13, name: 'Achmad Budi', points: '125 Pts', tasks: '170 Task' },
+  { rank: 14, name: 'Joshua Christoper', points: '125 Pts', tasks: '170 Task' },
+]
+
 const columns = ref([
   { name: 'id', align: 'left', label: 'No', field: 'id' },
   { name: 'title', align: 'left', label: 'Title', field: 'title' },
-  { name: 'code', align: 'left', label: '# Code', field: 'code' },
+  { name: 'code', align: 'left', label: 'Code', field: 'code' },
   { name: 'type', align: 'left', label: 'Type', field: 'type', sortable: true },
   { name: 'dueDate', align: 'left', label: 'Due Date', field: 'dueDate' },
   { name: 'stakeholders', align: 'left', label: 'Stakeholder', field: 'stakeholders' },
@@ -733,6 +809,7 @@ const initialPagination = {
   align-items: center;
   gap: 20px;
   margin-right: 30px;
+  padding-top: 20px;
 }
 
 .text-agile {
@@ -749,8 +826,10 @@ const initialPagination = {
 
 .card-table {
 
-  width: 925px;
+  width: 939px;
   margin-bottom: 100px;
+  margin-left: 33px;
+
 }
 
 .logo-page-container {
@@ -794,17 +873,19 @@ const initialPagination = {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  font-size: 12px;
 }
 
 .epic-container {
   display: flex;
   align-items: center;
   gap: 16px;
+
   /* Adjust space between the label and the button */
 }
 
 .font-active {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .logo-page {
@@ -825,7 +906,8 @@ const initialPagination = {
   display: flex;
   gap: 8px;
   padding: 1px 1px;
-  /* Adjust the space between the buttons */
+  margin-left: 619px
+    /* Adjust the space between the buttons */
 
 }
 
@@ -858,7 +940,7 @@ const initialPagination = {
   border: 2px solid #fff;
   margin-left: -8px;
   font-size: 10px;
-  text-align:center;
+  text-align: center;
 }
 
 .more-count {
@@ -871,7 +953,7 @@ const initialPagination = {
   border: 2px solid #fff;
   margin-left: -8px;
   font-size: 10px;
-  text-align:center;
+  text-align: center;
 }
 
 .activeButton {
@@ -902,5 +984,79 @@ const initialPagination = {
 
 .text-right {
   font-size: 11px;
+}
+
+.podium-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+.podium {
+  text-align: center;
+  padding: 10px;
+}
+
+.podium-1 {
+  background-color: #ffd700;
+  width: 120px;
+  height: 200px;
+}
+
+.podium-2 {
+  background-color: #c0c0c0;
+  width: 100px;
+  height: 170px;
+}
+
+.podium-3 {
+  background-color: #cd7f32;
+  width: 100px;
+  height: 150px;
+}
+
+.podium-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.podium-info {
+  margin-top: 10px;
+}
+
+.podium-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.podium-stats {
+  font-size: 1em;
+  color: #666;
+}
+
+.q-table {
+  width: 80%;
+}
+
+.popup {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show popup on hover */
+.avatar:hover .popup {
+  display: block;
+  opacity: 1;
 }
 </style>
