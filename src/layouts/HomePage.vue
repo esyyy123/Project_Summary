@@ -516,7 +516,7 @@ import { ref } from 'vue'
 
 
 defineOptions({
-  name: 'MainLayout'
+  name: 'HomePage'
 });
 
 const current = ref(5)
@@ -570,7 +570,7 @@ const columns = ref([
   { name: 'id', align: 'left', label: 'No', field: 'id' },
   { name: 'title', align: 'left', label: 'Title', field: 'title' },
   { name: 'code', align: 'left', label: 'Code', field: 'code' },
-  { name: 'type', align: 'left', label: 'Type', field: 'type', sortable: true },
+  { name: 'type', align: 'left', label: 'Type', field: 'type' },
   { name: 'dueDate', align: 'left', label: 'Due Date', field: 'dueDate' },
   { name: 'stakeholders', align: 'left', label: 'Stakeholder', field: 'stakeholders' },
   { name: 'progress', align: 'left', label: 'Progress', field: 'progress' }
