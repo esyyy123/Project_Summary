@@ -47,7 +47,7 @@
         </div>
         <q-page class="row">
           <!-- Left Panel - Project Detail and Stakeholders -->
-          <div class="col-4">
+          <div class="col-3">
             <q-card class="q-ml-md">
               <q-card-section>
                 <div class="header-container">
@@ -75,10 +75,91 @@
                   <q-expansion-item switch-toggle-side expand-separator label="Information">
                     <q-card>
                       <q-card-section>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos
-                        corrupti
-                        commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-                        eveniet doloribus ullam aliquid.
+                        <!-- Project Type -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Project Type</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <span>IT</span>
+                          </q-item-section>
+                        </q-item>
+
+                        <!-- Project Description -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Project Description</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                              incididunt ut labore et dolore magna aliqua.</span>
+                          </q-item-section>
+                        </q-item>
+
+                        <!-- Department -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Department</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <span>DOT</span>
+                          </q-item-section>
+                        </q-item>
+
+                        <!-- Department Owner -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Department Owner</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <span>DOT</span>
+                          </q-item-section>
+                        </q-item>
+
+                        <!-- Project Manager -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Project Manager</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <div class="row items-center no-wrap">
+                              <q-avatar size="xs" class="q-mr-sm">
+                                <img src="https://cdn.quasar.dev/img/avatar.png" alt="avatar">
+                              </q-avatar>
+                              <span>Nurmatias (123456)</span>
+                            </div>
+                          </q-item-section>
+                        </q-item>
+
+                        <!-- Release Date -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Release</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <span>26 Aug 2024 - 30 Aug 2024</span>
+                          </q-item-section>
+                        </q-item>
+
+                        <!-- Status -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Status</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <q-badge color="green">Completed</q-badge>
+                          </q-item-section>
+                        </q-item>
+
+                        <!-- Progress -->
+                        <q-item>
+                          <q-item-section>
+                            <span class="text-subtitle1">Progress</span>
+                          </q-item-section>
+                          <q-item-section>
+                            <q-badge color="yellow" text-color="black">100%</q-badge>
+                          </q-item-section>
+                        </q-item>
                       </q-card-section>
                     </q-card>
                   </q-expansion-item>
@@ -88,10 +169,36 @@
                   <q-expansion-item switch-toggle-side expand-separator label="Project Related(10)" icon="add_box">
                     <q-card>
                       <q-card-section>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos
-                        corrupti
-                        commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-                        eveniet doloribus ullam aliquid.
+                        <div class="table-pagination-container">
+                          <q-table :rows="rowsSketh" :columns="columnsSketh" flat table-style="table-layout: auto;"
+                            :pagination="initialPagination" hide-bottom>
+                            <template v-slot:header="props">
+                              <q-tr :props="props">
+                                <q-th v-for="col in props.cols" :key="col.name" :props="props"
+                                  :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'name' }]">
+                                  <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
+                                  <q-icon size="xs" v-if="col.field === 'name'" name="person" />
+                                  <q-icon size="xs" v-if="col.field === 'role'" name="personal_injury" />
+                                  {{ col.label }}
+                                </q-th>
+                              </q-tr>
+                            </template>
+                            <template v-slot:body-cell="props">
+                              <q-td :props="props">
+                                <div v-if="props.col.field === 'role'"
+                                  class="q-mt-xs flex items-center justify-between">
+                                  <span>{{ props.row.role }}</span>
+                                  <!-- Add the trash icon next to the role -->
+                                  <q-icon name="delete" color="black" size="15px" class="cursor-pointer"
+                                    @click="onDelete(props.row)" />
+                                </div>
+                                <div v-else>
+                                  {{ props.row[props.col.field] }}
+                                </div>
+                              </q-td>
+                            </template>
+                          </q-table>
+                        </div>
                       </q-card-section>
                     </q-card>
                   </q-expansion-item>
@@ -144,24 +251,42 @@
                     <q-icon name="add_box" size="19px" />
                   </p>
                 </div>
-                <q-list bordered>
-                  <q-item v-for="stakeholder in stakeholders" :key="stakeholder.id">
-                    <q-item-section avatar>
-                      <q-avatar icon="person" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{ stakeholder.name }}</q-item-label>
-                      <q-item-label caption>{{ stakeholder.role }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
+                <div class="table-pagination-container">
+                  <q-table :rows="rowsSketh" :columns="columnsSketh" flat table-style="table-layout: auto;"
+                    :pagination="initialPagination" hide-bottom>
+                    <template v-slot:header="props">
+                      <q-tr :props="props">
+                        <q-th v-for="col in props.cols" :key="col.name" :props="props"
+                          :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'name' }]">
+                          <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
+                          <q-icon size="xs" v-if="col.field === 'name'" name="person" />
+                          <q-icon size="xs" v-if="col.field === 'role'" name="personal_injury" />
+                          {{ col.label }}
+                        </q-th>
+                      </q-tr>
+                    </template>
+                    <template v-slot:body-cell="props">
+                      <q-td :props="props">
+                        <div v-if="props.col.field === 'role'" class="q-mt-xs flex items-center justify-between">
+                          <span>{{ props.row.role }}</span>
+                          <!-- Add the trash icon next to the role -->
+                          <q-icon name="delete" color="black" size="15px" class="cursor-pointer"
+                            @click="onDelete(props.row)" />
+                        </div>
+                        <div v-else>
+                          {{ props.row[props.col.field] }}
+                        </div>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </div>
               </q-card-section>
             </q-card>
           </div>
 
           <!-- Right Panel - Roadmap Table -->
-          <div class="col-8">
-            <q-card class="q-ml-md">
+          <div class="col-9">
+            <q-card class="q-ml-md" style="border-color: grey;">
               <q-btn-group unelevated class="q-mt-xs q-ml-xs">
                 <q-btn label="Roadmaps" :style="{
                   'text-transform': 'none',
@@ -189,57 +314,233 @@
                   color: !isActivitiesActive ? '#585858' : '',
                 }" :class="{ activeButton: isActivitiesActive }" @click="activateActivities" />
               </q-btn-group>
-              <div class="table-pagination-container">
-                <q-table :rows="rows" :columns="columns" flat table-style="table-layout: auto;"
-                  :pagination="initialPagination" hide-bottom>
+
+
+
+              <!-- Roadmaps -->
+              <div v-if="isRoadmapsActive">
+                <div class="row d-flex flex-row justify-between items-center" style="gap: 5px;">
+                  <div class="col-2 q-ml-sm q-my-sm ">
+                    <q-input color="grey" outlined dense v-model="text" label="Search Roadmaps">
+                      <template v-slot:prepend>
+                        <q-icon name="search" />
+                      </template>
+                    </q-input>
+                  </div>
+                  <div class="col-5 q-my-md q-mr-lg text-right">
+                    <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Roadmaps" />
+                  </div>
+                </div>
+                <div class="table-pagination-container">
+                  <q-table :rows="rows" :columns="columns" flat table-style="table-layout: auto;"
+                    :pagination="initialPagination" hide-bottom>
+                    <template v-slot:header="props">
+                      <q-tr :props="props">
+                        <q-th v-for="col in props.cols" :key="col.name" :props="props"
+                          :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'title' || col.field === 'dueDate' }]">
+                          <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
+                          <q-icon size="lg" v-if="col.field === 'no'" name="expand_all" />
+                          <q-icon size="xs" v-if="col.field === 'title'" name="sticky_note_2" />
+                          <q-icon size="xs" v-if="col.field === 'code'" name="tag" />
+                          <q-icon size="xs" v-if="col.field === 'type'" name="sticky_note_2" />
+                          <q-icon size="xs" v-if="col.field === 'dueDate'" name="calendar_month" />
+                          <q-icon size="xs" v-if="col.field === 'stakeholders'" name="group" />
+                          <q-icon size="xs" v-if="col.field === 'progress'" name="percent" />
+                          <q-icon size="xs" v-if="col.field === 'totalEpic'" name="expand_circle_down" />
+
+                          {{ col.label }}
+                        </q-th>
+                      </q-tr>
+                    </template>
+                    <template v-slot:body-cell="props">
+                      <q-td :props="props">
+                        <div v-if="props.col.field === 'totalEpic'" class="q-mt-xs flex items-center">
+                          <span>{{ props.row.totalEpic }}</span>
+                          <q-icon name="more_vert" class="q-ml-xl cursor-pointer absolute"
+                            @click="onIconClick(props.row)" />
+                          <q-menu>
+                            <q-list dense style="min-width: 200px">
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="visibility" />
+                                </q-item-section>
+                                <q-item-section>Detail</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="share" />
+                                </q-item-section>
+                                <q-item-section>Share</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </div>
+                        <div v-else-if="props.col.field === 'stakeholders'" class="q-gutter-xs flex">
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                        </div>
+                        <q-badge v-else-if="props.col.field === 'type'" :color="typeColor(props.row.type)"
+                          align="center">
+                          {{ props.row.type }}
+                        </q-badge>
+                        <div v-else>
+                          {{ props.row[props.col.field] }}
+                        </div>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </div>
+              </div>
+
+
+              <!-- Epic -->
+              <div v-if="isEpicActive">
+                <div class="row d-flex flex-row justify-between items-center" style="gap: 5px;">
+                  <div class="col-2 q-ml-sm q-my-sm">
+                    <q-input color="grey" outlined dense v-model="text" label="Search Requirement">
+                      <template v-slot:prepend>
+                        <q-icon name="search" />
+                      </template>
+                    </q-input>
+                    <q-btn flat icon="filter_list" label="Filter" :style="{
+                      'text-transform': 'none',
+                      'font-size': '16px',
+                      'border-radius': '12px',
+                      border: '1px solid #CED3D7',
+                      color: '#585858',
+                    }" />
+                  </div>
+                  <div class="col-5 q-my-md q-mr-lg text-right">
+                    <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Epic" />
+                  </div>
+                </div>
+                <div class="table-pagination-container">
+                  <q-table :rows="rowsEpic" :columns="columnsEpic" flat table-style="table-layout: auto;"
+                    :pagination="initialPagination" hide-bottom>
+                    <template v-slot:header="props">
+                      <q-tr :props="props">
+                        <q-th v-for="col in props.cols" :key="col.name" :props="props"
+                          :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'title' || col.field === 'dueDate' }]">
+                          <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
+                          <q-icon size="lg" v-if="col.field === 'no'" name="expand_all" />
+                          <q-icon size="xs" v-if="col.field === 'title'" name="sticky_note_2" />
+                          <q-icon size="xs" v-if="col.field === 'code'" name="tag" />
+                          <q-icon size="xs" v-if="col.field === 'roadmaps'" name="route" />
+                          <q-icon size="xs" v-if="col.field === 'type'" name="sticky_note_2" />
+                          <q-icon size="xs" v-if="col.field === 'dueDate'" name="calendar_month" />
+                          <q-icon size="xs" v-if="col.field === 'stakeholders'" name="group" />
+                          <q-icon size="xs" v-if="col.field === 'progress'" name="percent" />
+                          <q-icon size="xs" v-if="col.field === 'status'" name="expand_circle_down" />
+
+                          {{ col.label }}
+                        </q-th>
+                      </q-tr>
+                    </template>
+                    <template v-slot:body-cell="props">
+                      <q-td :props="props">
+                        <div v-if="props.col.field === 'totalEpic'" class="q-mt-xs flex items-center justify-between">
+                          <span>{{ props.row.status }}</span>
+                          <q-icon name="more_vert" class="cursor-pointer absolute q-ml-sm"
+                            @click="onIconClick(props.row)" />
+                          <q-menu>
+                            <q-list dense style="min-width: 200px">
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="visibility" />
+                                </q-item-section>
+                                <q-item-section>Detail</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="share" />
+                                </q-item-section>
+                                <q-item-section>Share</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </div>
+                        <div v-else-if="props.col.field === 'stakeholders'" class="q-gutter-xs flex">
+                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                        </div>
+                        <q-badge v-else-if="props.col.field === 'type'" :color="typeColor(props.row.type)"
+                          align="center">
+                          {{ props.row.status }}
+                        </q-badge>
+                        <q-badge v-else-if="props.col.field === 'status'" :color="statusColor(props.row.status)"
+                          align="center">
+                          {{ props.row.status }}
+                        </q-badge>
+                        <div v-else>
+                          {{ props.row[props.col.field] }}
+                        </div>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </div>
+              </div>
+
+
+              <!-- Board & Milestone -->
+              <div v-if="isBoardActive">
+                <q-table :rows="rows" :columns="columns" flat class="full-width" row-key="id">
+                  <!-- Header Slot -->
                   <template v-slot:header="props">
                     <q-tr :props="props">
-                      <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                        <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
-                        <q-icon size="xs" v-if="col.field === 'title'" name="sticky_note_2" />
-                        <q-icon size="xs" v-if="col.field === 'code'" name="tag" />
-                        <q-icon size="xs" v-if="col.field === 'type'" name="sticky_note_2" />
-                        <q-icon size="xs" v-if="col.field === 'dueDate'" name="calendar_month" />
-                        <q-icon size="xs" v-if="col.field === 'stakeholders'" name="group" />
-                        <q-icon size="xs" v-if="col.field === 'progress'" name="percent" />
-
-                        {{ col.label }}
-                      </q-th>
+                      <q-th v-for="col in props.cols" :key="col.name" :props="props">{{ col.label }}</q-th>
                     </q-tr>
                   </template>
-                  <template v-slot:body-cell="props">
-                    <q-td :props="props">
-                      <div v-if="props.col.field === 'progress'" class="q-mt-xs flex items-center">
-                        <span>{{ props.row.progress }}%</span>
-                        <q-icon name="more_vert" class="q-ml-xl cursor-pointer absolute"
-                          @click="onIconClick(props.row)" />
-                        <q-menu>
-                          <q-list dense style="min-width: 200px">
-                            <q-item clickable v-close-popup>
-                              <q-item-section side>
-                                <q-icon name="visibility" />
-                              </q-item-section>
-                              <q-item-section>Detail</q-item-section>
-                            </q-item>
-                            <q-item clickable v-close-popup>
-                              <q-item-section side>
-                                <q-icon name="share" />
-                              </q-item-section>
-                              <q-item-section>Share</q-item-section>
-                            </q-item>
-                          </q-list>
-                        </q-menu>
-                      </div>
-                      <div v-else-if="props.col.field === 'stakeholders'" class="q-gutter-xs flex">
-                        <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
-                      </div>
-                      <q-badge v-else-if="props.col.field === 'type'" :color="typeColor(props.row.type)" align="center">
-                        {{ props.row.type }}
-                      </q-badge>
-                      <div v-else>
-                        {{ props.row[props.col.field] }}
-                      </div>
-                    </q-td>
+
+                  <!-- Body Slot -->
+                  <template v-slot:body="props">
+                    <q-tr :props="props" :class="props.row.expandable ? 'q-row--clickable' : ''"
+                      @click="toggleRow(props.row)">
+                      <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                        <template v-if="col.name === 'no'">
+                          <q-icon v-if="props.row.expandable" name="expand_more" @click.stop="toggleRow(props.row)" />
+                          {{ props.row.no }}
+                        </template>
+
+                        <template v-else-if="col.name === 'progressWeight'">
+                          <q-linear-progress :value="props.row.progressWeight / 100" color="blue" size="10px" />
+                        </template>
+
+                        <template v-else-if="col.name === 'color'">
+                          <q-badge :style="{ backgroundColor: props.row.color }"></q-badge>
+                        </template>
+
+                        <template v-else-if="col.name === 'canRetreat'">
+                          <q-icon :name="props.row.canRetreat ? 'done' : 'clear'"
+                            :color="props.row.canRetreat ? 'green' : 'red'" />
+                        </template>
+
+                        <template v-else-if="col.name === 'haveProgress'">
+                          <q-icon :name="props.row.haveProgress ? 'done' : 'clear'"
+                            :color="props.row.haveProgress ? 'green' : 'red'" />
+                        </template>
+
+                        <template v-else-if="col.name === 'pic'">
+                          <div class="q-gutter-xs">
+                            <q-avatar v-for="avatar in props.row.pic" :key="avatar" size="sm" :src="avatar" />
+                            <q-avatar v-if="props.row.picCount" size="sm" label="+"
+                              :style="{ backgroundColor: '#ddd' }" />
+                          </div>
+                        </template>
+
+                        <template v-else>
+                          {{ props.row[col.name] }}
+                        </template>
+                      </q-td>
+                    </q-tr>
+
+                    <!-- Expanded Row for Subtasks -->
+                    <q-tr v-if="props.row.expanded" class="bg-grey-1">
+                      <q-td :colspan="props.cols.length">
+                        <q-list>
+                          <q-item v-for="subtask in props.row.subtasks" :key="subtask.id">
+                            <q-item-section>{{ subtask.title }}</q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-td>
+                    </q-tr>
                   </template>
                 </q-table>
               </div>
@@ -258,6 +559,37 @@ defineOptions({
   name: 'ViewProject'
 });
 
+
+
+const typeColor = (type) => {
+  switch (type) {
+    case 'Requirement':
+      return 'purple';
+    case 'Change Request':
+      return 'orange';
+    case 'Issue':
+      return 'red';
+    default:
+      return 'grey';
+    case 'pts':
+      return 'purple';
+    case 'task':
+      return 'blue';
+  }
+};
+
+const statusColor = (status) => {
+  switch (status) {
+    case 'Completed':
+      return 'green';
+    case 'Release':
+      return 'blue';
+    case 'Draft':
+      return 'grey';
+  }
+};
+
+
 const stakeholders = ref([
   { id: 1, name: 'Nurmantias (200431)', role: 'Project Manager' },
   { id: 2, name: 'Jassy Lee (200314)', role: 'Project Control' },
@@ -267,7 +599,7 @@ const stakeholders = ref([
 
 const isRoadmapsActive = ref(true);
 const isEpicActive = ref(false);
-const isBoardActive = ref(true);
+const isBoardActive = ref(false);
 const isDocumActive = ref(false);
 const isActivitiesActive = ref(false);
 
@@ -311,6 +643,75 @@ const activateActivities = () => {
   isActivitiesActive.value = true;
 };
 
+const columnsSketh = ref([
+  { name: 'id', align: 'left', label: 'No', field: 'id' },
+  { name: 'name', align: 'left', label: 'Name', field: 'name' },
+  { name: 'role', align: 'left', label: 'Role', field: 'role' },
+])
+
+const rowsSketh = ref([
+  {
+    id: 1,
+    name: 'Nurmantias (200431)',
+    role: 'Project Manager',
+  },
+  {
+    id: 2,
+    name: 'Jassy Lee (200314)',
+    role: 'Project Control',
+  },
+  {
+    id: 3,
+    name: 'Jemmy Ng (200341)',
+    role: 'Project Owner',
+  },
+  {
+    id: 4,
+    name: 'Ellin (038720)',
+    role: 'Project Owner',
+  },
+  {
+    id: 5,
+    name: 'Tia Pasaribu (200344)',
+    role: 'User (Planner)',
+  },
+  {
+    id: 6,
+    name: 'Kosasi (200344)',
+    role: 'User (Store)',
+  },
+  {
+    id: 7,
+    name: 'Andria (200344)',
+    role: 'Lead (System Analyst)',
+  },
+  {
+    id: 8,
+    name: 'Achmad (038720)',
+    role: 'Staff (UI/UX Designer)',
+  },
+  {
+    id: 9,
+    name: 'Alex (200344)',
+    role: 'Staff (Developer)',
+  },
+  {
+    id: 10,
+    name: 'Sakti (200341)',
+    role: 'Staff (Sr. Developer)',
+  },
+  {
+    id: 11,
+    name: 'Rahayu (038720)',
+    role: 'Quality Assurance',
+  },
+  {
+    id: 12,
+    name: 'Vincent (200431)',
+    role: 'Staff (System Integrator)',
+  },
+]);
+
 const rows = ref([
   {
     id: 1,
@@ -318,7 +719,7 @@ const rows = ref([
     code: 'AGL001',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '28 Aug 2024',
-    progress: 100,
+    progress: '100%',
     totalEpic: 15,
   },
   {
@@ -327,7 +728,7 @@ const rows = ref([
     code: 'AGL002',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '29 Aug 2024',
-    progress: 100,
+    progress: '100%',
     totalEpic: 10,
   },
   {
@@ -336,7 +737,7 @@ const rows = ref([
     code: 'AGL003',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '30 Aug 2024',
-    progress: 100,
+    progress: '100%',
     totalEpic: 20,
   },
   {
@@ -345,7 +746,7 @@ const rows = ref([
     code: 'AGL004',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '31 Aug 2024',
-    progress: 90,
+    progress: '90%',
     totalEpic: 10,
   },
   {
@@ -354,7 +755,7 @@ const rows = ref([
     code: 'AGL005',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '1 Sep 2024',
-    progress: 70,
+    progress: '70%',
     totalEpic: 13,
   },
   {
@@ -363,16 +764,16 @@ const rows = ref([
     code: 'AGL006',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '2 Sep 2024',
-    progress: 50,
+    progress: '50%',
     totalEpic: 6,
   },
   {
     id: 7,
-    title: 'Handover PLC Communication for Battery Cover Inspection',
+    title: 'Handover PLC Communication for Battery',
     code: 'AGL007',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '3 Sep 2024',
-    progress: 30,
+    progress: '30%',
     totalEpic: 15,
   },
   {
@@ -381,17 +782,80 @@ const rows = ref([
     code: 'AGL008',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
     dueDate: '4 Sep 2024',
-    progress: 0,
+    progress: '0%',
     totalEpic: 13,
   },
   {
     id: 9,
-    title: 'Controller',
-    code: 'AGL006',
+    title: 'Controller dehumidifier iot (SMT)',
+    code: 'AGL009',
     stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
-    dueDate: '2 Sep 2024',
-    progress: 50,
-    totalEpic: 6,
+    dueDate: '5 Sep 2024',
+    progress: '0%',
+    totalEpic: 20,
+  },
+  {
+    id: 10,
+    title: 'PM Tools Phase 4 (Agile) ',
+    code: 'AGL010',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '6 Sep 2024',
+    progress: '0%',
+    totalEpic: 14,
+  },
+  {
+    id: 11,
+    title: 'Checksheet',
+    code: 'AGL011',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '7 Sep 2024',
+    progress: '0%',
+    totalEpic: 15,
+  },
+  {
+    id: 12,
+    title: 'Asset Equipment Approval Web',
+    code: 'AGL012',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '8 Sep 2024',
+    progress: '0%',
+    totalEpic: 14,
+  },
+  {
+    id: 13,
+    title: 'Guets Approval',
+    code: 'AGL013',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '9 Sep 2024',
+    progress: '0%',
+    totalEpic: 16,
+  },
+  {
+    id: 14,
+    title: 'E-Kiosk 2.0',
+    code: 'AGL014',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '10 Sep 2024',
+    progress: '0%',
+    totalEpic: 14,
+  },
+  {
+    id: 15,
+    title: 'Agile Sprint',
+    code: 'AGL015',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '11 Sep 2024',
+    progress: '0%',
+    totalEpic: 19,
+  },
+  {
+    id: 16,
+    title: 'Agile Scrum',
+    code: 'AGL016',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '12 Sep 2024',
+    progress: '0%',
+    totalEpic: 20,
   },
 ]);
 
@@ -406,9 +870,200 @@ const columns = ref([
 ]);
 
 const initialPagination = {
-  rowsPerPage: 10
+  rowsPerPage: 16
   // rowsNumber: xx if getting data from a server
 }
+
+const rowsEpic = ref([
+  {
+    id: 1,
+    title: 'MES System SPP Departement',
+    code: 'RQR001',
+    roadmaps: 'Job Order',
+    type: "Requirement",
+    dueDate: '28 Aug 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '90%',
+    status: "Completed",
+  },
+  {
+    id: 2,
+    title: 'Boards',
+    code: 'RQR002',
+    roadmaps: 'Master Data Part Number',
+    type: "Requirement",
+    dueDate: '29 Aug 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '70%',
+    status: "Completed",
+  },
+  {
+    id: 3,
+    title: 'Product Monitoring',
+    code: 'RQR003',
+    roadmaps: 'Process Model',
+    type: "Requirement",
+    dueDate: '30 Aug 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '50%',
+    status: "Completed",
+  },
+  {
+    id: 4,
+    title: 'RPA for Simplified Purchasing',
+    code: 'RQR004',
+    roadmaps: 'Firewall Canban List',
+    type: "Requirement",
+    dueDate: '31 Aug 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '50%',
+    status: "Completed",
+  },
+  {
+    id: 5,
+    title: 'ML-Powered Interception of False',
+    code: 'RQR005',
+    roadmaps: 'Firewall Request Report',
+    type: "Requirement",
+    dueDate: '1 Sep 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '0%',
+    status: "Release",
+  },
+  {
+    id: 6,
+    title: 'Pcb Counter using computer vision',
+    code: 'RQR006',
+    roadmaps: 'Detail Firewall Request',
+    type: "Change Request",
+    dueDate: '2 Sep 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '0%',
+    status: "Release",
+  },
+  {
+    id: 7,
+    title: 'Handover PLC Communication',
+    code: 'RQR007',
+    roadmaps: 'Handover PLC Communication',
+    type: "Change Request",
+    dueDate: '3 Sep 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '0%',
+    status: "Release",
+  },
+  {
+    id: 8,
+    title: 'RPA for Simplified HR in HRMS',
+    code: 'RQR008',
+    roadmaps: 'RPA for Simplified HR in HRMS',
+    type: "Change Request",
+    dueDate: '4 Sep 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '0%',
+    status: "Release",
+  },
+  {
+    id: 9,
+    title: 'Controller dehumidifier iot (SMT)',
+    code: 'RQR009',
+    roadmaps: 'Controller dehumidifier iot (SMT)',
+    type: "Change Request",
+    dueDate: '5 Sep 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '0%',
+    status: "Release",
+  },
+  {
+    id: 10,
+    title: 'PM Tools Phase 4 (Agile) ',
+    code: 'AGL010',
+    roadmaps: 'PM Tools Phase 4 (Agile)',
+    type: "Change Request",
+    dueDate: '6 Sep 2024',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    progress: '0%',
+    status: "Release",
+  },
+  {
+    id: 11,
+    title: 'Checksheet',
+    code: 'AGL011',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '7 Sep 2024',
+    progress: '0%',
+    totalEpic: 15,
+    type: "Issue",
+    status: "Draft",
+  },
+  {
+    id: 12,
+    title: 'Asset Equipment Approval Web',
+    code: 'AGL012',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '8 Sep 2024',
+    progress: '0%',
+    totalEpic: 14,
+    type: "Issue",
+    status: "Draft",
+  },
+  {
+    id: 13,
+    title: 'Guets Approval',
+    code: 'AGL013',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '9 Sep 2024',
+    progress: '0%',
+    totalEpic: 16,
+    type: "Issue",
+    status: "Draft",
+  },
+  {
+    id: 14,
+    title: 'E-Kiosk 2.0',
+    code: 'AGL014',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '10 Sep 2024',
+    progress: '0%',
+    totalEpic: 14,
+    type: "Issue",
+    status: "Draft",
+  },
+  {
+    id: 15,
+    title: 'Agile Sprint',
+    code: 'AGL015',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '11 Sep 2024',
+    progress: '0%',
+    totalEpic: 19,
+    type: "Issue",
+    status: "Draft",
+  },
+  {
+    id: 16,
+    title: 'Agile Scrum',
+    code: 'AGL016',
+    stakeholders: [{ id: 1, avatar: 'user1.jpg' }, { id: 2, avatar: 'user2.jpg' }],
+    dueDate: '12 Sep 2024',
+    progress: '0%',
+    totalEpic: 20,
+    type: "Issue",
+    status: "Draft",
+  },
+]);
+
+const columnsEpic = ref([
+  { name: 'id', align: 'left', label: 'No', field: 'id' },
+  { name: 'title', align: 'left', label: 'Title', field: 'title' },
+  { name: 'code', align: 'left', label: 'Code', field: 'code' },
+  { name: 'roadmaps', align: 'left', label: 'Roadmaps', field: 'roadmaps' },
+  { name: 'type', align: 'left', label: 'Type', field: 'type' },
+  { name: 'dueDate', align: 'left', label: 'Due Date', field: 'dueDate' },
+  { name: 'stakeholders', align: 'left', label: 'Stakeholder', field: 'stakeholders' },
+  { name: 'progress', align: 'left', label: 'Progress', field: 'progress' },
+  { name: 'status', align: 'left', label: 'Status', field: 'status' },
+]);
 </script>
 
 <style scoped>
@@ -422,6 +1077,12 @@ const initialPagination = {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
   /* Safari and Chrome */
+}
+
+.text-subtitle1 {
+  font-size: 14px;
+  color: #333;
+
 }
 
 .header-align {
@@ -473,7 +1134,7 @@ const initialPagination = {
 }
 
 .text-h6 {
-  font-size: 19px;
+  font-size: 17px;
 }
 
 .button-group {
@@ -512,5 +1173,9 @@ const initialPagination = {
 .activeButton {
   border-bottom: 1px solid #cd202e;
   color: #cd202e;
+}
+
+.grey-column {
+  background-color: #f0f0f0;
 }
 </style>
