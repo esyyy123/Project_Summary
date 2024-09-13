@@ -542,7 +542,7 @@ const members = [
 ];
 
 const menu = ref(false)
-const selectedTab = ref('Active Sprint')
+// const selectedTab = ref('Active Sprint')
 
 const columnsrank = [
   { name: 'rank', field: 'rank', align: 'center' },
