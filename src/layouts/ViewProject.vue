@@ -55,7 +55,47 @@
                     AGL001 - Project Management Agile Board 2.0
                     <span class="icon-group">
                       <q-icon name="delete" title="Delete" size="20px" />
-                      <q-icon name="edit" title="Edit" size="20px" />
+                      <q-icon name="edit" title="Edit" size="20px" @click="showEdit = true" />
+                      <q-dialog v-model="showEdit" persistent>
+                        <q-card style="min-width: 805px; height: 580px;">
+                          <q-card-section>
+                            <div class="header-dialog">
+                              <div class="text-h6">Edit Project</div>
+                              <q-btn flat icon="close" v-close-popup />
+                            </div>
+                          </q-card-section>
+
+                          <q-separator />
+
+                          <q-card-section>
+                            <!-- Title Input -->
+                            <div class="jarak">
+                              <span>Title</span>
+                              <q-input outlined v-model="text" color="grey"
+                                label="Project Management Agile Board 2.0" />
+
+                              <div class="q-mt-md">
+                                <span>Content</span>
+                                <q-editor v-model="form.content" filled :toolbar="[
+                                  ['bold', 'italic', 'underline', 'strike'],
+                                  ['link', 'unordered', 'ordered', 'fullscreen']
+                                ]" />
+                              </div>
+
+                              <span>Departement Owner</span>
+                              <q-select outlined v-model="form.owner" :options="OwnerOptions" />
+                            </div>
+                          </q-card-section>
+                          <div class="column">
+                            <div class="col self-end q-mr-md">
+                              <q-card-actions>
+                                <q-btn flat label="Cancel" color="red" v-close-popup />
+                                <q-btn label="Submit" color="red" @click="submitForm" />
+                              </q-card-actions>
+                            </div>
+                          </div>
+                        </q-card>
+                      </q-dialog>
                     </span>
                   </div>
                 </div>
@@ -168,17 +208,53 @@
 
                   <q-separator />
 
-                  <q-expansion-item switch-toggle-side expand-separator label="Project Related(10)" icon="add_box">
+                  <q-expansion-item switch-toggle-side expand-separator label="Project Related(10)">
+                    <template v-slot:header>
+                      <div class="row items-center">
+                        <div>Project Related(10)</div>
+                        <q-icon size="20px" name="add_box" class="q-ml-sm" @click="showProject = true" />
+                        <q-dialog v-model="showProject" persistent>
+                          <q-card style="min-width: 500px; height: 250px;">
+                            <q-card-section>
+                              <div class="header-dialog">
+                                <div class="text-h6">Add Project Related</div>
+                                <q-btn flat icon="close" v-close-popup />
+                              </div>
+                            </q-card-section>
+
+                            <q-separator />
+
+                            <q-card-section>
+                              <!-- Title Input -->
+                              <div class="jarak">
+
+                                <span>Select Project</span>
+                                <q-select outlined v-model="form.project" :options="ProjectOptions" />
+                              </div>
+                            </q-card-section>
+                            <div class="column">
+                              <div class="col self-end q-mr-md">
+                                <q-card-actions>
+                                  <q-btn flat label="Cancel" color="red" v-close-popup />
+                                  <q-btn label="Add" color="red" @click="submitForm" />
+                                </q-card-actions>
+                              </div>
+                            </div>
+                          </q-card>
+                        </q-dialog>
+                      </div>
+                    </template>
                     <q-separator />
                     <q-card>
                       <q-card-section>
                         <div class="table-pagination-container">
                           <q-table :rows="rowsProject" :columns="columnsProject" flat table-style="table-layout: auto;"
-                            :pagination="initialPagination" hide-bottom>
+                            :pagination="initialPagination" hide-bottom class="small-table" style="font-size: 5px;">
                             <template v-slot:header="props">
                               <q-tr :props="props">
                                 <q-th v-for="col in props.cols" :key="col.name" :props="props"
-                                  :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'projectTitle' }]">
+                                  :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'projectTitle' }]"
+                                  style="padding: 2px; font-size: 11px;">
                                   <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
                                   <q-icon size="xs" v-if="col.field === 'project title'" name="person" />
                                   <q-icon size="xs" v-if="col.field === 'PM'" name="personal_injury" />
@@ -206,6 +282,7 @@
                       </q-card-section>
                     </q-card>
                   </q-expansion-item>
+
                 </q-list>
               </div>
 
@@ -252,7 +329,42 @@
 
                 <div class="text-sket">
                   <p class="text-h7 text-weight-medium q-my-sm ">Stakeholders (10)
-                    <q-icon name="add_box" size="19px" />
+                    <q-icon name="add_box" size="19px" @click="showStekh = true" />
+                    <q-dialog v-model="showStekh" persistent>
+                      <q-card style="min-width: 700px; height: 400px;">
+                        <q-card-section>
+                          <div class="header-dialog">
+                            <div class="text-h6">Add Stakeholder</div>
+                            <q-btn flat icon="close" v-close-popup />
+                          </div>
+                        </q-card-section>
+
+                        <q-separator />
+
+                        <q-card-section>
+                          <!-- Title Input -->
+                          <div class="jarak">
+
+                            <span>Nama</span>
+                            <q-select outlined v-model="form.project" :options="StekhOptions" />
+
+                            <span>Role</span>
+                            <q-option-group v-model="group" :options="options" color="primary" inline />
+
+                            <span>Role Alias</span>
+                            <q-input outlined v-model="text" color="grey" label="Insert Role Alias  " />
+                          </div>
+                        </q-card-section>
+                        <div class="column">
+                          <div class="col self-end q-mr-md">
+                            <q-card-actions>
+                              <q-btn flat label="Cancel" color="red" v-close-popup />
+                              <q-btn label="Submit" color="red" @click="submitForm" />
+                            </q-card-actions>
+                          </div>
+                        </div>
+                      </q-card>
+                    </q-dialog>
                   </p>
                 </div>
                 <div class="table-pagination-container">
@@ -325,9 +437,9 @@
               <div v-if="isRoadmapsActive">
                 <div class="row d-flex flex-row justify-between items-center" style="gap: 5px;">
                   <div class="col-2 q-ml-sm q-my-sm ">
-                    <q-btn flat icon="search" label="Search" :style="{
+                    <q-btn flat icon="search" label="Search Roadmaps" :style="{
                       'text-transform': 'none',
-                      'font-size': '16px',
+                      'font-size': '14px',
                       'border-radius': '12px',
                       border: '1px solid #CED3D7',
                       color: '#585858',
@@ -335,7 +447,104 @@
                     }" />
                   </div>
                   <div class="col-5 q-my-md q-mr-lg text-right">
-                    <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Roadmaps" />
+                    <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9"
+                      label="Add Roadmaps" @click="showModal = true" />
+                    <q-dialog v-model="showModal" persistent>
+                      <q-card style="min-width: 805px; height: 810px;">
+                        <q-card-section>
+                          <div class="header-dialog">
+                            <div class="text-h6">Add Roadmaps</div>
+                            <q-btn flat icon="close" v-close-popup />
+                          </div>
+                        </q-card-section>
+
+                        <q-separator />
+
+                        <q-card-section>
+                          <!-- Title Input -->
+                          <div class="jarak">
+                            <span>Title</span>
+                            <q-input outlined v-model="text" color="grey"
+                              label="Insert Roadmaps Title. Max 100 characters" />
+
+                            <!-- Description Input -->
+                            <span>Description</span>
+                            <q-input outlined v-model="text" color="grey" label="Insert Roadmaps Description" />
+
+                            <!-- Stakeholder Input -->
+                            <span>Stakeholder</span>
+                            <q-input outlined v-model="text" color="grey" label="Insert Name or Badge Stakeholder" />
+
+                            <!-- Content Editor -->
+                            <span>Content</span>
+                            <q-editor v-model="form.content" label="Content" filled :toolbar="[
+                              ['bold', 'italic', 'underline', 'strike', 'link', 'unordered', 'ordered', 'fullscreen'],
+                            ]" />
+
+                            <!-- Status Selection -->
+                            <span>Status</span>
+                            <!-- Status Radio Buttons -->
+                            <div class="q-mb-md">
+                              <q-option-group v-model="form.status" inline :options="statusOptions"
+                                @input="onStatusChange" color="primary" />
+                            </div>
+
+                            <!-- Conditionally Displayed Date Pickers -->
+                            <div v-if="form.status === 'Release'" class="row q-gutter-md">
+                              <div class="col">
+                                <span>Release Date</span>
+                                <q-input outlined v-model="form.releaseDate">
+                                  <template v-slot:append>
+                                    <q-icon name="event" class="cursor-pointer">
+                                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                        <q-date v-model="form.releaseDate" minimal mask="DD MMMM YYYY" hide-header />
+                                      </q-popup-proxy>
+                                    </q-icon>
+                                  </template>
+                                </q-input>
+                              </div>
+                              <div class="col">
+                                <span>Due Date</span>
+                                <q-input outlined v-model="form.dueDate">
+                                  <template v-slot:append>
+                                    <q-icon name="event" class="cursor-pointer">
+                                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                        <q-date v-model="form.dueDate" minimal mask="DD MMMM YYYY" hide-header />
+                                      </q-popup-proxy>
+                                    </q-icon>
+                                  </template>
+                                </q-input>
+                              </div>
+                            </div>
+
+                            <!-- Conditionally Displayed Date Pickers -->
+                            <div v-if="form.status === 'Completed'" class="row q-gutter-md">
+                              <div class="col">
+                                <span>Completed Date</span>
+                                <q-input outlined v-model="form.releaseDate">
+                                  <template v-slot:append>
+                                    <q-icon name="event" class="cursor-pointer">
+                                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                        <q-date v-model="form.releaseDate" minimal mask="DD MMMM YYYY" hide-header />
+                                      </q-popup-proxy>
+                                    </q-icon>
+                                  </template>
+                                </q-input>
+                              </div>
+                            </div>
+                          </div>
+
+                        </q-card-section>
+                        <div class="column">
+                          <div class="col self-end q-mr-md">
+                            <q-card-actions>
+                              <q-btn flat label="Cancel" color="red" v-close-popup />
+                              <q-btn label="Submit" color="red" @click="submitForm" />
+                            </q-card-actions>
+                          </div>
+                        </div>
+                      </q-card>
+                    </q-dialog>
                   </div>
                 </div>
                 <div class="table-pagination-container">
@@ -347,13 +556,13 @@
                           :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'title' || col.field === 'dueDate' }]">
                           <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
                           <q-icon size="xs" v-if="col.field === 'no'" name="expand_all" />
-                          <q-icon size="xs" v-if="col.field === 'title'" name="sticky_note_2" />
-                          <q-icon size="xs" v-if="col.field === 'code'" name="tag" />
-                          <q-icon size="xs" v-if="col.field === 'type'" name="sticky_note_2" />
-                          <q-icon size="xs" v-if="col.field === 'dueDate'" name="calendar_month" />
-                          <q-icon size="xs" v-if="col.field === 'stakeholders'" name="group" />
-                          <q-icon size="xs" v-if="col.field === 'progress'" name="percent" />
-                          <q-icon size="xs" v-if="col.field === 'totalEpic'" name="expand_circle_down" />
+                          <q-icon size="sm" v-if="col.field === 'title'" name="sticky_note_2" />
+                          <q-icon size="sm" v-if="col.field === 'code'" name="tag" />
+                          <q-icon size="sm" v-if="col.field === 'type'" name="sticky_note_2" />
+                          <q-icon size="sm" v-if="col.field === 'dueDate'" name="calendar_month" />
+                          <q-icon size="sm" v-if="col.field === 'stakeholders'" name="group" />
+                          <q-icon size="sm" v-if="col.field === 'progress'" name="percent" />
+                          <q-icon size="sm" v-if="col.field === 'totalEpic'" name="expand_circle_down" />
 
                           {{ col.label }}
                         </q-th>
@@ -372,6 +581,18 @@
                                   <q-icon name="visibility" />
                                 </q-item-section>
                                 <q-item-section>Detail</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="edit" />
+                                </q-item-section>
+                                <q-item-section>Edit</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="delete" />
+                                </q-item-section>
+                                <q-item-section>Delete</q-item-section>
                               </q-item>
                               <q-item clickable v-close-popup>
                                 <q-item-section side>
@@ -404,26 +625,178 @@
                 <div class="row d-flex flex-row justify-between items-center" style="gap: 5px;">
                   <div class="col-5 q-ml-sm q-my-sm">
                     <div class="row q-gutter-x-sm">
-                      <q-btn flat icon="search" label="Search" :style="{
+                      <q-btn flat icon="search" label="Search Requirement" :style="{
                         'text-transform': 'none',
-                        'font-size': '16px',
+                        'font-size': '14px',
                         'border-radius': '12px',
                         border: '1px solid #CED3D7',
                         color: '#585858',
                         width: '200px',
                       }" />
-                      <q-btn flat icon="filter_list" label="Filter" :style="{
+                      <q-btn flat icon="filter_list" label="Filter" @click="showFilter = true" :style="{
                         'text-transform': 'none',
-                        'font-size': '16px',
+                        'font-size': '14px',
                         'border-radius': '12px',
                         border: '1px solid #CED3D7',
                         color: '#585858',
                       }" />
+                      <q-dialog v-model="showModal" persistent>
+                        <q-card style="min-width: 805px; height: 810px;">
+                          <q-card-section>
+                            <div class="header-dialog">
+                              <div class="text-h6">Filter Epic</div>
+                              <q-btn flat icon="close" v-close-popup />
+                            </div>
+                          </q-card-section>
+
+                          <q-separator />
+
+                          <q-card-section>
+                            <!-- Title Input -->
+                            <div class="jarak">
+                              <span>Type</span>
+                              <q-select outlined v-model="form.filter" :options="filterOptions" label="All Type" />
+
+                              <span>Roadmaps</span>
+                              <q-select outlined v-model="form.road" :options="RoadOptions" label="All Roadmaps" />
+
+                              <span>Status</span>
+                              <q-select outlined v-model="form.statuss" :options="statussOptions" label="All Status" />
+                            </div>
+
+                          </q-card-section>
+                          <div class="column">
+                            <div class="col self-end q-mr-md">
+                              <q-card-actions>
+                                <q-btn flat label="Cancel" color="red" v-close-popup />
+                                <q-btn label="Submit" color="red" @click="submitForm" />
+                              </q-card-actions>
+                            </div>
+                          </div>
+                        </q-card>
+                      </q-dialog>
                     </div>
 
                   </div>
                   <div class="col-5 q-my-md q-mr-lg text-right">
-                    <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Epic" />
+                    <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9" label="Add Epic"
+                      @click="dialogVisible = true" />
+                    <q-dialog v-model="dialogVisible" persistent>
+                      <q-card style="min-width: 805px; height: 810px;">
+                        <q-card-section class="row items-center justify-between">
+                          <span class="text-h6">Add Epic</span>
+                          <q-btn flat dense icon="close" @click="dialogVisible = false" />
+                        </q-card-section>
+
+                        <q-card-section>
+                          <!-- Title Input -->
+                          <span>Title</span>
+                          <q-input outlined v-model="form.title" color="grey"
+                            label="Insert Requirement Title. Max 100 characters" />
+
+                          <!-- Type Radio Buttons -->
+                          <div class="q-mt-md">
+                            <span>Type</span>
+                            <q-option-group inline v-model="form.type" :options="TypeOptions" @input="onTypeChange"
+                              color="primary" />
+                          </div>
+                          <!-- Conditionally Displayed Date Pickers -->
+                          <div v-if="form.type === 'Change Request'" class="row q-gutter-md">
+                            <div class="col">
+                              <span>Requirement</span>
+                              <q-input outlined v-model="form.requirement" color="grey"
+                                label="Insert Requirement Title. Max 100 characters" />
+                            </div>
+                          </div>
+                          <!-- Conditionally Displayed Date Pickers -->
+                          <div v-if="form.type === 'Issue'" class="row q-gutter-md">
+                            <div class="col">
+                              <span>Issue</span>
+                              <q-select outlined v-model="form.issue" :options="issueOptions" label="Choose issue" />
+                            </div>
+                          </div>
+
+
+                          <!-- Roadmaps Dropdown -->
+                          <div class="q-mt-md">
+                            <span>Roadmaps</span>
+                            <q-select outlined v-model="form.roadmap" :options="roadmapsOptions"
+                              label="Choose Roadmaps" />
+                          </div>
+
+
+                          <!-- Description Editor -->
+                          <div class="q-mt-md">
+                            <span>Description</span>
+                            <q-editor v-model="form.description" label="Insert Content of Requirement" filled :toolbar="[
+                              ['bold', 'italic', 'underline', 'strike'],
+                              ['link', 'unordered', 'ordered', 'fullscreen']
+                            ]" />
+                          </div>
+
+                          <!-- Status Selection -->
+                          <span>Status</span>
+                          <!-- Status Radio Buttons -->
+                          <div class="q-mb-md">
+                            <q-option-group v-model="form.status" inline :options="statusOptions"
+                              @input="onStatusChange" color="primary" />
+                          </div>
+
+                          <!-- Conditionally Displayed Date Pickers -->
+                          <div v-if="form.status === 'Release'" class="row q-gutter-md">
+                            <div class="col">
+                              <span>Release Date</span>
+                              <q-input outlined v-model="form.releaseDate">
+                                <template v-slot:append>
+                                  <q-icon name="event" class="cursor-pointer">
+                                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                      <q-date v-model="form.releaseDate" minimal mask="DD MMMM YYYY" hide-header />
+                                    </q-popup-proxy>
+                                  </q-icon>
+                                </template>
+                              </q-input>
+                            </div>
+                            <div class="col">
+                              <span>Due Date</span>
+                              <q-input outlined v-model="form.dueDate">
+                                <template v-slot:append>
+                                  <q-icon name="event" class="cursor-pointer">
+                                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                      <q-date v-model="form.dueDate" minimal mask="DD MMMM YYYY" hide-header />
+                                    </q-popup-proxy>
+                                  </q-icon>
+                                </template>
+                              </q-input>
+                            </div>
+                          </div>
+
+                          <!-- Conditionally Displayed Date Pickers -->
+                          <div v-if="form.status === 'Completed'" class="row q-gutter-md">
+                            <div class="col">
+                              <span>Completed Date</span>
+                              <q-input outlined v-model="form.releaseDate">
+                                <template v-slot:append>
+                                  <q-icon name="event" class="cursor-pointer">
+                                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                      <q-date v-model="form.releaseDate" minimal mask="DD MMMM YYYY" hide-header />
+                                    </q-popup-proxy>
+                                  </q-icon>
+                                </template>
+                              </q-input>
+                            </div>
+                          </div>
+
+                          <div class="column">
+                            <div class="col self-end q-mr-sm">
+                              <q-card-actions>
+                                <q-btn flat label="Cancel" color="red" v-close-popup />
+                                <q-btn label="Submit" color="red" @click="submitForm" />
+                              </q-card-actions>
+                            </div>
+                          </div>
+                        </q-card-section>
+                      </q-card>
+                    </q-dialog>
                   </div>
                 </div>
                 <div class="table-pagination-container">
@@ -435,14 +808,14 @@
                           :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'title' || col.field === 'dueDate' }]">
                           <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
                           <q-icon size="lg" v-if="col.field === 'no'" name="expand_all" />
-                          <q-icon size="xs" v-if="col.field === 'title'" name="sticky_note_2" />
-                          <q-icon size="xs" v-if="col.field === 'code'" name="tag" />
-                          <q-icon size="xs" v-if="col.field === 'roadmaps'" name="route" />
-                          <q-icon size="xs" v-if="col.field === 'type'" name="sticky_note_2" />
-                          <q-icon size="xs" v-if="col.field === 'dueDate'" name="calendar_month" />
-                          <q-icon size="xs" v-if="col.field === 'stakeholders'" name="group" />
-                          <q-icon size="xs" v-if="col.field === 'progress'" name="percent" />
-                          <q-icon size="xs" v-if="col.field === 'status'" name="expand_circle_down" />
+                          <q-icon size="sm" v-if="col.field === 'title'" name="sticky_note_2" />
+                          <q-icon size="sm" v-if="col.field === 'code'" name="tag" />
+                          <q-icon size="sm" v-if="col.field === 'roadmaps'" name="route" />
+                          <q-icon size="sm" v-if="col.field === 'type'" name="sticky_note_2" />
+                          <q-icon size="sm" v-if="col.field === 'dueDate'" name="calendar_month" />
+                          <q-icon size="sm" v-if="col.field === 'stakeholders'" name="group" />
+                          <q-icon size="sm" v-if="col.field === 'progress'" name="percent" />
+                          <q-icon size="sm" v-if="col.field === 'status'" name="expand_circle_down" />
 
                           {{ col.label }}
                         </q-th>
@@ -450,9 +823,9 @@
                     </template>
                     <template v-slot:body-cell="props">
                       <q-td :props="props">
-                        <div v-if="props.col.field === 'totalEpic'" class="q-mt-xs flex items-center justify-between">
+                        <div v-if="props.col.field === 'Status'" class="q-mt-xs flex items-center justify-between">
                           <span>{{ props.row.status }}</span>
-                          <q-icon name="more_vert" class="cursor-pointer absolute q-ml-sm"
+                          <q-icon name="more_vert" class="q-ml-xxl cursor-pointer absolute"
                             @click="onIconClick(props.row)" />
                           <q-menu>
                             <q-list dense style="min-width: 200px">
@@ -464,6 +837,18 @@
                               </q-item>
                               <q-item clickable v-close-popup>
                                 <q-item-section side>
+                                  <q-icon name="edit" />
+                                </q-item-section>
+                                <q-item-section>Edit</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="delete" />
+                                </q-item-section>
+                                <q-item-section>Delete</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
                                   <q-icon name="share" />
                                 </q-item-section>
                                 <q-item-section>Share</q-item-section>
@@ -472,7 +857,7 @@
                           </q-menu>
                         </div>
                         <div v-else-if="props.col.field === 'stakeholders'" class="q-gutter-xs flex">
-                          <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
+                          <div class="avatar" style="background-image: url('src/assets/auraa.png');"></div>
                         </div>
                         <q-badge v-else-if="props.col.field === 'type'" :color="typeColor(props.row.type)"
                           align="center">
@@ -515,256 +900,52 @@
 
                   </div>
                   <div class="col-5 q-my-md q-mr-lg text-right">
-                    <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Board" />
+                    <q-btn icon="autorenew" class="text-subtitle2 text-capitalize q-mr-md" label="Auto Generate"
+                      style="background-color: white; border: 2px solid red; color: red; border-radius: 10px;"
+                      @click="showAuto = true" />
+                    <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9" label="Add Board"
+                      @click="showBoard = true" />
+                    <q-dialog v-model="showBoard" persistent>
+                      <q-card style="min-width: 805px; height: 450px;">
+                        <q-card-section>
+                          <div class="header-dialog">
+                            <div class="text-h6">Add Board</div>
+                            <q-btn flat icon="close" v-close-popup />
+                          </div>
+                        </q-card-section>
+
+                        <q-separator />
+
+                        <q-card-section>
+                          <!-- Title Input -->
+                          <div class="jarak">
+                            <span>Title</span>
+                            <q-input outlined v-model="text" color="grey" label="Insert Board Title" />
+
+                            <span>Sequence</span>
+                            <q-input v-model="numberValue" type="number" outlined :min="0" :max="100" :step="1" />
+
+                            <span>Board Privileges</span>
+                            <q-input outlined v-model="text" color="grey" label="Insert Name or Badge Privileges" />
+                          </div>
+                        </q-card-section>
+                        <div class="column">
+                          <div class="col self-end q-mr-md">
+                            <q-card-actions>
+                              <q-btn flat label="Cancel" color="red" v-close-popup />
+                              <q-btn label="Submit" color="red" @click="submitForm" />
+                            </q-card-actions>
+                          </div>
+                        </div>
+                      </q-card>
+                    </q-dialog>
                   </div>
                 </div>
-
-                <!-- <q-table :rows="rows" :columns="columnsBoard" flat table-style="table-layout: auto;"
-                  :pagination="initialPagination" hide-bottom>
-                  <template v-slot:header="props">
-                    <q-tr :props="props">
-                      <q-th v-for="col in props.cols" :key="col.name" :props="props"
-                        :class="[{ 'grey-column': col.field === 'id' || col.field === 'title' || col.field === 'sequence' || col.field === 'progressWeight' || col.field === 'color' || col.field === 'canRetreat' || col.field === 'haveProgress' || col.field === 'pic' }]">
-                        {{ col.label }}
-                      </q-th>
-                    </q-tr>
-                  </template>
-                </q-table> -->
-                <!-- <q-list bordered separator>
-                <div class="q-mx-md">
-                  <div class="q-pa-md" style="width: auto; height: 50px;">
-                    <div class="row grey-column" style="height: 50px;">
-                      <div class="col" style="margin-left: 10px;">No</div>
-                      <div class="col">Title</div>
-                      <div class="col">Sequence</div>
-                      <div class="col">Progress Weight</div>
-                      <div class="col">Color</div>
-                      <div class="col">Can Retreat</div>
-                      <div class="col">Have Progress</div>
-                      <div class="col">PIC</div>
-                    </div>
-                  </div>
-                  <div class="q-pa-md" style="width: auto">
-                    <q-expansion-item class="q-mx-x" icon="add_box" switch-toggle-side expand-separator
-                      label="Analyze & Design (1)">
-                      <div class="row line-bottom" style="height: 40px;">
-                        <div class="col" style="margin-left: 10px;">1</div>
-                        <div class="col">To do</div>
-                        <div class="col">1</div>
-                        <div class="col">0</div>
-                        <div class="col">.col</div>
-                        <div class="col">
-                          <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">
-                          <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">2</div>
-                        <div class="col">In Progress</div>
-                        <div class="col">2</div>
-                        <div class="col">10</div>
-                        <div class="col">.col</div>
-                        <div class="col">
-                          <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">
-                          <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">3</div>
-                        <div class="col">Script Testing </div>
-                        <div class="col">3</div>
-                        <div class="col">100</div>
-                        <div class="col">.col</div>
-                        <div class="col">
-                          <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">
-                          <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">4</div>
-                        <div class="col">Done</div>
-                        <div class="col">3</div>
-                        <div class="col">100</div>
-                        <div class="col">.col</div>
-                        <div class="col">
-                          <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">
-                          <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">5</div>
-                        <div class="col">Backlog</div>
-                        <div class="col">4</div>
-                        <div class="col">0</div>
-                        <div class="col">.col</div>
-                        <div class="col">
-                          <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">
-                          <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
-                        </div>
-                        <div class="col">.col</div>
-                      </div>
-
-                    </q-expansion-item>
-
-                    <q-expansion-item class="q-mx-x" icon="add_box" switch-toggle-side expand-separator
-                      label="Development (2)">
-                      <div class="row line-bottom" style="height: 40px">
-                        <div class="col" style="margin-left: 10px;">1</div>
-                        <div class="col">To do</div>
-                        <div class="col">1</div>
-                        <div class="col">0</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">2</div>
-                        <div class="col">Analyze</div>
-                        <div class="col">2</div>
-                        <div class="col">17</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">3</div>
-                        <div class="col">Ready to Develop</div>
-                        <div class="col">3</div>
-                        <div class="col">34</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">4</div>
-                        <div class="col">In Progress</div>
-                        <div class="col">4</div>
-                        <div class="col">51</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">5</div>
-                        <div class="col">Code Review</div>
-                        <div class="col">5</div>
-                        <div class="col">68</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">6</div>
-                        <div class="col">SIT</div>
-                        <div class="col">6</div>
-                        <div class="col">85</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">7</div>
-                        <div class="col">Done</div>
-                        <div class="col">7</div>
-                        <div class="col">100</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                    </q-expansion-item>
-
-                    <q-expansion-item class="q-mx-x" icon="add_box" switch-toggle-side expand-separator
-                      label="UAT & Release (3)">
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">1</div>
-                        <div class="col">To do</div>
-                        <div class="col">1</div>
-                        <div class="col">0</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">2</div>
-                        <div class="col">UAT</div>
-                        <div class="col">2</div>
-                        <div class="col">20</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">3</div>
-                        <div class="col">Ready to Release</div>
-                        <div class="col">3</div>
-                        <div class="col">40</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">4</div>
-                        <div class="col">Release</div>
-                        <div class="col">4</div>
-                        <div class="col">60</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">5</div>
-                        <div class="col">Documentation</div>
-                        <div class="col">5</div>
-                        <div class="col">80</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                      <div class="row line-bottom" style="height: 40px ">
-                        <div class="col" style="margin-left: 10px;">6</div>
-                        <div class="col">Done</div>
-                        <div class="col">6</div>
-                        <div class="col">100</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                        <div class="col">.col</div>
-                      </div>
-                    </q-expansion-item>
-                  </div>
-
-                </div>
-                </q-list> -->
 
                 <div id="q-app" style="min-height: 100vh;">
                   <div class="q-pa-none">
-                    <q-table flat bordered :rows="rowsBoard" :columns="columnsBoard" row-key="name" hide-bottom>
+                    <q-table flat bordered :rows="rowsBoard" :columns="columnsBoard" row-key="name" hide-bottom
+                      auto-width>
 
                       <template v-slot:header="props">
                         <q-tr :props="props" class="grey-column">
@@ -780,11 +961,19 @@
                           <q-td auto-width>
                             <q-btn size="sm" round dense @click="props.expand = !props.expand"
                               :icon="props.expand ? 'remove' : 'chevron_right'"></q-btn>
-
                           </q-td>
-                          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                          <q-td class="text-left" v-for="col in props.cols" :key="col.name" :props="props">
+                            <template v-if="col.field === 'pic'">
+                              <q-td class="text-right">
+                                <div class="avatar" style="background-image: url('src/assets/auraa.png');"></div>
+                              </q-td>
+                            </template>
                             {{ col.value }}
                           </q-td>
+
+                          <!-- <q-td class="text-right">
+                            <div class="avatar" style="background-image: url('src/assets/auraa.png');"></div>
+                          </q-td> -->
                         </q-tr>
                         <q-tr v-show="props.expand" :props="props">
                           <q-td colspan="100%">
@@ -793,14 +982,18 @@
                               <div class="col text-left">To do</div>
                               <div class="col text-center">1</div>
                               <div class="col text-right">0</div>
-                              <div class="col text-right">.col</div>
-                              <div class="col text-right">
-                                <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
+                              <div class="col row justify-end">
+                                <div class="bg-blue"
+                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
+                                </div>
                               </div>
                               <div class="col text-right">
-                                <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
+                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
                               </div>
-                              <div class="col text-right">.col</div>
+                              <div class="col text-right">
+                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
+                              </div>
+                              <div class="col text-right"></div>
                             </div>
                             <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
                           </q-td>
@@ -812,14 +1005,18 @@
                               <div class="col text-left">In Progress</div>
                               <div class="col text-center">2</div>
                               <div class="col text-right">10</div>
-                              <div class="col text-right">.col</div>
-                              <div class="col text-right">
-                                <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
+                              <div class="col row justify-end">
+                                <div class="bg-orange"
+                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
+                                </div>
                               </div>
                               <div class="col text-right">
-                                <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
+                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
                               </div>
-                              <div class="col text-right">.col</div>
+                              <div class="col text-right">
+                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
+                              </div>
+                              <div class="col text-right"></div>
                             </div>
                             <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
                           </q-td>
@@ -831,14 +1028,18 @@
                               <div class="col text-left">Script Testing</div>
                               <div class="col text-center">3</div>
                               <div class="col text-right">100</div>
-                              <div class="col text-right">.col</div>
-                              <div class="col text-right">
-                                <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
+                              <div class="col row justify-end">
+                                <div class="bg-pink"
+                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
+                                </div>
                               </div>
                               <div class="col text-right">
-                                <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
+                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
                               </div>
-                              <div class="col text-right">.col</div>
+                              <div class="col text-right">
+                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
+                              </div>
+                              <div class="col text-right"></div>
                             </div>
                             <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
                           </q-td>
@@ -850,14 +1051,18 @@
                               <div class="col text-left">Done</div>
                               <div class="col text-center">3</div>
                               <div class="col text-right">100</div>
-                              <div class="col text-right">.col</div>
-                              <div class="col text-right">
-                                <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
+                              <div class="col row justify-end">
+                                <div class="bg-green"
+                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
+                                </div>
                               </div>
                               <div class="col text-right">
-                                <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
+                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
                               </div>
-                              <div class="col text-right">.col</div>
+                              <div class="col text-right">
+                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
+                              </div>
+                              <div class="col text-right"></div>
                             </div>
                             <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
                           </q-td>
@@ -869,14 +1074,18 @@
                               <div class="col text-left">Backlog</div>
                               <div class="col text-center">4</div>
                               <div class="col text-right">0</div>
-                              <div class="col text-right">.col</div>
-                              <div class="col text-right">
-                                <img src="assets/silang.svg" style="width: 20px; height: 20px;" />
+                              <div class="col row justify-end">
+                                <div class="bg-grey"
+                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
+                                </div>
                               </div>
                               <div class="col text-right">
-                                <img src="assets/centang.svg" style="width: 20px; height: 20px;" />
+                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
                               </div>
-                              <div class="col text-right">.col</div>
+                              <div class="col text-right">
+                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
+                              </div>
+                              <div class="col text-right"></div>
                             </div>
                             <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
                           </q-td>
@@ -921,77 +1130,51 @@
                   </div>
                 </div>
                 <div class="col-5 q-my-md q-mr-lg text-right">
-                  <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Group" />
+                  <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Group"
+                    @click="showModal = true" />
+                  <q-dialog v-model="showModal" persistent>
+                    <q-card style="min-width: 805px; height: 500px;">
+                      <q-card-section>
+                        <div class="header-dialog">
+                          <div class="text-h6">Add Group</div>
+                          <q-btn flat icon="close" v-close-popup />
+                        </div>
+                      </q-card-section>
+
+                      <q-separator />
+
+                      <q-card-section>
+                        <!-- Title Input -->
+                        <div class="jarak">
+                          <span>Title</span>
+                          <q-input outlined v-model="text" color="grey"
+                            label="Insert Group Title. Max 100 characters" />
+
+                          <div class="q-mt-md">
+                            <span>Description</span>
+                            <q-editor v-model="form.description" label="Insert Content of Requirement" filled :toolbar="[
+                              ['bold', 'italic', 'underline', 'strike'],
+                              ['link', 'unordered', 'ordered', 'fullscreen']
+                            ]" />
+                          </div>
+                        </div>
+                      </q-card-section>
+                      <div class="column">
+                        <div class="col self-end q-mr-md">
+                          <q-card-actions>
+                            <q-btn flat label="Cancel" color="red" v-close-popup />
+                            <q-btn label="Submit" color="red" @click="submitForm" />
+                          </q-card-actions>
+                        </div>
+                      </div>
+                    </q-card>
+                  </q-dialog>
                 </div>
-                <!-- <div class="q-pa-md q-gutter-sm">
-                  <q-tree :nodes="simple" icon="keyboard_arrow_down" node-key="label" no-connectors
-                    v-model:expanded="expanded" />
-                </div> -->
-
-                  <!-- Login Group -->
-                  <q-expansion-item v-model="expanded['Login']" icon="lock" label="Login" dense>
-                    <q-expansion-item v-model="expanded['Module Login']" icon="dashboard" label="Module Login" dense>
-                      <q-expansion-item v-model="expanded['Project']" icon="folder" label="Project" dense>
-                        <q-item>
-                          <q-item-section>Login (Login)</q-item-section>
-                          <q-item-section side><q-chip label="IN PROGRESS" color="yellow" text-color="black"
-                              icon="warning" /></q-item-section>
-                        </q-item>
-                        <q-item>
-                          <q-item-section>Reset Password (Forgot Password)</q-item-section>
-                          <q-item-section side><q-chip label="IN PROGRESS" color="yellow" text-color="black"
-                              icon="warning" /></q-item-section>
-                        </q-item>
-                        <q-item>
-                          <q-item-section>Register Account (Register)</q-item-section>
-                          <q-item-section side><q-chip label="COMPLETE" color="green" icon="check" /></q-item-section>
-                        </q-item>
-                      </q-expansion-item>
-                    </q-expansion-item>
-                  </q-expansion-item>
-
-                  <!-- Project Summary Group -->
-                  <q-expansion-item v-model="expanded['Project Summary']" icon="assignment" label="Project Summary"
-                    dense>
-                    <q-expansion-item v-model="expanded['Module Project Summary']" icon="view_module"
-                      label="Module Project Summary" dense>
-                      <q-item>
-                        <q-item-section>View Project (Read)</q-item-section>
-                        <q-item-section side><q-chip label="COMPLETE" color="green" icon="check" /></q-item-section>
-                      </q-item>
-                      <q-item>
-                        <q-item-section>Share Project (Read)</q-item-section>
-                        <q-item-section side><q-chip label="COMPLETE" color="green" icon="check" /></q-item-section>
-                      </q-item>
-                    </q-expansion-item>
-
-                    <q-expansion-item v-model="expanded['Project2']" icon="folder" label="Project" dense>
-                      <q-item>
-                        <q-item-section>Planning Project (Read)</q-item-section>
-                        <q-item-section side><q-chip label="COMPLETE" color="green" icon="check" /></q-item-section>
-                      </q-item>
-                      <q-item>
-                        <q-item-section>Activities Project (Read)</q-item-section>
-                        <q-item-section side><q-chip label="COMPLETE" color="green" icon="check" /></q-item-section>
-                      </q-item>
-                    </q-expansion-item>
-                  </q-expansion-item>
-
-                  <!-- Other Group -->
-                  <q-expansion-item v-model="expanded['Other']" icon="insert_drive_file" label="Other Group" dense>
-                    <q-item>
-                      <q-item-section>Add Project (Add)</q-item-section>
-                      <q-item-section side><q-chip label="NOT STARTED" color="grey" icon="close" /></q-item-section>
-                    </q-item>
-                    <q-item>
-                      <q-item-section>Edit Project (Edit)</q-item-section>
-                      <q-item-section side><q-chip label="NOT STARTED" color="grey" icon="close" /></q-item-section>
-                    </q-item>
-                    <q-item>
-                      <q-item-section>Delete Project (Delete)</q-item-section>
-                      <q-item-section side><q-chip label="NOT STARTED" color="grey" icon="close" /></q-item-section>
-                    </q-item>
-                  </q-expansion-item>
+                <div class="q-pa-md q-gutter-sm">
+                  <q-tree :nodes="simple" separator icon="keyboard_arrow_down" node-key="label" no-connectors
+                    v-model:expanded="expanded" class="custom-tree" />
+                  <div class="separator"></div>
+                </div>
               </div>
 
             </q-card>
@@ -1004,9 +1187,9 @@
 
 <script setup>
 import { ref } from 'vue'
-
+import { reactive } from 'vue';
 defineOptions({
-  name: 'ViewProject'
+  name: 'ViewProject',
 });
 
 
@@ -1176,19 +1359,10 @@ const rowsProject = ref([
   },
 ])
 
-// const columnsBoard = ref([
-//   { name: 'id', align: 'left', label: 'No', field: 'id' },
-//   { name: 'title', align: 'left', label: 'Title', field: 'title' },
-//   { name: 'sequence', align: 'left', label: 'Sequence', field: 'sequence' },
-//   { name: 'progressWeight', align: 'left', label: 'Progress Weight', field: 'progressWeight' },
-//   { name: 'color', align: 'left', label: 'Color', field: 'color' },
-//   { name: 'canRetreat', align: 'left', label: 'Can Retreat', field: 'canRetreat' },
-//   { name: 'haveProgress', align: 'left', label: 'Have Progress', field: 'haveProgress' },
-//   { name: 'pic', align: 'left', label: 'PIC', field: 'pic' },
-// ])
 
 const columnsSketh = ref([
   { name: 'id', align: 'left', label: 'No', field: 'id' },
+  // { name: 'avatar', align: 'left', label: 'avatar', field: 'avatar' },
   { name: 'name', align: 'left', label: 'Name', field: 'name' },
   { name: 'role', align: 'left', label: 'Role', field: 'role' },
 ])
@@ -1202,21 +1376,25 @@ const rowsSketh = ref([
   },
   {
     id: 2,
+    avatar: 'src/assets/auraa.png',
     name: 'Jassy Lee (200314)',
     role: 'Project Control',
   },
   {
     id: 3,
+    avatar: 'src/assets/auraa.png',
     name: 'Jemmy Ng (200341)',
     role: 'Project Owner',
   },
   {
     id: 4,
+    avatar: 'src/assets/auraa.png',
     name: 'Ellin (038720)',
     role: 'Project Owner',
   },
   {
     id: 5,
+
     name: 'Tia Pasaribu (200344)',
     role: 'User (Planner)',
   },
@@ -1611,108 +1789,126 @@ const columnsEpic = ref([
 ]);
 
 // const ticked = []
-const nodes = [
-  {
-    id: 1,
-    label: 'Login',
-    icon: 'mdi-login',
-    subtitle: 'IN PROGRESS (58%)',
-    status: 'IN PROGRESS (58%)',
-    statusColor: 'orange',
-    children: [
-      {
-        id: 2,
-        label: 'Module Login',
-        icon: 'mdi-view-module',
-        status: 'IN PROGRESS (58%)',
-        statusColor: 'orange',
-        children: [
-          {
-            id: 3,
-            label: 'Project',
-            icon: 'mdi-folder',
-            children: [
-              {
-                id: 4,
-                label: 'Login (Login)',
-                icon: 'mdi-flag',
-                status: 'IN PROGRESS (25%)',
-                statusColor: 'yellow',
-              },
-              {
-                id: 5,
-                label: 'Reset Password (Forgot Password)',
-                icon: 'mdi-flag',
-                status: 'IN PROGRESS (50%)',
-                statusColor: 'yellow',
-              },
-              {
-                id: 6,
-                label: 'Register Account (Register)',
-                icon: 'mdi-flag',
-                status: 'COMPLETE (100%)',
-                statusColor: 'green',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 7,
-    label: 'Project Summary',
-    icon: 'mdi-clipboard-list',
-    subtitle: 'COMPLETE (100%)',
-    status: 'COMPLETE (100%)',
-    statusColor: 'green',
-    children: [
-      {
-        id: 8,
-        label: 'Module Project Summary',
-        icon: 'mdi-view-module',
-        status: 'COMPLETE (100%)',
-        statusColor: 'green',
-        children: [
-          {
-            id: 9,
-            label: 'View Project (Read)',
-            icon: 'mdi-flag',
-            status: 'COMPLETE (100%)',
-            statusColor: 'green',
-          },
-          {
-            id: 10,
-            label: 'Share Project (Read)',
-            icon: 'mdi-flag',
-            status: 'COMPLETE (100%)',
-            statusColor: 'green',
-          },
-        ],
-      },
-    ],
-  },
-]
+// const nodes = [
+//   {
+//     id: 1,
+//     label: 'Login',
+//     icon: 'mdi-login',
+//     subtitle: 'IN PROGRESS (58%)',
+//     status: 'IN PROGRESS (58%)',
+//     statusColor: 'orange',
+//     children: [
+//       {
+//         id: 2,
+//         label: 'Module Login',
+//         icon: 'mdi-view-module',
+//         status: 'IN PROGRESS (58%)',
+//         statusColor: 'orange',
+//         children: [
+//           {
+//             id: 3,
+//             label: 'Project',
+//             icon: 'mdi-folder',
+//             children: [
+//               {
+//                 id: 4,
+//                 label: 'Login (Login)',
+//                 icon: 'mdi-flag',
+//                 status: 'IN PROGRESS (25%)',
+//                 statusColor: 'yellow',
+//               },
+//               {
+//                 id: 5,
+//                 label: 'Reset Password (Forgot Password)',
+//                 icon: 'mdi-flag',
+//                 status: 'IN PROGRESS (50%)',
+//                 statusColor: 'yellow',
+//               },
+//               {
+//                 id: 6,
+//                 label: 'Register Account (Register)',
+//                 icon: 'mdi-flag',
+//                 status: 'COMPLETE (100%)',
+//                 statusColor: 'green',
+//               },
+//             ],
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     id: 7,
+//     label: 'Project Summary',
+//     icon: 'mdi-clipboard-list',
+//     subtitle: 'COMPLETE (100%)',
+//     status: 'COMPLETE (100%)',
+//     statusColor: 'green',
+//     children: [
+//       {
+//         id: 8,
+//         label: 'Module Project Summary',
+//         icon: 'mdi-view-module',
+//         status: 'COMPLETE (100%)',
+//         statusColor: 'green',
+//         children: [
+//           {
+//             id: 9,
+//             label: 'View Project (Read)',
+//             icon: 'mdi-flag',
+//             status: 'COMPLETE (100%)',
+//             statusColor: 'green',
+//           },
+//           {
+//             id: 10,
+//             label: 'Share Project (Read)',
+//             icon: 'mdi-flag',
+//             status: 'COMPLETE (100%)',
+//             statusColor: 'green',
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ]
 
 
 const simple = [
   {
     label: 'Login',
     icon: 'add_box',
+    status: 'IN PROGRESS (50%)',
+    statusColor: 'yellow',
     children: [
       {
         label: 'Module Login',
         icon: 'add_box', // Material icon
+        status: 'IN PROGRESS (50%)',
+        statusColor: 'yellow',
         children: [
           {
             label: 'Project', // Dropdown parent node
             icon: 'add_box',
+            status: 'COMPLETE (100%)',
+            statusColor: 'green',
             children: [
-              { label: 'Login (Login)' }, // First child
+              {
+                label: 'Login (Login)',
+                status: 'IN PROGRESS (50%)',
+                statusColor: 'yellow',
+              },
             ],
           },
-          { label: 'Reset Password (Forgot Password)' }, // No icon, simple node
-          { label: 'Register Account (Register)' },
+          {
+            label: 'Reset Password (Forgot Password)',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
+          },
+          {
+            label: 'Register Account (Register)',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
+          },
         ],
       },
     ],
@@ -1720,25 +1916,59 @@ const simple = [
   {
     label: 'Project Summary',
     icon: "add_box",
+    status: 'IN PROGRESS (50%)',
+    statusColor: 'yellow',
     children: [
       {
         label: 'Module Project Summary',
         icon: 'add_box', // Material icon
+        status: 'IN PROGRESS (50%)',
+        statusColor: 'yellow',
         children: [
 
-          { label: 'View Project (Read)' },
-          { label: 'Share Project' },
+          {
+            label: 'View Project (Read)',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
+          },
+          {
+            label: 'Share Project',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
+          },
           {
             label: 'Project', // Dropdown parent node
             icon: 'add_box',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
             children: [
-              { label: 'Planning Project (Read)' }, // First child
-              { label: 'Activities Project (Read)' },
+              {
+                label: 'Planning Project (Read)',
+                status: 'IN PROGRESS (50%)',
+                statusColor: 'yellow',
+              },
+              {
+                label: 'Activities Project (Read)',
+                status: 'IN PROGRESS (50%)',
+                statusColor: 'yellow',
+              },
             ],
           },
-          { label: 'Epic (Read)' }, // No icon, simple node
-          { label: 'Performance (Read)' },
-          { label: 'Sprint (Read)' },
+          {
+            label: 'Epic (Read)',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
+          },
+          {
+            label: 'Performance (Read)',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
+          },
+          {
+            label: 'Sprint (Read)',
+            status: 'IN PROGRESS (50%)',
+            statusColor: 'yellow',
+          },
         ],
       },
     ],
@@ -1854,26 +2084,144 @@ const rowsBoard = [
   },
 ]
 
-const expanded = ref({
-  'Login': false,
-  'Module Login': false,
-  'Project': false,
-  'Project Summary': false,
-  'Module Project Summary': false,
-  'Project2': false,
-  'Other': false
+const isDialogOpen = ref(false);
+const selectedProject = ref('');
+const showModal = ref(false)
+const showBoard = ref(false)
+const showEdit = ref(false)
+const showProject = ref(false)
+const showStekh = ref(false)
+
+
+// List of projects
+const projects = ref([
+  { label: 'Mysatnusa Redesign', value: 'mysatnusa-redesign' },
+  { label: 'Project Management Agile Board 2.0', value: 'project-2' },
+]);
+
+
+const addProject = () => {
+  console.log('Project added:', selectedProject.value);
+  isDialogOpen.value = false;
+};
+
+const TypeOptions = [
+  { label: 'Requirement', value: 'Requirement' },
+  { label: 'Change Request', value: 'Change Request' },
+  { label: 'Issue', value: 'Issue' }
+]
+
+const form = reactive({
+  title: '',
+  description: '',
+  stakeholder: '',
+  content: '',
+  status: 'Draft',
+  releaseDate: '',
+  dueDate: ''
 });
 
-const expandAll = () => {
-  Object.keys(expanded.value).forEach(key => expanded.value[key] = true);
+const statusOptions = [
+  { label: 'Draft', value: 'Draft' },
+  { label: 'Release', value: 'Release' },
+  { label: 'Completed', value: 'Completed' }
+];
+
+const onStatusChange = (value) => {
+  if (value !== 'Release') {
+    // Reset the dates when the status is not "Release"
+    form.releaseDate = '';
+    form.dueDate = '';
+  }
 };
 
-const collapseAll = () => {
-  Object.keys(expanded.value).forEach(key => expanded.value[key] = false);
+const onTypeChange = (value) => {
+  if (value !== 'Change Request') {
+    // Reset the dates when the status is not "Release"
+    form.requirement = '';
+    form.type = '';
+    form.typeissue = '';
+    form.issue = '';
+  }
 };
+
+const dialogVisible = ref(false);
+
+const typeOptions = [
+  { label: 'Requirement', value: 'Requirement' },
+  { label: 'Change Request', value: 'Change Request' },
+  { label: 'Issue', value: 'Issue' },
+];
+
+const roadmapsOptions = [
+  { label: 'Riset pasar dan pengguna', value: 'roadmap1' },
+  { label: 'Penyusunan spesifikasi dan user stories', value: 'roadmap2' },
+  { label: 'Wireframing dan prototype', value: 'roadmap3' },
+  { label: 'Backend (API, otentikasi, produk)', value: 'roadmap4' },
+];
+
+const issueOptions = [
+  { label: 'Scope Creep', value: 'issue1' },
+  { label: 'Komunikasi yang kurang efektif', value: 'issue2' },
+  { label: 'Bug atau Error dalam Kode', value: 'issue3' },
+  { label: 'Kurangnya Dokumentasi', value: 'issue4' },
+];
+
+const OwnerOptions = [
+  { label: 'DOT', value: 'owner1' },
+  { label: 'ATI', value: 'owner2' },
+  { label: 'BATRE CELL', value: 'owner3' },
+  { label: 'CORP SEC', value: 'owner4' },
+  { label: 'FINANCE INTERNAL AUDITOR', value: 'owner5' },
+  { label: 'HRD', value: 'owner6' },
+];
+
+const ProjectOptions = [
+  { label: 'Mysatnusa Redesign', value: 'project1' },
+  { label: 'Project Management Agile Board 1.0', value: 'project2' },
+];
+
+const StekhOptions = [
+  { label: 'Ade Hilman (200546)', value: 'stekh1' },
+  { label: 'Mochammad Adib Soedibyo (PKL199)', value: 'stekh2' },
+  { label: 'Afridol', value: 'stekh3' },
+  { label: 'Alex Sirait (200431)', value: 'stekh4' },
+  { label: 'Febby Fakhrian (038886)', value: 'stekh5' },
+];
+
+
+const numberValue = ref(0);
+const group = ref('op1')
+
+const options = [
+  {
+    label: 'Staff',
+    value: 'op1'
+  },
+  {
+    label: 'Project Control',
+    value: 'op2'
+  },
+  {
+    label: 'Project Owner',
+    value: 'op3'
+  },
+  {
+    label: 'User',
+    value: 'op4'
+  },
+  {
+    label: 'Lead',
+    value: 'op5'
+  }
+]
 </script>
 
 <style scoped>
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .hide-scrollbar {
   scrollbar-width: none;
   /* Firefox */
@@ -2018,5 +2366,37 @@ const collapseAll = () => {
 
 .line-bottom {
   border-bottom: 1px solid #ccc;
+}
+
+.separator {
+  border-top: 1px solid #ccc;
+  /* Garis horizontal */
+  margin-top: 16px;
+  /* Jarak antara q-tree dan garis */
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ccc;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #fff;
+  margin-left: -8px;
+  font-size: 10px;
+  text-align: center;
+}
+
+.jarak {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.header-dialog {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>
