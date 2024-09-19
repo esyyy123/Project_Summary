@@ -49,6 +49,7 @@
           <!-- Left Panel - Project Detail and Stakeholders -->
           <div class="col-3">
             <q-card class="q-ml-md">
+              <!-- header -->
               <q-card-section>
                 <div class="header-container">
                   <div class="text-h6">
@@ -108,8 +109,10 @@
                   <q-badge class="q-ml-xs" label="100%" color="amber-2" text-color="black" />
                 </div>
               </q-card-section>
-              <q-list bordered />
-
+              <!-- <q-list bordered /> -->
+              <q-separator />
+              <!-- body -->
+              <div class="wrapper"></div>
               <div class="q-pa-md" style="max-width: 512px">
                 <q-list bordered class="rounded-borders">
                   <q-expansion-item switch-toggle-side expand-separator label="Information">
@@ -398,6 +401,7 @@
                 </div>
               </q-card-section>
             </q-card>
+
           </div>
 
           <!-- Right Panel - Roadmap Table -->
@@ -640,8 +644,8 @@
                         border: '1px solid #CED3D7',
                         color: '#585858',
                       }" />
-                      <q-dialog v-model="showModal" persistent>
-                        <q-card style="min-width: 805px; height: 810px;">
+                      <q-dialog v-model="showFilter" persistent>
+                        <q-card style="min-width: 505px; height: 430px;">
                           <q-card-section>
                             <div class="header-dialog">
                               <div class="text-h6">Filter Epic</div>
@@ -655,13 +659,13 @@
                             <!-- Title Input -->
                             <div class="jarak">
                               <span>Type</span>
-                              <q-select outlined v-model="form.filter" :options="filterOptions" label="All Type" />
+                              <q-select outlined v-model="form.filter" :options="TipeOptions" label="All Type" />
 
                               <span>Roadmaps</span>
-                              <q-select outlined v-model="form.road" :options="RoadOptions" label="All Roadmaps" />
+                              <q-select outlined v-model="form.road" :options="roadOptions" label="All Roadmaps" />
 
                               <span>Status</span>
-                              <q-select outlined v-model="form.statuss" :options="statussOptions" label="All Status" />
+                              <q-select outlined v-model="form.statuss" :options="StatsOptions" label="All Status" />
                             </div>
 
                           </q-card-section>
@@ -946,7 +950,6 @@
                   <div class="q-pa-none">
                     <q-table flat bordered :rows="rowsBoard" :columns="columnsBoard" row-key="name" hide-bottom
                       auto-width>
-
                       <template v-slot:header="props">
                         <q-tr :props="props" class="grey-column">
                           <q-th auto-width></q-th>
@@ -970,22 +973,19 @@
                             </template>
                             {{ col.value }}
                           </q-td>
+                        </q-tr>
 
-                          <!-- <q-td class="text-right">
-                            <div class="avatar" style="background-image: url('src/assets/auraa.png');"></div>
-                          </q-td> -->
-                        </q-tr>
-                        <q-tr v-show="props.expand" :props="props">
+                        <q-tr v-show="props.expand" :props="props"
+                          v-for="(row, index) in getExpandedData(props.row.name)" :key="index">
                           <q-td colspan="100%">
                             <div class="row" style="margin-left:60px;">
-                              <div class="col">1</div>
-                              <div class="col text-left">To do</div>
-                              <div class="col text-center">1</div>
-                              <div class="col text-right">0</div>
+                              <div class="col">{{ row.id }}</div>
+                              <div class="col text-left">{{ row.status }}</div>
+                              <div class="col text-center">{{ row.number1 }}</div>
+                              <div class="col text-right">{{ row.number2 }}</div>
                               <div class="col row justify-end">
-                                <div class="bg-blue"
-                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
-                                </div>
+                                <div :class="row.bgColor"
+                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end"></div>
                               </div>
                               <div class="col text-right">
                                 <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
@@ -993,105 +993,10 @@
                               <div class="col text-right">
                                 <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
                               </div>
-                              <div class="col text-right"></div>
                             </div>
-                            <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
-                          </q-td>
-                        </q-tr>
-                        <q-tr v-show="props.expand" :props="props">
-                          <q-td colspan="100%">
-                            <div class="row" style="margin-left:60px;">
-                              <div class="col">2</div>
-                              <div class="col text-left">In Progress</div>
-                              <div class="col text-center">2</div>
-                              <div class="col text-right">10</div>
-                              <div class="col row justify-end">
-                                <div class="bg-orange"
-                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
-                                </div>
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right"></div>
-                            </div>
-                            <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
-                          </q-td>
-                        </q-tr>
-                        <q-tr v-show="props.expand" :props="props">
-                          <q-td colspan="100%">
-                            <div class="row" style="margin-left:60px;">
-                              <div class="col">3</div>
-                              <div class="col text-left">Script Testing</div>
-                              <div class="col text-center">3</div>
-                              <div class="col text-right">100</div>
-                              <div class="col row justify-end">
-                                <div class="bg-pink"
-                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
-                                </div>
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right"></div>
-                            </div>
-                            <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
-                          </q-td>
-                        </q-tr>
-                        <q-tr v-show="props.expand" :props="props">
-                          <q-td colspan="100%">
-                            <div class="row" style="margin-left:60px;">
-                              <div class="col">4</div>
-                              <div class="col text-left">Done</div>
-                              <div class="col text-center">3</div>
-                              <div class="col text-right">100</div>
-                              <div class="col row justify-end">
-                                <div class="bg-green"
-                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
-                                </div>
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right"></div>
-                            </div>
-                            <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
-                          </q-td>
-                        </q-tr>
-                        <q-tr v-show="props.expand" :props="props">
-                          <q-td colspan="100%">
-                            <div class="row" style="margin-left:60px;">
-                              <div class="col">5</div>
-                              <div class="col text-left">Backlog</div>
-                              <div class="col text-center">4</div>
-                              <div class="col text-right">0</div>
-                              <div class="col row justify-end">
-                                <div class="bg-grey"
-                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
-                                </div>
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right">
-                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                              <div class="col text-right"></div>
-                            </div>
-                            <!-- <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div> -->
                           </q-td>
                         </q-tr>
                       </template>
-
                     </q-table>
                   </div>
                 </div>
@@ -1120,12 +1025,10 @@
                   'font-size': '16px',
                   color: '#585858',
                 }">
-                  <div v-for="statuses in statuses" :key="statuses.label" class="statuses-item">
-                    <q-badge :style="{
-                      backgroundColor: statuses.color,
-                      width: '16px',
-                      height: '16px',
-                    }"></q-badge>
+                  <div v-for="statuses in statuses" :key="statuses.label">
+                    <q-badge :style="{ width: '16px', height: '16px' }" class="no-background">
+                      <img :src="statuses.src" alt="icon" style="width: 16px; height: 16px;" />
+                    </q-badge>
                     <span class="q-ml-sm">{{ statuses.label }}</span>
                   </div>
                 </div>
@@ -1171,12 +1074,337 @@
                   </q-dialog>
                 </div>
                 <div class="q-pa-md q-gutter-sm">
-                  <q-tree :nodes="simple" separator icon="keyboard_arrow_down" node-key="label" no-connectors
-                    v-model:expanded="expanded" class="custom-tree" />
-                  <div class="separator"></div>
+                  <div id="q-app" style="min-height: 100vh;">
+                    <q-tree :nodes="treeData" node-key="id" :filter-method="filterMethod" no-tick>
+                      <template v-slot:default-header="props">
+                        <q-item v-ripple @click="props.node.expand = !props.node.expand">
+
+                          <!-- Conditionally show Add box icon for specific labels -->
+                          <q-item-section side
+                            v-if="['Login', 'Module Login', 'Project', 'Project Summary', 'Module Project Summary'].includes(props.node.label)">
+                            <q-btn flat dense icon="add_box" @click="showAdd = true" />
+                            <q-dialog v-model="showAdd" persistent>
+                              <q-card style="min-width: 800px; height: 715px;">
+                                <q-card-section>
+                                  <div class="header-dialog">
+                                    <div class="text-h6">Add Group or Module</div>
+                                    <q-btn flat icon="close" v-close-popup />
+                                  </div>
+                                </q-card-section>
+
+                                <q-separator />
+
+                                <q-card-section>
+                                  <!-- Title Input -->
+                                  <div class="jarak">
+
+                                    <div class="q-mt-md">
+                                      <span>Type</span>
+                                      <q-option-group inline v-model="form.tipe" :options="TipeeOptions"
+                                        @input="onTipeeChange" color="primary" />
+                                    </div>
+
+
+                                    <span>Title</span>
+                                    <q-input outlined v-model="text" color="grey"
+                                      label="Insert Title.Max 100 characters  " />
+
+                                    <!-- Conditionally Displayed Date Pickers -->
+                                    <div v-if="form.tipe === 'Module'" class="row q-gutter-md">
+                                      <div class="col">
+                                        <span>Relation Module</span>
+                                        <q-select outlined v-model="form.module" :options="moduleOptions" />
+                                      </div>
+                                    </div>
+
+                                    <span>Description</span>
+                                    <q-editor v-model="form.content" label="Content" filled :toolbar="[
+                                      ['bold', 'italic', 'underline', 'strike', 'link', 'unordered', 'ordered', 'fullscreen'],
+                                    ]" />
+
+                                    <div v-if="form.tipe === 'Module'" class="row q-gutter-md">
+                                      <div class="col">
+                                        <span>Multiple Image (Optional)</span>
+                                        <q-input outlined color="grey" @update:model-value="val => { file = val[0] }"
+                                          type="file" />
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </q-card-section>
+                                <div class="column">
+                                  <div class="col self-end q-mr-md">
+                                    <q-card-actions>
+                                      <q-btn flat label="Cancel" color="red" v-close-popup />
+                                      <q-btn label="Submit" color="red" @click="submitForm" />
+                                    </q-card-actions>
+                                  </div>
+                                </div>
+                              </q-card>
+                            </q-dialog>
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label>{{ props.node.label }}</q-item-label>
+                          </q-item-section>
+                          <q-item style="display: flex; justify-content: flex-end;">
+                            <q-item-section side>
+                              <q-chip :color="props.node.statusColor" :outline="true" square >
+                                {{ props.node.status }} ({{ props.node.progress }})
+                              </q-chip>
+                            </q-item-section>
+                          </q-item>
+                        </q-item>
+                      </template>
+                    </q-tree>
+                  </div>
                 </div>
               </div>
 
+              <!-- Activities -->
+              <div v-if="isActivitiesActive">
+                <div class="row d-flex flex-row justify-between items-center" style="gap: 5px;">
+                  <div class="col-5 q-ml-sm q-my-sm">
+                    <div class="row q-gutter-x-sm">
+                      <q-btn flat icon="search" label="Search Requirement" :style="{
+                        'text-transform': 'none',
+                        'font-size': '14px',
+                        'border-radius': '12px',
+                        border: '1px solid #CED3D7',
+                        color: '#585858',
+                        width: '200px',
+                      }" />
+                      <q-btn flat icon="filter_list" label="Filter" @click="showFilter = true" :style="{
+                        'text-transform': 'none',
+                        'font-size': '14px',
+                        'border-radius': '12px',
+                        border: '1px solid #CED3D7',
+                        color: '#585858',
+                      }" />
+                      <q-dialog v-model="showFilter" persistent>
+                        <q-card style="min-width: 505px; height: 430px;">
+                          <q-card-section>
+                            <div class="header-dialog">
+                              <div class="text-h6">Filter Epic</div>
+                              <q-btn flat icon="close" v-close-popup />
+                            </div>
+                          </q-card-section>
+
+                          <q-separator />
+
+                          <q-card-section>
+                            <!-- Title Input -->
+                            <div class="jarak">
+                              <span>Type</span>
+                              <q-select outlined v-model="form.filter" :options="TipeOptions" label="All Type" />
+
+                              <span>Roadmaps</span>
+                              <q-select outlined v-model="form.road" :options="roadOptions" label="All Roadmaps" />
+
+                              <span>Status</span>
+                              <q-select outlined v-model="form.statuss" :options="StatsOptions" label="All Status" />
+                            </div>
+
+                          </q-card-section>
+                          <div class="column">
+                            <div class="col self-end q-mr-md">
+                              <q-card-actions>
+                                <q-btn flat label="Cancel" color="red" v-close-popup />
+                                <q-btn label="Submit" color="red" @click="submitForm" />
+                              </q-card-actions>
+                            </div>
+                          </div>
+                        </q-card>
+                      </q-dialog>
+                    </div>
+
+                  </div>
+                  <div class="col-5 q-my-md q-mr-lg text-right">
+                    <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9"
+                      label="Add Activities" @click="showAct = true" />
+                    <q-dialog v-model="showAct" persistent>
+                      <q-card style="min-width: 1300px; height: 850px;">
+                        <!-- Dialog Header -->
+                        <q-card-section>
+                          <div class="header-dialog">
+                            <div class="text-h6">Filter Activity</div>
+                            <q-btn flat icon="close" v-close-popup />
+                          </div>
+                        </q-card-section>
+
+                        <!-- Form Content -->
+                        <q-separator />
+
+                        <q-card-section>
+                          <q-form>
+                            <div class="row q-col-gutter-md">
+                              <!-- Left section: Title, Description, and Content -->
+                              <div class="col-8">
+                                <div class="q-ma-sm q-mt-lg">
+                                  <span>Title</span>
+                                  <q-input outlined v-model="text" color="grey" label="Input Title  " />
+                                </div>
+
+                                <div class="q-ma-sm q-mt-lg">
+                                  <span>Description</span>
+                                  <q-input outlined v-model="text" color="grey" label="Input Description  " />
+                                </div>
+
+                                <div class="q-ma-sm q-mt-lg">
+                                  <span>Content</span>
+                                  <q-editor style="height: 382px;" v-model="form.content" label="Content" filled
+                                    :toolbar="[
+                                      ['bold', 'italic', 'underline', 'strike', 'link', 'unordered', 'ordered', 'fullscreen'],
+                                    ]" />
+                                </div>
+                              </div>
+
+                              <!-- Right section: Form options -->
+                              <div class="col-4">
+                                <q-card-section class="ACTIV">
+                                  <div class="q-ma-sm q-mt-md">
+                                    <span>Activity</span>
+                                    <q-select outlined color="grey" v-model="activityType" :options="activityOptions"
+                                      class="bg-white" />
+                                  </div>
+
+                                  <div class="q-ma-sm q-mt-lg">
+                                    <span>Start Date</span>
+                                    <q-input outlined color="grey" v-model="startDate" label="Start Date"
+                                      class="bg-white">
+                                      <template v-slot:append>
+                                        <q-icon name="event" />
+                                      </template>
+                                    </q-input>
+                                  </div>
+
+                                  <div class="q-ma-sm q-mt-lg">
+                                    <span>End Date</span>
+                                    <q-input outlined color="grey" v-model="endDate" label="End Date" class="bg-white">
+                                      <template v-slot:append>
+                                        <q-icon name="event" />
+                                      </template>
+                                    </q-input>
+                                  </div>
+
+                                  <div class="q-ma-sm q-mt-lg">
+                                    <span>Status</span>
+                                    <q-select outlined color="grey" v-model="status" label="Status"
+                                      :options="statusOptions" class="bg-white" />
+                                  </div>
+
+                                  <div class="q-ma-sm q-mt-lg">
+                                    <span>Assignee</span>
+                                    <q-input outlined color="grey" v-model="assignee" label="Assignee"
+                                      class="bg-white" />
+
+
+                                    <q-chip removable v-if="assignee">
+                                      <q-avatar>
+                                        <q-icon name="person" />
+                                      </q-avatar>
+                                      {{ assignee }}
+                                    </q-chip>
+                                  </div>
+
+                                  <div class="q-ma-sm q-mt-lg">
+                                    <span>Link To</span>
+                                    <q-select outlined color="grey" v-model="linkTo" label="Link To"
+                                      :options="linkOptions" class="bg-white" />
+                                  </div>
+                                </q-card-section>
+                              </div>
+                            </div>
+                          </q-form>
+                        </q-card-section>
+
+                        <div class="column">
+                          <div class="col self-end q-mr-md">
+                            <q-card-actions>
+                              <q-btn flat label="Cancel" color="red" v-close-popup />
+                              <q-btn label="Submit" color="red" @click="submitForm" />
+                            </q-card-actions>
+                          </div>
+                        </div>
+                      </q-card>
+                    </q-dialog>
+                  </div>
+                </div>
+                <div class="table-pagination-container">
+                  <q-table :rows="rowsActiv" :columns="columnsActiv" flat table-style="table-layout: auto;"
+                    :pagination="initialPagination" hide-bottom>
+                    <template v-slot:header="props">
+                      <q-tr :props="props">
+                        <q-th v-for="col in props.cols" :key="col.name" :props="props"
+                          :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'title' || col.field === 'endDate' }]">
+                          <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
+                          <q-icon size="lg" v-if="col.field === 'no'" name="expand_all" />
+                          <q-icon size="sm" v-if="col.field === 'title'" name="sticky_note_2" />
+                          <q-icon size="sm" v-if="col.field === 'code'" name="tag" />
+                          <q-icon size="sm" v-if="col.field === 'description'" name="description" />
+                          <q-icon size="sm" v-if="col.field === 'startDate'" name="sticky_note_2" />
+                          <q-icon size="sm" v-if="col.field === 'endDate'" name="calendar_month" />
+                          <q-icon size="sm" v-if="col.field === 'participant'" name="group" />
+                          <q-icon size="sm" v-if="col.field === 'linkTo'" name="percent" />
+                          <q-icon size="sm" v-if="col.field === 'status'" name="expand_circle_down" />
+
+                          {{ col.label }}
+                        </q-th>
+                      </q-tr>
+                    </template>
+                    <template v-slot:body-cell="props">
+                      <q-td :props="props">
+                        <div v-if="props.col.field === 'Status'" class="q-mt-xs flex items-center justify-between">
+                          <span>{{ props.row.status }}</span>
+                          <q-icon name="more_vert" class="q-ml-xxl cursor-pointer absolute"
+                            @click="onIconClick(props.row)" />
+                          <q-menu>
+                            <q-list dense style="min-width: 200px">
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="visibility" />
+                                </q-item-section>
+                                <q-item-section>Detail</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="edit" />
+                                </q-item-section>
+                                <q-item-section>Edit</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="delete" />
+                                </q-item-section>
+                                <q-item-section>Delete</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="share" />
+                                </q-item-section>
+                                <q-item-section>Share</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </div>
+                        <div v-else-if="props.col.field === 'participant'" class="q-gutter-xs flex">
+                          <div class="avatar" style="background-image: url('src/assets/auraa.png');"></div>
+                        </div>
+                        <q-badge v-else-if="props.col.field === 'activity'" :color="ActivityColor(props.row.activity)"
+                          align="center">
+                          {{ props.row.activity }}
+                        </q-badge>
+                        <q-badge v-else-if="props.col.field === 'status'" :color="statusColor(props.row.status)"
+                          align="center">
+                          {{ props.row.status }}
+                        </q-badge>
+                        <div v-else>
+                          {{ props.row[props.col.field] }}
+                        </div>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </div>
+              </div>
             </q-card>
           </div>
         </q-page>
@@ -1188,6 +1416,7 @@
 <script setup>
 import { ref } from 'vue'
 import { reactive } from 'vue';
+
 defineOptions({
   name: 'ViewProject',
 });
@@ -1219,9 +1448,30 @@ const statusColor = (status) => {
       return 'blue';
     case 'Draft':
       return 'grey';
+    case 'Done':
+      return 'green';
   }
 };
 
+const ActivityColor = (activity) => {
+  switch (activity) {
+    case 'Meeting':
+      return 'orange';
+    case 'Visit':
+      return 'purple';
+  }
+};
+
+// const StatColor = (stat) => {
+//   switch (stat) {
+//     case 'Done':
+//       return 'green';
+//     case 'On Going':
+//       return 'blue';
+//     case 'Draft':
+//       return 'grey';
+//   }
+// };
 
 const stakeholders = ref([
   { id: 1, name: 'Nurmantias (200431)', role: 'Project Manager' },
@@ -1287,7 +1537,7 @@ const columnsProject = ref([
 const rowsProject = ref([
   {
     id: 1,
-    projectTitle: 'Project Management Agile Board 2.0',
+    projectTitle: 'Project Management Agile',
     PM: '',
     progress: '100%',
   },
@@ -1776,16 +2026,212 @@ const rowsEpic = ref([
   },
 ]);
 
-const columnsEpic = ref([
+const columnsActiv = ref([
   { name: 'id', align: 'left', label: 'No', field: 'id' },
   { name: 'title', align: 'left', label: 'Title', field: 'title' },
   { name: 'code', align: 'left', label: 'Code', field: 'code' },
-  { name: 'roadmaps', align: 'left', label: 'Roadmaps', field: 'roadmaps' },
-  { name: 'type', align: 'left', label: 'Type', field: 'type' },
-  { name: 'dueDate', align: 'left', label: 'Due Date', field: 'dueDate' },
-  { name: 'stakeholders', align: 'left', label: 'Stakeholder', field: 'stakeholders' },
-  { name: 'progress', align: 'left', label: 'Progress', field: 'progress' },
+  { name: 'activity', align: 'left', label: 'Activity', field: 'activity' },
+  { name: 'description', align: 'left', label: 'Description', field: 'description' },
+  { name: 'startDate', align: 'left', label: 'Start Date', field: 'startDate' },
+  { name: 'endDate', align: 'left', label: 'End Date', field: 'endDate' },
+  { name: 'participant', align: 'left', label: 'Participant', field: 'participant' },
+  { name: 'linkTo', align: 'left', label: 'Link To', field: 'linkTo' },
   { name: 'status', align: 'left', label: 'Status', field: 'status' },
+]);
+
+const rowsActiv = ref([
+  {
+    id: 1,
+    title: 'MES System SPP Departement',
+    code: 'RQR001',
+    activity: 'Meeting',
+    description: 'Job Order',
+    startDate: '27 Agu 2024,17.00',
+    endDate: '28 Aug 2024,17.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Roadmaps',
+    status: "Done",
+  },
+  {
+    id: 2,
+    title: 'Boards',
+    code: 'RQR002',
+    activity: 'Meeting',
+    description: 'Master Data Part Number',
+    startDate: '29 Agu 2024,17.00',
+    endDate: '30 Aug 2024,17.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Roadmaps',
+    status: "Done",
+  },
+  {
+    id: 3,
+    title: 'Product Monitoring',
+    code: 'RQR003',
+    activity: 'Meeting',
+    description: 'Process Model',
+    startDate: '30 Agu 2024,10.00',
+    endDate: '30 Aug 2024,17.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Roadmaps',
+    status: "Done",
+  },
+  {
+    id: 4,
+    title: 'RPA for Simplified Purchasing',
+    code: 'RQR004',
+    activity: 'Meeting',
+    description: 'Firewall Canban List',
+    startDate: '31 Agu 2024,11.00',
+    endDate: '31 Aug 2024,17.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Roadmaps',
+    status: "Done",
+  },
+  {
+    id: 5,
+    title: 'ML-Powered Interception of False',
+    code: 'RQR005',
+    activity: 'Meeting',
+    description: 'Firewall Request Report',
+    startDate: '1 Sep 2024,07.00',
+    endDate: '1 Sep 2024,15.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Roadmaps',
+    status: "On Going",
+  },
+  {
+    id: 6,
+    title: 'Pcb Counter using computer vision',
+    code: 'RQR006',
+    activity: 'Meeting',
+    description: 'Detail Firewall Request',
+    startDate: '2 Sep 2024,07.00',
+    endDate: '2 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Epic',
+    status: "On Going",
+  },
+  {
+    id: 7,
+    title: 'Handover PLC Communication',
+    code: 'RQR007',
+    activity: 'Meeting',
+    description: 'Handover PLC Communication',
+    startDate: '3 Sep 2024,07.00',
+    endDate: '3 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Epic',
+    status: "On Going",
+  },
+  {
+    id: 8,
+    title: 'RPA for Simplified HR in HRMS',
+    code: 'RQR008',
+    activity: 'Meeting',
+    description: 'RPA for Simplified HR in HRMS',
+    startDate: '4 Sep 2024,07.00',
+    endDate: '4 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Epic',
+    status: "On Going",
+  },
+  {
+    id: 9,
+    title: 'Controller dehumidifier iot (SMT)',
+    code: 'RQR009',
+    activity: 'Meeting',
+    description: 'Controller dehumidifier iot (SMT)',
+    startDate: '5 Sep 2024,07.00',
+    endDate: '5 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Epic',
+    status: "On Going",
+  },
+  {
+    id: 10,
+    title: 'PM Tools Phase 4 (Agile)',
+    code: 'RQR010',
+    activity: 'Visit',
+    description: 'PM Tools Phase 4 (Agile)',
+    startDate: '6 Sep 2024,07.00',
+    endDate: '6 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Story',
+    status: "On Going",
+  },
+  {
+    id: 11,
+    title: 'PM Tools Phase 3',
+    code: 'RQR011',
+    activity: 'Visit',
+    description: 'Checksheet',
+    startDate: '7 Sep 2024,07.00',
+    endDate: '7 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Story',
+    status: "Draft",
+  },
+  {
+    id: 12,
+    title: 'PM Tools Phase 2',
+    code: 'RQR012',
+    activity: 'Visit',
+    description: 'Asset Equipment Approval Web',
+    startDate: '8 Sep 2024,07.00',
+    endDate: '8 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Story',
+    status: "Draft",
+  },
+  {
+    id: 13,
+    title: 'PM Tools Phase 1',
+    code: 'RQR013',
+    activity: 'Visit',
+    description: 'Guets Approval',
+    startDate: '9 Sep 2024,07.00',
+    endDate: '9 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Task',
+    status: "Draft",
+  },
+  {
+    id: 14,
+    title: 'Plant Maintenance',
+    code: 'RQR014',
+    activity: 'Visit',
+    description: 'E-Kiosk 2.0',
+    startDate: '10 Sep 2024,07.00',
+    endDate: '10 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Task',
+    status: "Draft",
+  },
+  {
+    id: 15,
+    title: 'Plant Maintenance 2',
+    code: 'RQR015',
+    activity: 'Visit',
+    description: 'Agile Sprint',
+    startDate: '11 Sep 2024,07.00',
+    endDate: '11 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Issue',
+    status: "Draft",
+  },
+  {
+    id: 16,
+    title: 'Plant Maintenance 3',
+    code: 'RQR016',
+    activity: 'Visit',
+    description: 'Agile Scrum',
+    startDate: '12 Sep 2024,07.00',
+    endDate: '12 Sep 2024,07.00',
+    participant: [{ id: 1, avatar: 'user1.jpg' }],
+    linkTo: 'Issue',
+    status: "Draft",
+  },
 ]);
 
 // const ticked = []
@@ -1885,6 +2331,7 @@ const simple = [
         icon: 'add_box', // Material icon
         status: 'IN PROGRESS (50%)',
         statusColor: 'yellow',
+        class: "red",
         children: [
           {
             label: 'Project', // Dropdown parent node
@@ -1985,104 +2432,59 @@ const simple = [
 ];
 
 
-const simpleBoard = [
-  {
-    label: 'Analyze & Design (1)',
-    icon: 'add_box',
-    children: [
-      { label: '1. To do' }, ,
-      { label: '2. In Progress' },
-      { label: '3. Script Testing' },
-      { label: '4. Done' },
-      { label: '5. Backlog' },
-    ],
-  },
-  {
-    label: 'Development (2)',
-    icon: 'add_box',
-    children: [
-      { label: '1. To do' }, // No icon, simple node
-      { label: '2. Analyze' },
-      { label: '3. Ready to Develop' },
-      { label: '4. In Progress' },
-      { label: '5. Code Review' },
-      { label: '6. SIT' },
-      { label: '7. Done' },
-    ],
-  },
-  {
-    label: 'UAT & Release (3)',
-    icon: 'add_box',
-    children: [
-      { label: '1. To do' }, // No icon, simple node
-      { label: '2. UAT' },
-    ],
-  },
-];
 
 const statuses = ref([
-  { label: "Group", color: "#d1c4e9" },
-  { label: "Module", color: "#b2fab4" },
-  { label: "Feature", color: "#42a5f5" },
+  { label: "Group", src: "src/assets/Group.svg" },
+  { label: "Module", src: "src/assets/Module.svg" },
+  { label: "Feature", src: "src/assets/Feature.svg" },
 ])
 
+const rowsBoard = [
+  { name: 'Analyze & Design (1)' },
+  { name: 'Development (2)' },
+  { name: 'UAT & Release (3)' },
+]
+
 const columnsBoard = [
-  {
-    name: 'name',
-    required: true,
-    label: 'No',
-    align: 'left',
-
-  },
-  {
-    name: 'name',
-    required: true,
-    label: 'Title',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-
-  },
-  { name: 'sequence', align: 'center', label: 'Sequence', field: 'sequence' },
-  { name: 'progressWeight', label: 'Progress Weight', field: 'progressWeight' },
-  { name: 'color', label: 'Color', field: 'color' },
-  { name: 'canRetreat', label: 'Can Retreat', field: 'canRetreat' },
-  { name: 'haveProgress', label: 'Have Progress', field: 'haveProgress' },
+  { name: 'id', label: 'No', field: 'id' },
+  { name: 'name', label: 'Title', field: 'name' },
+  { name: 'number1', label: 'Sequence', field: 'number1' },
+  { name: 'number2', label: 'Progress Weight', field: 'number2' },
+  { name: 'bgColor', label: 'Color', field: 'bgColor' },
+  { name: 'canretreat', label: 'Can Retreat', field: 'canretreat' },
+  { name: 'haveprogress', label: 'Have Progress', field: 'haveprogress' },
   { name: 'pic', label: 'PIC', field: 'pic' },
 ]
+const expandedData = {
+  'Analyze & Design (1)': [
+    { id: 1, status: 'To do', number1: 1, number2: 0, bgColor: 'bg-blue' },
+    { id: 2, status: 'In Progress', number1: 2, number2: 10, bgColor: 'bg-orange' },
+    { id: 3, status: 'Script Testing', number1: 3, number2: 100, bgColor: 'bg-pink' },
+    { id: 4, status: 'Done', number1: 3, number2: 100, bgColor: 'bg-green' },
+    { id: 5, status: 'Backlog', number1: 4, number2: 0, bgColor: 'bg-grey' }
+  ],
+  'Development (2)': [
+    { id: 1, status: 'To do', number1: 1, number2: 0, bgColor: 'bg-blue' },
+    { id: 2, status: 'Analyze', number1: 2, number2: 17, bgColor: 'bg-yellow' },
+    { id: 3, status: 'Ready to Develop', number1: 3, number2: 34, bgColor: 'bg-purple' },
+    { id: 4, status: 'In Progress', number1: 4, number2: 51, bgColor: 'bg-orange' },
+    { id: 5, status: 'Code Review', number1: 5, number2: 68, bgColor: 'bg-pink' },
+    { id: 6, status: 'SIT', number1: 6, number2: 85, bgColor: 'bg-grey' },
+    { id: 7, status: 'Done', number1: 7, number2: 100, bgColor: 'bg-green' }
+  ],
+  'UAT & Release (3)': [
+    { id: 1, status: 'To do', number1: 1, number2: 0, bgColor: 'bg-blue' },
+    { id: 2, status: 'UAT', number1: 2, number2: 20, bgColor: 'bg-grey' },
+    { id: 3, status: 'Ready to Release', number1: 3, number2: 40, bgColor: 'bg-purple' },
+    { id: 4, status: 'Release', number1: 4, number2: 60, bgColor: 'bg-grey' },
+    { id: 5, status: 'Documentation', number1: 5, number2: 80, bgColor: 'bg-pink' },
+    { id: 6, status: 'Done', number1: 6, number2: 100, bgColor: 'bg-green' }
+  ]
+}
 
-const rowsBoard = [
-  {
-    name: 'Analyze & Design (1)',
-    calo: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  },
-  {
-    name: 'Development (2)',
-    cal: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
-  },
-  {
-    name: 'UAT & Release',
-    seq: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%'
-  },
-]
+function getExpandedData(rowName) {
+  return this.expandedData[rowName] || [];
+}
 
 const isDialogOpen = ref(false);
 const selectedProject = ref('');
@@ -2091,7 +2493,9 @@ const showBoard = ref(false)
 const showEdit = ref(false)
 const showProject = ref(false)
 const showStekh = ref(false)
-
+const showFilter = ref(false)
+const showAdd = ref(false)
+const showAct = ref(false)
 
 // List of projects
 const projects = ref([
@@ -2110,6 +2514,12 @@ const TypeOptions = [
   { label: 'Change Request', value: 'Change Request' },
   { label: 'Issue', value: 'Issue' }
 ]
+
+const TipeeOptions = [
+  { label: 'Group', value: 'Group' },
+  { label: 'Module', value: 'Module' },
+]
+
 
 const form = reactive({
   title: '',
@@ -2142,6 +2552,13 @@ const onTypeChange = (value) => {
     form.type = '';
     form.typeissue = '';
     form.issue = '';
+  }
+};
+
+const onTipeeChange = (value) => {
+  if (value !== 'Module') {
+    form.tipe = '';
+    form.module = '';
   }
 };
 
@@ -2189,6 +2606,33 @@ const StekhOptions = [
   { label: 'Febby Fakhrian (038886)', value: 'stekh5' },
 ];
 
+const TipeOptions = [
+  { label: 'Requirement', value: 'tipe1' },
+  { label: 'Change Request', value: 'tipe2' },
+  { label: 'Issue', value: 'tipe3' },
+];
+
+const roadOptions = [
+  { label: 'Master Data Part Number', value: 'road1' },
+  { label: 'Process Model', value: 'road2' },
+  { label: 'Firewall Canban List', value: 'road3' },
+  { label: 'Firewall Request Report', value: 'road4' },
+  { label: 'Checksheet', value: 'road5' },
+];
+
+const StatsOptions = [
+  { label: 'Completed', value: 'stats1' },
+  { label: 'Release', value: 'stats2' },
+  { label: 'Draft', value: 'stats3' },
+];
+
+const moduleOptions = [
+  { label: 'Module Login', value: 'Module Login' },
+  { label: 'Module Project Summary', value: 'Module Project Summary' },
+  { label: 'Module Project List', value: 'Module Project List' },
+  { label: 'Module Script Testing', value: 'Module Script Testing' },
+  { label: 'Module Sprint Planning', value: 'Module Sprint Planning' },
+];
 
 const numberValue = ref(0);
 const group = ref('op1')
@@ -2215,9 +2659,104 @@ const options = [
     value: 'op5'
   }
 ]
+
+const rowss = ref([
+  { id: 1, status: 'To do', number1: 1, number2: 0, bgColor: 'bg-blue' },
+  { id: 2, status: 'In Progress', number1: 2, number2: 10, bgColor: 'bg-orange' },
+  { id: 3, status: 'Script Testing', number1: 3, number2: 100, bgColor: 'bg-pink' },
+  { id: 4, status: 'Done', number1: 3, number2: 100, bgColor: 'bg-green' },
+  { id: 5, status: 'Backlog', number1: 4, number2: 0, bgColor: 'bg-grey' }
+])
+
+const treeData = [
+  {
+    id: 1,
+    label: 'Login',
+    status: 'IN PROGRESS',
+    statusColor: 'orange',
+    progress: '58%',
+    children: [
+      {
+        id: 2,
+        label: 'Module Login',
+        status: 'IN PROGRESS',
+        statusColor: 'orange',
+        progress: '58%',
+        children: [
+          {
+            id: 3,
+            label: 'Project',
+            status: 'COMPLETE',
+            statusColor: 'green',
+            progress: '100%',
+            children: [
+              { id: 4, label: 'Login (Login)', status: 'IN PROGRESS', statusColor: 'orange', progress: '25%' },
+              { id: 5, label: 'Reset Password (Forgot Password)', status: 'IN PROGRESS', statusColor: 'orange', progress: '50%' },
+              { id: 6, label: 'Register Account (Register)', status: 'COMPLETE', statusColor: 'green', progress: '100%' }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 7,
+    label: 'Project Summary',
+    status: 'COMPLETE',
+    statusColor: 'green',
+    progress: '100%',
+    children: [
+      {
+        id: 8,
+        label: 'Module Project Summary',
+        status: 'COMPLETE',
+        statusColor: 'green',
+        progress: '100%',
+        children: [
+          { id: 9, label: 'View Project (Read)', status: 'COMPLETE', statusColor: 'green', progress: '100%' },
+          { id: 10, label: 'Share Project (Read)', status: 'COMPLETE', statusColor: 'green', progress: '100%' }
+        ]
+      },
+      {
+        id: 11,
+        label: 'Project',
+        status: 'COMPLETE',
+        statusColor: 'green',
+        progress: '100%',
+        children: [
+          { id: 12, label: 'Planning Project (Read)', status: 'COMPLETE', statusColor: 'green', progress: '100%' },
+          { id: 13, label: 'Activities Project (Read)', status: 'COMPLETE', statusColor: 'green', progress: '100%' },
+          { id: 14, label: 'Epic (Read)', status: 'COMPLETE', statusColor: 'green', progress: '100%' },
+          { id: 15, label: 'Performance (Read)', status: 'COMPLETE', statusColor: 'green', progress: '100%' },
+          { id: 16, label: 'Sprint (Read)', status: 'COMPLETE', statusColor: 'green', progress: '100%' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 17,
+    label: 'Project',
+    status: 'NOT STARTED',
+    statusColor: 'red',
+    progress: '0%',
+    children: [
+      { id: 18, label: 'Add Project (Add)', status: 'NOT STARTED', statusColor: 'red', progress: '0%' },
+      { id: 19, label: 'Edit Project (Edit)', status: 'NOT STARTED', statusColor: 'red', progress: '0%' },
+      { id: 20, label: 'Delete Project (Delete)', status: 'NOT STARTED', statusColor: 'red', progress: '0%' }
+    ]
+  }
+]
+
+function filterMethod(node, filter) {
+  return node.label.toLowerCase().includes(filter.toLowerCase());
+}
 </script>
 
 <style scoped>
+.red {
+  background-color: #cd202e;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -2398,5 +2937,15 @@ const options = [
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.no-background {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.ACTIV {
+  background-color: #f2f2f2;
+  border-radius: 12px;
 }
 </style>
