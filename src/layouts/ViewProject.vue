@@ -290,7 +290,7 @@
               </div>
 
               <q-card-section>
-                <p class="text-h7 text-weight-medium q-my-sm">Content</p>
+                <p class="text-h8 text-weight-medium q-my-sm">Content</p>
                 <p class="long-text">
                   Like all the great things on earth travelling teaches us by example. Here are some of the most
                   precious
@@ -331,7 +331,7 @@
                 </p>
 
                 <div class="text-sket">
-                  <p class="text-h7 text-weight-medium q-my-sm ">Stakeholders (10)
+                  <p class="text-h8 text-weight-medium q-my-sm ">Stakeholders (10)
                     <q-icon name="add_box" size="19px" @click="showStekh = true" />
                     <q-dialog v-model="showStekh" persistent>
                       <q-card style="min-width: 700px; height: 400px;">
@@ -443,18 +443,18 @@
                   <div class="col-2 q-ml-sm q-my-sm ">
                     <q-btn flat icon="search" label="Search Roadmaps" :style="{
                       'text-transform': 'none',
-                      'font-size': '14px',
+                      'font-size': '15px',
                       'border-radius': '12px',
                       border: '1px solid #CED3D7',
                       color: '#585858',
-                      width: '200px',
+                      width: '230px',
                     }" />
                   </div>
                   <div class="col-5 q-my-md q-mr-lg text-right">
                     <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9"
-                      label="Add Roadmaps" @click="showModal = true" />
+                      label="Add Roadmaps" @click="showModal = true" style="border-radius: 12px; font-size: 15px; " />
                     <q-dialog v-model="showModal" persistent>
-                      <q-card style="min-width: 805px; height: 810px;">
+                      <q-card style="min-width: 805px; height: 810px; border-radius: 12px; ">
                         <q-card-section>
                           <div class="header-dialog">
                             <div class="text-h6">Add Roadmaps</div>
@@ -580,7 +580,7 @@
                             @click="onIconClick(props.row)" />
                           <q-menu>
                             <q-list dense style="min-width: 200px">
-                              <q-item clickable v-close-popup>
+                              <q-item clickable @click="showDetails = true" v-close-popup>
                                 <q-item-section side>
                                   <q-icon name="visibility" />
                                 </q-item-section>
@@ -606,6 +606,7 @@
                               </q-item>
                             </q-list>
                           </q-menu>
+
                         </div>
                         <div v-else-if="props.col.field === 'stakeholders'" class="q-gutter-xs flex">
                           <div class="avatar" style="background-image: url('src/assets/aura.png');"></div>
@@ -622,7 +623,140 @@
                   </q-table>
                 </div>
               </div>
+              <teleport to="body">
+                <q-drawer side="right" width="550" overlay v-model="showDetails">
+                  <q-card>
+                    <q-card-section>
 
+                      <div class="header-container">
+                        <div class="text-h6">
+                          AGL001 - Project Management Agile Board 2.0
+                          <span class="icon-group">
+                            <q-icon name="delete" title="Delete" size="20px" color="grey" />
+                            <q-icon name="edit" title="Edit" size="20px" color="grey" @click="showEdit = true" />
+                            <q-btn color="grey" flat round padding="none" icon="close" @click="close"></q-btn>
+                            <q-dialog v-model="showEdit" persistent>
+                              <q-card style="min-width: 805px; height: 580px;">
+                                <q-card-section>
+                                  <div class="header-dialog">
+                                    <div class="text-h7">Edit Project</div>
+                                    <q-btn flat icon="close" v-close-popup />
+                                  </div>
+                                </q-card-section>
+
+                                <q-separator />
+
+                                <q-card-section>
+                                  <!-- Title Input -->
+                                  <div class="jarak">
+                                    <span>Title</span>
+                                    <q-input outlined v-model="text" color="grey"
+                                      label="Project Management Agile Board 2.0" />
+
+                                    <div class="q-mt-md">
+                                      <span>Content</span>
+                                      <q-editor v-model="form.content" filled :toolbar="[
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        ['link', 'unordered', 'ordered', 'fullscreen']
+                                      ]" />
+                                    </div>
+
+                                    <span>Departement Owner</span>
+                                    <q-select outlined v-model="form.owner" :options="OwnerOptions" />
+                                  </div>
+                                </q-card-section>
+                                <div class="column">
+                                  <div class="col self-end q-mr-md">
+                                    <q-card-actions>
+                                      <q-btn flat label="Cancel" color="red" v-close-popup />
+                                      <q-btn label="Submit" color="red" @click="submitForm" />
+                                    </q-card-actions>
+                                  </div>
+                                </div>
+                              </q-card>
+                            </q-dialog>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="text-subtitle2 text-weight-regular">Created by Ali Sadikin (123456), Monday, 19 August
+                        2024,
+                        18:02</div>
+                      <div class="info-container">
+                        <q-icon name="calendar_today" class="calendar_month" size="16px" />
+                        <span class="date-title">21 Agu 2024 - 28 Agu 2024</span>
+                        <q-badge class="q-ml-xs" label="Completed" color="green-11" text-color="black" />
+                        <q-badge class="q-ml-xs" label="80%" color="amber-2" text-color="black" />
+                      </div>
+                    </q-card-section>
+                    <q-separator color="grey" inset />
+                    <q-card-section class="q-py-sm">
+                      <div class="q-py-xs" style="font-size:medium;">Stakeholders (10)
+                        <q-icon name="edit" title="Edit" size="20px" color="grey" @click="showEdit = true" />
+
+                      </div>
+                      <div>
+
+                      </div>
+                    </q-card-section>
+                    <q-card-section class="q-py-sm">
+                      <div class="q-py-xs" style="font-size:medium;">Description</div>
+                      <div>
+                        Like all the great things on earth traveling teaches us by example. Here are some of the most
+                        precious
+                        lessons I’ve learned over the years of traveling. Getting used to an entirely different culture
+                        can be
+                        challenging. While it’s also nice to learn about cultures online or from books, nothing comes
+                        close to
+                        experiencing cultural diversity in person. You learn to appreciate each and every single one of
+                        the
+                        differences while you become more culturally fluid.
+
+                      </div>
+                    </q-card-section>
+                    <q-card-section class="q-py-sm" style="height: 675px;" >
+                      <div style="font-size: medium;">Content</div>
+                      <p class="long-text">
+                  Like all the great things on earth travelling teaches us by example. Here are some of the most
+                  precious
+                  lessons I've learned over the years of traveling. Getting used to an entirely different culture can
+                  be
+                  challenging. While it's also nice to learn about cultures online or from books, nothing comes close
+                  to
+                  experiencing cultural diversity in person. You learn to appreciate each and every single one of the
+                  differences while you become more culturally fluid.</p>
+                <p class="long-text">Life doesn't allow us to execute every single plan perfectly. This especially
+                  seems to be the case when
+                  you travel. You plan it down to every minute with a big checklist. But when it comes to executing
+                  it,
+                  something always comes up and you're left with your improvising skills. You learn to adapt as you
+                  go.
+                  Here's how my travel checklist looks now:
+                <ul class="q-my-none">
+                  <li>buy the ticket</li>
+                  <li>start your adventure</li>
+                </ul>
+                </p>
+                <p class="long-text">Going to a new place can be quite terrifying. While change and uncertainty make
+                  us scared, traveling
+                  teaches us how ridiculous it is to be afraid of something before it happens. The moment you face
+                  your
+                  fear and see there is nothing to be afraid of, is the moment you discover bliss.</p>
+                <p class="long-text">The parties agree to enter into a confidential relationship concerning the
+                  disclosure of certain
+                  proprietarybusiness property and confidential information <strong>("Confidential
+                    Information")</strong>:
+                <ol class="q-my-none">
+                  <li>Definition of Confidential Information</li>
+                  <li>Exclusions from Confidential Information</li>
+                  <li>Obligations of Receiving Party</li>
+                  <li>Time Periods</li>
+                  <li>Relationships</li>
+                </ol>
+                </p>
+                    </q-card-section>
+                  </q-card>
+                </q-drawer>
+              </teleport>
 
               <!-- Epic -->
               <div v-if="isEpicActive">
@@ -631,21 +765,21 @@
                     <div class="row q-gutter-x-sm">
                       <q-btn flat icon="search" label="Search Requirement" :style="{
                         'text-transform': 'none',
-                        'font-size': '14px',
+                        'font-size': '15px',
                         'border-radius': '12px',
                         border: '1px solid #CED3D7',
                         color: '#585858',
-                        width: '200px',
+                        width: '230px',
                       }" />
                       <q-btn flat icon="filter_list" label="Filter" @click="showFilter = true" :style="{
                         'text-transform': 'none',
-                        'font-size': '14px',
+                        'font-size': '15px',
                         'border-radius': '12px',
                         border: '1px solid #CED3D7',
                         color: '#585858',
                       }" />
                       <q-dialog v-model="showFilter" persistent>
-                        <q-card style="min-width: 505px; height: 430px;">
+                        <q-card style="min-width: 505px; height: 430px; border-radius: 12px;">
                           <q-card-section>
                             <div class="header-dialog">
                               <div class="text-h6">Filter Epic</div>
@@ -684,9 +818,9 @@
                   </div>
                   <div class="col-5 q-my-md q-mr-lg text-right">
                     <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9" label="Add Epic"
-                      @click="dialogVisible = true" />
+                      @click="dialogVisible = true" style="border-radius: 12px; font-size: 15px" />
                     <q-dialog v-model="dialogVisible" persistent>
-                      <q-card style="min-width: 805px; height: 810px;">
+                      <q-card style="min-width: 805px; height: 810px; border-radius: 12px; ">
                         <q-card-section class="row items-center justify-between">
                           <span class="text-h6">Add Epic</span>
                           <q-btn flat dense icon="close" @click="dialogVisible = false" />
@@ -829,8 +963,7 @@
                       <q-td :props="props">
                         <div v-if="props.col.field === 'Status'" class="q-mt-xs flex items-center justify-between">
                           <span>{{ props.row.status }}</span>
-                          <q-icon name="more_vert" class="q-ml-xxl cursor-pointer absolute"
-                            @click="onIconClick(props.row)" />
+                          <q-icon name="more_vert" class="cursor-pointer" @click="onIconClick(props.row)" />
                           <q-menu>
                             <q-list dense style="min-width: 200px">
                               <q-item clickable v-close-popup>
@@ -905,12 +1038,12 @@
                   </div>
                   <div class="col-5 q-my-md q-mr-lg text-right">
                     <q-btn icon="autorenew" class="text-subtitle2 text-capitalize q-mr-md" label="Auto Generate"
-                      style="background-color: white; border: 2px solid red; color: red; border-radius: 10px;"
+                      style="background-color: white; border: 2px solid red; color: red; border-radius: 10px; font-size: 15px "
                       @click="showAuto = true" />
                     <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9" label="Add Board"
-                      @click="showBoard = true" />
+                      @click="showBoard = true" style="border-radius: 10px; border: 2px; font-size: 15px; " />
                     <q-dialog v-model="showBoard" persistent>
-                      <q-card style="min-width: 805px; height: 450px;">
+                      <q-card style="min-width: 805px; height: 450px; border-radius: 12px;">
                         <q-card-section>
                           <div class="header-dialog">
                             <div class="text-h6">Add Board</div>
@@ -985,7 +1118,8 @@
                               <div class="col text-right">{{ row.number2 }}</div>
                               <div class="col row justify-end">
                                 <div :class="row.bgColor"
-                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end"></div>
+                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
+                                </div>
                               </div>
                               <div class="col text-right">
                                 <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
@@ -1004,75 +1138,80 @@
 
               <!-- Documentation -->
               <div v-if="isDocumActive">
-                <div class="col-2 q-ml-sm q-my-sm">
-                  <q-btn flat icon="chevron_right" label="Expand All" :style="{
-                    'text-transform': 'none',
-                    'font-size': '15px',
-                    'border-radius': '12px',
-                    border: '1px solid #CED3D7',
-                    color: '#585858',
-                  }" />
-                  <q-btn flat icon="keyboard_control_key" label="Colapse All" :style="{
-                    'text-transform': 'none',
-                    'font-size': '15px',
-                    'border-radius': '12px',
-                    border: '1px solid #CED3D7',
-                    color: '#585858',
-                  }" />
-                </div>
-                <div class="statuses-indicators" :style="{
-                  'text-transform': 'none',
-                  'font-size': '16px',
-                  color: '#585858',
-                }">
-                  <div v-for="statuses in statuses" :key="statuses.label">
-                    <q-badge :style="{ width: '16px', height: '16px' }" class="no-background">
-                      <img :src="statuses.src" alt="icon" style="width: 16px; height: 16px;" />
-                    </q-badge>
-                    <span class="q-ml-sm">{{ statuses.label }}</span>
+                <div class="flex ">
+                  <div class="col-4 q-ma-sm" style="display: flex; align-items: center;">
+                    <q-btn flat icon="chevron_right" label="Expand All" :style="{
+                      'text-transform': 'none',
+                      'font-size': '15px',
+                      'border-radius': '12px',
+                      border: '1px solid #CED3D7',
+                      color: '#585858',
+                    }" />
+                    <q-btn class="q-ml-sm" flat icon="keyboard_control_key" label="Colapse All" :style="{
+                      'text-transform': 'none',
+                      'font-size': '15px',
+                      'border-radius': '12px',
+                      border: '1px solid #CED3D7',
+                      color: '#585858',
+                    }" />
+                    <div class="statuses-indicators q-ml-sm" :style="{
+                      'text-transform': 'none',
+                      'font-size': '16px',
+                      color: '#585858',
+                    }">
+
+                      <div v-for="statuses in statuses" :key="statuses.label">
+                        <q-badge :style="{ width: '16px', height: '16px' }" class="no-background">
+                          <img :src="statuses.src" alt="icon" style="width: 16px; height: 16px;" />
+                        </q-badge>
+                        <span class="q-ml-sm">{{ statuses.label }}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-5 q-my-md q-mr-lg text-right">
-                  <q-btn icon="edit" class="text-subtitle2 text-capitalize" color="red-9" label="Add Group"
-                    @click="showModal = true" />
-                  <q-dialog v-model="showModal" persistent>
-                    <q-card style="min-width: 805px; height: 500px;">
-                      <q-card-section>
-                        <div class="header-dialog">
-                          <div class="text-h6">Add Group</div>
-                          <q-btn flat icon="close" v-close-popup />
-                        </div>
-                      </q-card-section>
+                  <div class="col-2 q-my-md q-mr-lg text-right" style="margin-left:auto">
+                    <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9" label="Add Group"
+                      @click="showModal = true" style="border-radius: 12px; font-size: 15px" />
+                    <q-dialog v-model="showModal" persistent>
+                      <q-card style="min-width: 805px; height: 500px; border-radius: 12px">
+                        <q-card-section>
+                          <div class="header-dialog">
+                            <div class="text-h6">Add Group</div>
+                            <q-btn flat icon="close" v-close-popup />
+                          </div>
+                        </q-card-section>
 
-                      <q-separator />
+                        <q-separator />
 
-                      <q-card-section>
-                        <!-- Title Input -->
-                        <div class="jarak">
-                          <span>Title</span>
-                          <q-input outlined v-model="text" color="grey"
-                            label="Insert Group Title. Max 100 characters" />
+                        <q-card-section>
+                          <!-- Title Input -->
+                          <div class="jarak">
+                            <span>Title</span>
+                            <q-input outlined v-model="text" color="grey"
+                              label="Insert Group Title. Max 100 characters" />
 
-                          <div class="q-mt-md">
-                            <span>Description</span>
-                            <q-editor v-model="form.description" label="Insert Content of Requirement" filled :toolbar="[
-                              ['bold', 'italic', 'underline', 'strike'],
-                              ['link', 'unordered', 'ordered', 'fullscreen']
-                            ]" />
+                            <div class="q-mt-md">
+                              <span>Description</span>
+                              <q-editor v-model="form.description" label="Insert Content of Requirement" filled
+                                :toolbar="[
+                                  ['bold', 'italic', 'underline', 'strike'],
+                                  ['link', 'unordered', 'ordered', 'fullscreen']
+                                ]" />
+                            </div>
+                          </div>
+                        </q-card-section>
+                        <div class="column">
+                          <div class="col self-end q-mr-md">
+                            <q-card-actions>
+                              <q-btn flat label="Cancel" color="red" v-close-popup />
+                              <q-btn label="Submit" color="red" @click="submitForm" />
+                            </q-card-actions>
                           </div>
                         </div>
-                      </q-card-section>
-                      <div class="column">
-                        <div class="col self-end q-mr-md">
-                          <q-card-actions>
-                            <q-btn flat label="Cancel" color="red" v-close-popup />
-                            <q-btn label="Submit" color="red" @click="submitForm" />
-                          </q-card-actions>
-                        </div>
-                      </div>
-                    </q-card>
-                  </q-dialog>
+                      </q-card>
+                    </q-dialog>
+                  </div>
                 </div>
+
                 <div class="q-pa-md q-gutter-sm">
                   <div id="q-app" style="min-height: 100vh;">
                     <q-tree :nodes="treeData" node-key="id" :filter-method="filterMethod" no-tick>
@@ -1148,7 +1287,7 @@
                           </q-item-section>
                           <q-item style="display: flex; justify-content: flex-end;">
                             <q-item-section side>
-                              <q-chip :color="props.node.statusColor" :outline="true" square >
+                              <q-chip :color="props.node.statusColor" :outline="true" square>
                                 {{ props.node.status }} ({{ props.node.progress }})
                               </q-chip>
                             </q-item-section>
@@ -1158,30 +1297,81 @@
                     </q-tree>
                   </div>
                 </div>
+
+                <!-- <q-list style="border: none" v-for="(list, index) in backlog" :key="index" bordered>
+                  <q-item-label header clickable>
+                    <div class="row q-col-gutter-xs">
+                      <div class="col-1" style="width: 15px; height: 20px; background-color: #e6e3e3">
+                        {{ index + 1 }}.
+                      </div>
+                      <div class="col-2">
+                        Design and Analye
+                        <q-btn color="grey" flat round padding="none" icon="visibility" @click="minimizeModal"></q-btn>
+                      </div>
+                    </div>
+                  </q-item-label>
+
+                  <q-item class="active-header q-px-md q-py-none" headar v-ripple dense> -->
+                <!-- <div class="div-header"></div> -->
+                <!-- <q-item-section side>
+                      <q-icon color="positive" name="attach_file" />
+                    </q-item-section>
+
+                    <q-item-section><b>{{ list.title }}</b></q-item-section>
+                    <q-item-section side>
+                      <q-btn flat dense round icon="more_vert">
+                        <OptionSprint />
+                      </q-btn>
+                    </q-item-section>
+                  </q-item>
+                  <q-item class="active-item" v-ripple dense v-for="(item, index) in list.task" :key="index">
+                    <q-item-section side>
+                      <q-icon :color="item.color" :name="item.icon" />
+                    </q-item-section> -->
+                <!-- <div class="div-list"></div> -->
+                <!-- <q-item-section>
+                      <q-item-label>{{ item.task }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side class="q-py-none">
+                      <div class="row"> -->
+                <!-- <div class="todopersen q-ma-xs q-pt-xs">To Do (0%)</div> -->
+                <!-- <div class="q-pt-xs">
+                          <q-badge class="q-py-xs" align="middle" color="light-blue-3" text-color="black"
+                            label="To Do (0%)"></q-badge>
+                        </div>
+                      </div>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn flat dense round icon="more_vert">
+                        <OptionSprint />
+                      </q-btn>
+                    </q-item-section>
+                  </q-item>
+                </q-list> -->
               </div>
 
               <!-- Activities -->
               <div v-if="isActivitiesActive">
                 <div class="row d-flex flex-row justify-between items-center" style="gap: 5px;">
-                  <div class="col-5 q-ml-sm q-my-sm">
+                  <div class="col-6 q-ml-sm q-my-sm">
                     <div class="row q-gutter-x-sm">
                       <q-btn flat icon="search" label="Search Requirement" :style="{
                         'text-transform': 'none',
-                        'font-size': '14px',
+                        'font-size': '15px',
                         'border-radius': '12px',
                         border: '1px solid #CED3D7',
                         color: '#585858',
-                        width: '200px',
+                        width: '240px',
                       }" />
                       <q-btn flat icon="filter_list" label="Filter" @click="showFilter = true" :style="{
                         'text-transform': 'none',
-                        'font-size': '14px',
+                        'font-size': '15px',
                         'border-radius': '12px',
                         border: '1px solid #CED3D7',
                         color: '#585858',
                       }" />
                       <q-dialog v-model="showFilter" persistent>
-                        <q-card style="min-width: 505px; height: 430px;">
+                        <q-card style="min-width: 505px; height: 430px; border-radius: 12px">
                           <q-card-section>
                             <div class="header-dialog">
                               <div class="text-h6">Filter Epic</div>
@@ -1220,9 +1410,9 @@
                   </div>
                   <div class="col-5 q-my-md q-mr-lg text-right">
                     <q-btn icon="auto_fix_high" class="text-subtitle2 text-capitalize" color="red-9"
-                      label="Add Activities" @click="showAct = true" />
+                      label="Add Activities" @click="showAct = true" style="border-radius: 12px; font-size: 15px; " />
                     <q-dialog v-model="showAct" persistent>
-                      <q-card style="min-width: 1300px; height: 850px;">
+                      <q-card style="min-width: 1300px; height: 850px; border-radius: 12px ">
                         <!-- Dialog Header -->
                         <q-card-section>
                           <div class="header-dialog">
@@ -1420,7 +1610,6 @@ import { reactive } from 'vue';
 defineOptions({
   name: 'ViewProject',
 });
-
 
 
 const typeColor = (type) => {
@@ -2234,91 +2423,6 @@ const rowsActiv = ref([
   },
 ]);
 
-// const ticked = []
-// const nodes = [
-//   {
-//     id: 1,
-//     label: 'Login',
-//     icon: 'mdi-login',
-//     subtitle: 'IN PROGRESS (58%)',
-//     status: 'IN PROGRESS (58%)',
-//     statusColor: 'orange',
-//     children: [
-//       {
-//         id: 2,
-//         label: 'Module Login',
-//         icon: 'mdi-view-module',
-//         status: 'IN PROGRESS (58%)',
-//         statusColor: 'orange',
-//         children: [
-//           {
-//             id: 3,
-//             label: 'Project',
-//             icon: 'mdi-folder',
-//             children: [
-//               {
-//                 id: 4,
-//                 label: 'Login (Login)',
-//                 icon: 'mdi-flag',
-//                 status: 'IN PROGRESS (25%)',
-//                 statusColor: 'yellow',
-//               },
-//               {
-//                 id: 5,
-//                 label: 'Reset Password (Forgot Password)',
-//                 icon: 'mdi-flag',
-//                 status: 'IN PROGRESS (50%)',
-//                 statusColor: 'yellow',
-//               },
-//               {
-//                 id: 6,
-//                 label: 'Register Account (Register)',
-//                 icon: 'mdi-flag',
-//                 status: 'COMPLETE (100%)',
-//                 statusColor: 'green',
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     id: 7,
-//     label: 'Project Summary',
-//     icon: 'mdi-clipboard-list',
-//     subtitle: 'COMPLETE (100%)',
-//     status: 'COMPLETE (100%)',
-//     statusColor: 'green',
-//     children: [
-//       {
-//         id: 8,
-//         label: 'Module Project Summary',
-//         icon: 'mdi-view-module',
-//         status: 'COMPLETE (100%)',
-//         statusColor: 'green',
-//         children: [
-//           {
-//             id: 9,
-//             label: 'View Project (Read)',
-//             icon: 'mdi-flag',
-//             status: 'COMPLETE (100%)',
-//             statusColor: 'green',
-//           },
-//           {
-//             id: 10,
-//             label: 'Share Project (Read)',
-//             icon: 'mdi-flag',
-//             status: 'COMPLETE (100%)',
-//             statusColor: 'green',
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ]
-
-
 const simple = [
   {
     label: 'Login',
@@ -2496,6 +2600,8 @@ const showStekh = ref(false)
 const showFilter = ref(false)
 const showAdd = ref(false)
 const showAct = ref(false)
+const showDetails = ref(false)
+const showCancel = ref(false)
 
 // List of projects
 const projects = ref([
@@ -2750,6 +2856,65 @@ const treeData = [
 function filterMethod(node, filter) {
   return node.label.toLowerCase().includes(filter.toLowerCase());
 }
+
+const backlog = [
+  {
+    title: "Story: Fitur Login",
+    task: [
+      {
+        task: "BE Service API Login",
+        icon: "check_box",
+        color: "primary",
+      },
+      {
+        task: "BE Service API Login",
+        icon: "check_box",
+        color: "primary",
+      },
+      { task: "FE Form Login", icon: "check_box", color: "primary" },
+    ],
+  },
+  {
+    title: "Story: Fitur Login",
+    task: [
+      {
+        task: "BE Service API Login",
+        icon: "check_box",
+        color: "primary",
+      },
+      {
+        task: "BE Service API Login",
+        icon: "check_box",
+        color: "primary",
+      },
+      { task: "FE Form Login", icon: "check_box", color: "primary" },
+    ],
+  },
+  {
+    title: "Story: Fitur Login",
+    task: [
+      {
+        task: "BE Service API Login",
+        icon: "check_box",
+        color: "primary",
+      },
+      {
+        task: "BE Service API Login",
+        icon: "check_box",
+        color: "primary",
+      },
+      { task: "FE Form Login", icon: "check_box", color: "primary" },
+    ],
+  }
+]
+
+function closeDetail() {
+  this.details = false
+};
+function toggleDetail() {
+  this.details = true
+}
+
 </script>
 
 <style scoped>
@@ -2834,6 +2999,10 @@ function filterMethod(node, filter) {
   font-size: 17px;
 }
 
+.text-h6 {
+  font-size: 20px;
+}
+
 .button-group {
   display: flex;
   gap: 1px;
@@ -2863,7 +3032,7 @@ function filterMethod(node, filter) {
 }
 
 .long-text {
-  font-size: 11px;
+  font-size: 13px;
   margin-bottom: 0px;
 }
 
@@ -2937,6 +3106,10 @@ function filterMethod(node, filter) {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.text-h8 {
+  font-size: 15px;
 }
 
 .no-background {
