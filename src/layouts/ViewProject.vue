@@ -54,11 +54,11 @@
                 <div class="header-container">
                   <div class="text-h3">
                     AGL001 - Project Management Agile Board 2.0
-                    <span class="icon-group">
+                    <span class="iconi-group">
                       <q-icon name="delete" title="Delete" size="20px" />
                       <q-icon name="edit" title="Edit" size="20px" @click="showEdit = true" />
                       <q-dialog v-model="showEdit" persistent>
-                        <q-card style="min-width: 805px; height: 580px;">
+                        <q-card style="min-width: 805px; height: 600px;">
                           <q-card-section>
                             <div class="header-dialog">
                               <div class="text-h6">Edit Project</div>
@@ -71,11 +71,13 @@
                           <q-card-section>
                             <!-- Title Input -->
                             <div class="jarak">
-                              <span>Title</span>
-                              <q-input outlined v-model="text" color="grey"
-                                label="Project Management Agile Board 2.0" />
+                              <div class="q-ma-sm">
+                                <span>Title</span>
+                                <q-input outlined v-model="text" color="grey"
+                                  label="Project Management Agile Board 2.0" />
+                              </div>
 
-                              <div class="q-mt-md">
+                              <div class="q-ma-sm q-mt-sm">
                                 <span>Content</span>
                                 <q-editor v-model="form.content" filled :toolbar="[
                                   ['bold', 'italic', 'underline', 'strike'],
@@ -83,8 +85,10 @@
                                 ]" />
                               </div>
 
-                              <span>Departement Owner</span>
-                              <q-select outlined v-model="form.owner" :options="OwnerOptions" />
+                              <div class="q-ma-sm q-mt-sm">
+                                <span>Departement Owner</span>
+                                <q-select outlined v-model="form.owner" :options="OwnerOptions" />
+                              </div>
                             </div>
                           </q-card-section>
                           <div class="column">
@@ -103,10 +107,11 @@
                 <div class="text-subtitle2 text-weight-regular">Created by Ali Sadikin (123456), Monday, 19 August 2024,
                   18:02</div>
                 <div class="info-container">
-                  <q-icon name="calendar_today" class="calendar_month" size="16px" />
+                  <q-icon name="calendar_month" class="calendar_month" size="22px" />
                   <span class="date-title">21 Aug 2024 - 28 Aug 2024</span>
-                  <q-badge class="q-ml-xs" label="Completed" color="green-11" text-color="black" />
-                  <q-badge class="q-ml-xs" label="100%" color="amber-2" text-color="black" />
+                  <q-badge class="q-ml-xs" label="Completed" color="green-11" text-color="black"
+                    style="font-size: 14px" />
+                  <q-badge class="q-ml-xs" label="100%" color="amber-2" text-color="black" style="font-size: 14px" />
                 </div>
               </q-card-section>
               <!-- <q-list bordered /> -->
@@ -120,91 +125,111 @@
                     <q-card>
                       <q-card-section>
                         <!-- Project Type -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Project Type</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <span class="text2">IT</span>
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Project Type</span>
+                            </q-item-section>
+
+                            <q-item-section>
+                              <span class="text2">IT</span>
+                            </q-item-section>
+                          </q-item>
+                        </div>
 
                         <!-- Project Description -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Project Description</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <span class="text2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                              tempor
-                              incididunt ut labore et dolore magna aliqua.</span>
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm q-mb-xs">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Project Description</span>
+                            </q-item-section>
+                            <q-item-section>
+                              <span class="text2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                eiusmod
+                                tempor
+                                incididunt ut labore et dolore magna aliqua.</span>
+                            </q-item-section>
+                          </q-item>
+                        </div>
 
                         <!-- Department -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Department</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <span class="text2">DOT</span>
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm q-mb-xs">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Department</span>
+                            </q-item-section>
+                            <q-item-section>
+                              <span class="text2">DOT</span>
+                            </q-item-section>
+                          </q-item>
+                        </div>
 
                         <!-- Department Owner -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Department Owner</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <span class="text2">DOT</span>
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm q-mb-xs">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Department Owner</span>
+                            </q-item-section>
+                            <q-item-section>
+                              <span class="text2">DOT</span>
+                            </q-item-section>
+                          </q-item>
+                        </div>
 
                         <!-- Project Manager -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Project Manager</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <div class="row items-center no-wrap">
-                              <q-avatar size="md" class="q-mr-sm">
-                                <img src="src/assets/auraa.png" alt="avatar">
-                              </q-avatar>
-                              <span class="text2">Nurmatias (123456)</span>
-                            </div>
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm q-mb-xs">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Project Manager</span>
+                            </q-item-section>
+                            <q-item-section>
+                              <div class="row items-center no-wrap">
+                                <q-avatar size="md" class="q-mr-sm">
+                                  <img src="src/assets/auraa.png" alt="avatar">
+                                </q-avatar>
+                                <span class="text2">Nurmatias (123456)</span>
+                              </div>
+                            </q-item-section>
+                          </q-item>
+                        </div>
 
                         <!-- Release Date -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Release</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <span class="text2">26 Aug 2024 - 30 Aug 2024</span>
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm q-mb-xs">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Release</span>
+                            </q-item-section>
+                            <q-item-section>
+                              <span class="text2">26 Aug 2024 - 30 Aug 2024</span>
+                            </q-item-section>
+                          </q-item>
+                        </div>
 
                         <!-- Status -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Status</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <q-badge label="Completed" color="green-11" text-color="black" style="width: 72px;" />
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm q-mb-xs">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Status</span>
+                            </q-item-section>
+                            <q-item-section>
+                              <q-badge label="Completed" color="green-11" text-color="black"
+                                style="width: 72px; font-size: 13px;" />
+                            </q-item-section>
+                          </q-item>
+                        </div>
 
                         <!-- Progress -->
-                        <q-item>
-                          <q-item-section>
-                            <span class="text-subtitle2">Progress</span>
-                          </q-item-section>
-                          <q-item-section>
-                            <q-badge label="100%" color="amber-2" text-color="black" style="width: 40px;" />
-                          </q-item-section>
-                        </q-item>
+                        <div class="q-ma-sm q-mb-xs">
+                          <q-item>
+                            <q-item-section>
+                              <span class="text-subtitle2">Progress</span>
+                            </q-item-section>
+                            <q-item-section>
+                              <q-badge label="100%" color="amber-2" text-color="black"
+                                style="width: 40px; font-size: 13px; " />
+                            </q-item-section>
+                          </q-item>
+                        </div>
                       </q-card-section>
                     </q-card>
                   </q-expansion-item>
@@ -217,7 +242,7 @@
                         <div>Project Related(10)</div>
                         <q-icon size="20px" name="add_box" class="q-ml-sm" @click="showProject = true" />
                         <q-dialog v-model="showProject" persistent>
-                          <q-card style="min-width: 500px; height: 250px;">
+                          <q-card style="min-width: 500px; height: 350px;">
                             <q-card-section>
                               <div class="header-dialog">
                                 <div class="text-h6">Add Project Related</div>
@@ -230,9 +255,21 @@
                             <q-card-section>
                               <!-- Title Input -->
                               <div class="jarak">
-
                                 <span>Select Project</span>
-                                <q-select outlined v-model="form.project" :options="ProjectOptions" />
+                                <q-select filled v-model="model" :options="optionss" label="Standard" emit-value
+                                  map-options></q-select>
+                                <div>
+                                  Project Title:{{ model.name }}
+                                </div>
+                                <div>
+                                  Project Manager:{{ model.manager }}
+                                </div>
+                                <div>
+                                  Department Owner:{{ model.owner }}
+                                </div>
+                                <div>
+                                  Progress:{{ model.progress }}
+                                </div>
                               </div>
                             </q-card-section>
                             <div class="column">
@@ -256,12 +293,12 @@
                             <template v-slot:header="props">
                               <q-tr :props="props">
                                 <q-th v-for="col in props.cols" :key="col.name" :props="props"
-                                  :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'projectTitle' }]"
+                                  :class="['grey-column', { 'grey-column': col.field === 'no' || col.field === 'Progress' }]"
                                   style="padding: 2px; font-size: 11px;">
                                   <!-- Add icon conditionally to specific columns like 'title', 'code', 'dueDate' -->
-                                  <q-icon size="xs" v-if="col.field === 'project title'" name="person" />
-                                  <q-icon size="xs" v-if="col.field === 'PM'" name="personal_injury" />
-                                  <q-icon size="xs" v-if="col.field === 'Progress'" name="personal_injury" />
+                                  <q-icon size="sm" v-if="col.field === 'project title'" name="description" />
+                                  <q-icon size="sm" v-if="col.field === 'PM'" name="personal_injury" />
+                                  <q-icon size="sm" v-if="col.field === 'Progress'" name="percent" />
                                   {{ col.label }}
                                 </q-th>
                               </q-tr>
@@ -273,14 +310,39 @@
                                   <span>{{ props.row.progress }}</span>
                                   <!-- Add the trash icon next to the role -->
                                   <q-icon name="delete" color="black" size="15px" class="cursor-pointer"
-                                    @click="onDelete(props.row)" />
+                                    @click="showDeleteDialog = true" />
                                 </div>
+
                                 <div v-else>
                                   {{ props.row[props.col.field] }}
                                 </div>
                               </q-td>
                             </template>
                           </q-table>
+
+                          <!-- Delete Confirmation Dialog -->
+                          <q-dialog v-model="showDeleteDialog" persistent>
+                            <q-card style="width: 500px;">
+                              <q-card-section align="center">
+                                <q-icon size="83px" name="img:src/assets/Vector.svg" />
+                              </q-card-section>
+
+                              <q-card-section style="text-align: center;">
+                                <div class="text-h6">
+                                  <b>Do you want to delete this task?</b>
+                                </div>
+                                <div>
+                                  Deleted task cannot be recovered.
+                                </div>
+                              </q-card-section>
+
+                              <q-card-section align="center">
+                                <q-btn label="No" padding="sm 50px" flat text-color="negative"
+                                  @click="showDeleteDialog = false" />
+                                <q-btn label="Yes" padding="sm 50px" color="negative" @click="onDelete(selectedRow)" />
+                              </q-card-section>
+                            </q-card>
+                          </q-dialog>
                         </div>
                       </q-card-section>
                     </q-card>
@@ -602,12 +664,42 @@
                                 </q-item-section>
                                 <q-item-section>Edit</q-item-section>
                               </q-item>
-                              <q-item clickable v-close-popup>
+                              <q-item clickable v-close-popup @click="showDeleteDialog = true">
                                 <q-item-section side>
                                   <q-icon name="delete" />
                                 </q-item-section>
                                 <q-item-section>Delete</q-item-section>
                               </q-item>
+
+                              <!-- Delete Confirmation Dialog -->
+                              <q-dialog v-model="showDeleteDialog" persistent>
+                                <q-card style="width: 500px;">
+
+                                  <!-- Icon Section -->
+                                  <q-card-section class="row justify-center">
+                                    <q-icon size="83px" color="yellow" name="img:src/assets/Vector_Yellow.svg" />
+                                  </q-card-section>
+
+                                  <!-- Text Section -->
+                                  <q-card-section style="text-align: center;">
+                                    <div class="text-h6">
+                                      <b>Do you want to delete project?</b>
+                                    </div>
+                                    <div>
+                                      Deleted projects cannot be recovered.
+                                    </div>
+                                  </q-card-section>
+
+                                  <!-- Action Buttons Section -->
+                                  <q-card-section class="row justify-center q-gutter-sm">
+                                    <q-btn label="No" padding="sm 50px" flat text-color="negative"
+                                      @click="showDeleteDialog = false" />
+                                    <q-btn label="Yes" padding="sm 50px" color="negative"
+                                      @click="onDelete(selectedRow)" />
+                                  </q-card-section>
+
+                                </q-card>
+                              </q-dialog>
                               <q-item clickable v-close-popup>
                                 <q-item-section side>
                                   <q-icon name="share" />
@@ -743,6 +835,7 @@
 
                                   </div>
                                 </q-card-section>
+
                                 <div class="column">
                                   <div class="col self-end q-mr-md ">
                                     <q-card-actions>
@@ -1601,14 +1694,13 @@
                   </div>
                 </div>
 
-                <div id="q-app" style="min-height: 100vh;">
+                <div id="q-app" >
                   <div class="q-pa-none">
                     <q-table flat bordered :rows="rowsBoard" :columns="columnsBoard" row-key="name" hide-bottom
-                      auto-width>
+                      >
                       <template v-slot:header="props">
-                        <q-tr :props="props" class="grey-column">
-                          <q-th auto-width></q-th>
-                          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                        <q-tr :props="props" class="grey-column" >
+                          <q-th v-for="col in props.cols" :key="col.name" :props="props" >
                             {{ col.label }}
                           </q-th>
                         </q-tr>
@@ -3332,11 +3424,18 @@ const showEditside = ref(false)
 const showEditsketh = ref(false)
 const showEditepic = ref(false)
 const showEditor = ref(false)
+const showDeleteDialog = ref(false)
+const selectedRow = null
 
 // List of projects
 const projects = ref([
   { label: 'Mysatnusa Redesign', value: 'mysatnusa-redesign' },
   { label: 'Project Management Agile Board 2.0', value: 'project-2' },
+]);
+
+const project = ref([
+  { label: 'teses', name: 'project satnusa ', projectManager: 'afridol', department: 'DOT', progres: '60%' },
+  { label: 'teses', name: 'project satnusa ', projectManager: 'afridol', department: 'DOT', progres: '60%' },
 ]);
 
 
@@ -3391,6 +3490,12 @@ const onTypeChange = (value) => {
   }
 };
 
+const onProjectChange = (value) => {
+  if (value !== 'Change Request') {
+    form.project = '';
+  }
+};
+
 const onTipeeChange = (value) => {
   if (value !== 'Module') {
     form.tipe = '';
@@ -3431,6 +3536,7 @@ const OwnerOptions = [
 
 const ProjectOptions = [
   { label: 'Mysatnusa Redesign', value: 'project1' },
+  { label: 'Project Management Agile Board 1.0', value: 'project2' },
   { label: 'Project Management Agile Board 1.0', value: 'project2' },
 ];
 
@@ -3602,6 +3708,19 @@ const rowss = ref([
 //   }
 // ]
 
+function confirmDelete(row) {
+  this.selectedRow = row; // Set the selected row data
+  this.showDeleteDialog = true; // Show the dialog
+}
+function onDelete(row) {
+  this.rowsProject = this.rowsProject.filter(item => item !== row);
+  this.showDeleteDialog = false; // close the dialog after deletion
+  console.log("Deleting row: ", row);
+
+  // After deletion, close the dialog
+  this.showDeleteDialog = false;
+}
+
 function filterMethod(node, filter) {
   return node.label.toLowerCase().includes(filter.toLowerCase());
 }
@@ -3663,6 +3782,27 @@ function closeDetail() {
 function toggleDetail() {
   this.details = true
 }
+
+const model = ref({})
+
+const optionss = [
+  {
+    label: 'Mysatnusa Redesign',
+    value: {
+      name: 'Mysatnusa Redesign',
+      manager: 'Afridol',
+      owner: 'DOT', progress: '100%'
+    },
+  },
+  {
+    label: 'Project Management Agile Board 1.0',
+    value: {
+      name: 'Project Management Agile Board 1.0',
+      manager: 'Nurmatias',
+      owner: 'DOT', progress: '70%'
+    },
+  },
+]
 
 </script>
 
@@ -3777,6 +3917,10 @@ function toggleDetail() {
 
 .icon-group {
   margin-left: 397px;
+}
+
+.iconi-group {
+  margin-left: 10px;
 }
 
 .icon-groupepic {
