@@ -39,12 +39,7 @@
 
     <q-page-container>
       <div class="row">
-        <div class="q-pa-md title-container">
-          <q-icon name="chevron_left" class="icon" />
-          <div class="title-page">
-            Project / Detail Project
-          </div>
-        </div>
+
         <q-page class="row">
           <!-- Left Panel - Project Detail and Stakeholders -->
           <div class="col-3">
@@ -54,7 +49,7 @@
                 <div class="header-container">
                   <div class="text-h3">
                     AGL001 - Project Management Agile Board 2.0
-                    <span class="iconi-group">
+                    <span class="iicon-group">
                       <q-icon name="delete" title="Delete" size="20px" />
                       <q-icon name="edit" title="Edit" size="20px" @click="showEdit = true" />
                       <q-dialog v-model="showEdit" persistent>
@@ -125,7 +120,7 @@
                     <q-card>
                       <q-card-section>
                         <!-- Project Type -->
-                        <div class="q-ma-sm">
+                        <div class="">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Project Type</span>
@@ -138,7 +133,7 @@
                         </div>
 
                         <!-- Project Description -->
-                        <div class="q-ma-sm q-mb-xs">
+                        <div class="q-mb-xs">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Project Description</span>
@@ -153,7 +148,7 @@
                         </div>
 
                         <!-- Department -->
-                        <div class="q-ma-sm q-mb-xs">
+                        <div class="q-mb-xs">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Department</span>
@@ -165,7 +160,7 @@
                         </div>
 
                         <!-- Department Owner -->
-                        <div class="q-ma-sm q-mb-xs">
+                        <div class="q-mb-xs">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Department Owner</span>
@@ -177,7 +172,7 @@
                         </div>
 
                         <!-- Project Manager -->
-                        <div class="q-ma-sm q-mb-xs">
+                        <div class="q-mb-xs">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Project Manager</span>
@@ -194,7 +189,7 @@
                         </div>
 
                         <!-- Release Date -->
-                        <div class="q-ma-sm q-mb-xs">
+                        <div class="q-mb-xs">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Release</span>
@@ -206,7 +201,7 @@
                         </div>
 
                         <!-- Status -->
-                        <div class="q-ma-sm q-mb-xs">
+                        <div class="q-mb-xs">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Status</span>
@@ -219,7 +214,7 @@
                         </div>
 
                         <!-- Progress -->
-                        <div class="q-ma-sm q-mb-xs">
+                        <div class="q-mb-xs">
                           <q-item>
                             <q-item-section>
                               <span class="text-subtitle2">Progress</span>
@@ -1249,12 +1244,41 @@
                                 </q-item-section>
                                 <q-item-section>Edit</q-item-section>
                               </q-item>
-                              <q-item clickable v-close-popup>
+                              <q-item clickable v-close-popup @click="showDeleteDialog = true">
                                 <q-item-section side>
                                   <q-icon name="delete" />
                                 </q-item-section>
                                 <q-item-section>Delete</q-item-section>
                               </q-item>
+
+                              <!-- Delete Confirmation Dialog -->
+                              <q-dialog v-model="showDeleteDialog" persistent>
+                                <q-card style="width: 500px;">
+
+                                  <!-- Icon Section -->
+                                  <q-card-section class="row justify-center">
+                                    <q-icon size="83px" color="yellow" name="img:src/assets/Vector_Yellow.svg" />
+                                  </q-card-section>
+
+                                  <!-- Text Section -->
+                                  <q-card-section style="text-align: center;">
+                                    <div class="text-h6">
+                                      <b>Do you want to delete project?</b>
+                                    </div>
+                                    <div>
+                                      Deleted projects cannot be recovered.
+                                    </div>
+                                  </q-card-section>
+
+                                  <!-- Action Buttons Section -->
+                                  <q-card-section class="row justify-center q-gutter-sm">
+                                    <q-btn label="No" padding="sm 50px" flat text-color="negative"
+                                      @click="showDeleteDialog = false" />
+                                    <q-btn label="Yes" padding="sm 50px" color="negative"
+                                      @click="onDelete(selectedRow)" />
+                                  </q-card-section>
+                                </q-card>
+                              </q-dialog>
                             </q-list>
                           </q-menu>
                         </div>
@@ -1271,7 +1295,7 @@
                         </q-badge>
 
                         <!-- Status column with badge -->
-                        <q-badge v-else-if="props.col.field === 'statuss'" :color="statusColor(props.row.statuss)"
+                        <q-badge v-else-if="props.col.field === 'statuss'" :color="statussColor(props.row.statuss)"
                           align="center">
                           {{ props.row.statuss }}
                         </q-badge>
@@ -1505,9 +1529,9 @@
               </teleport>
 
               <q-dialog v-model="showEditor" persistent>
-                <q-card style="min-width: 805px; height: 915px; border-radius: 12px; ">
+                <q-card style="min-width: 805px; height: 980px; border-radius: 12px; ">
                   <q-card-section class="row items-center justify-between">
-                    <span class="text-h6">Edit Epic</span>
+                    <span class="text-h6">Edit Requirement</span>
                     <q-btn flat dense icon="close" @click="showEditor = false" />
                   </q-card-section>
 
@@ -1695,100 +1719,619 @@
                   </div>
                 </div>
 
-                <!-- <div id="q-app" >
-                  <div class="q-pa-none">
-                    <q-table flat bordered :rows="rowsBoard" :columns="columnsBoard" row-key="name" hide-bottom
-                      >
-                      <template v-slot:header="props">
-                        <q-tr :props="props" class="grey-column" >
-                          <q-th v-for="col in props.cols" :key="col.name" :props="props" >
-                            {{ col.label }}
-                          </q-th>
-                        </q-tr>
-                      </template>
+                <div class="q-pa-md example-column-horizontal-alignment">
+                  <div class="row board-table">
+                    <div class="col-1 q-pa-sm  ">No</div>
+                    <div class="col-5 q-pa-sm ">Title</div>
+                    <div class="col-1 q-pa-sm "></div>
+                    <div class="col-1 q-pa-sm ">Sequence</div>
+                    <div class="col-1 q-pa-sm ">Progress Weight</div>
+                    <div class="col-1 q-pa-sm ">Color</div>
+                    <div class="col-1 q-pa-sm ">Can Retreat</div>
+                    <div class="col-1 q-pa-sm ">Have Progress</div>
+                    <div class="col-1 q-pa-sm ">Privilage</div>
+                  </div>
+                  <q-expansion-item v-model="expanded" expand-icon-toggle icon="perm_identity" switch-toggle-side>
+                    <template v-slot:header>
+                      <div class="flex items-center justify-between" style="width: 100%;">
+                        <!-- Ikon SVG di depan teks -->
+                        <div class="flex" style="gap : 3px;">
+                          <q-icon name="add_box" color="grey" size="25px" @click="showMilestone = true" />
+                          <q-dialog v-model="showMilestone" persistent>
+                            <q-card style="min-width: 805px; height: 620px; border-radius: 12px">
+                              <q-card-section>
+                                <div class="header-dialog">
+                                  <div class="text-h6">Add Milestone</div>
+                                  <q-btn flat icon="close" v-close-popup />
+                                </div>
+                              </q-card-section>
 
-                      <template v-slot:body="props">
-                        <q-tr :props="props">
-                          <q-td auto-width>
-                            <q-btn size="sm" round dense @click="props.expand = !props.expand"
-                              :icon="props.expand ? 'remove' : 'chevron_right'"></q-btn>
-                          </q-td>
-                          <q-td class="text-left" v-for="col in props.cols" :key="col.name" :props="props">
-                            <template v-if="col.field === 'pic'">
-                              <q-td class="text-right">
-                                <div class="avatar" style="background-image: url('src/assets/auraa.png');"></div>
-                              </q-td>
-                            </template>
-                            {{ col.value }}
-                          </q-td>
-                        </q-tr>
+                              <q-separator />
 
-                        <q-tr v-show="props.expand" :props="props"
-                          v-for="(row, index) in getExpandedData(props.row.name)" :key="index">
-                          <q-td colspan="100%">
-                            <div class="row" style="margin-left:60px;">
-                              <div class="col">{{ row.id }}</div>
-                              <div class="col text-left">{{ row.status }}</div>
-                              <div class="col text-center">{{ row.number1 }}</div>
-                              <div class="col text-right">{{ row.number2 }}</div>
-                              <div class="col row justify-end">
-                                <div :class="row.bgColor"
-                                  style="width: 25px; height: 20px; border-radius: 5px; justify-content: end">
+                              <q-card-section>
+                                <!-- Title Input -->
+                                <div class="jarak">
+                                  <div class="q-ma-sm">
+                                    <span>Title</span>
+                                    <q-input outlined v-model="text" color="grey"
+                                      label="Insert Group Title. Max 100 characters" />
+                                  </div>
+
+                                  <div class="q-ma-sm q-mt-md">
+                                    <span>Sequence</span>
+                                    <q-input v-model="numberValue" type="number" outlined :min="0" :max="100"
+                                      :step="1" />
+                                  </div>
+
+                                  <div class="q-ma-sm q-mt-md">
+                                    <span>Progress Weight</span>
+                                    <q-input v-model="numberValue" type="number" outlined :min="0" :max="100"
+                                      :step="1" />
+                                  </div>
+
+                                  <!-- Color Picker -->
+                                  <div class="q-ma-sm q-mt-md">
+                                  <span>Progress Weight</span>
+                                  <q-input filled v-model="color" label="Color">
+                                    <template v-slot:append>
+                                      <q-color v-model="color" />
+                                    </template>
+                                  </q-input>
+
+                                  <!-- Display Selected Color -->
+                                  <!-- <q-color-picker v-model="color" flat :no-header="true" :default-view="'spectrum'"
+                                    class="q-mt-md">
+                                    <template v-slot:default="scope">
+                                      <q-separator spaced />
+
+
+
+                                    {{scope}}
+                                      <div class="row items-center q-gutter-sm q-pa-sm">
+                                        <q-input filled v-model.number="scope.rgb.r" label="R" type="number" :min="0"
+                                          :max="255" />
+                                        <q-input filled v-model.number="scope.rgb.g" label="G" type="number" :min="0"
+                                          :max="255" />
+                                        <q-input filled v-model.number="scope.rgb.b" label="B" type="number" :min="0"
+                                          :max="255" />
+                                      </div>
+                                    </template>
+                                  </q-color-picker> -->
+                                </div>
+
+
+                                  <div class="q-ma-sm q-mt-md">
+                                    <span>Description</span>
+                                    <q-editor v-model="form.description" label="Insert Content of Requirement" filled
+                                      :toolbar="[
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        ['link', 'unordered', 'ordered', 'fullscreen']
+                                      ]" />
+                                  </div>
+                                </div>
+                              </q-card-section>
+                              <div class="column">
+                                <div class="col self-end q-mr-md">
+                                  <q-card-actions>
+                                    <q-btn flat label="Cancel" color="red" v-close-popup />
+                                    <q-btn label="Submit" color="red" @click="showMilestone" />
+                                  </q-card-actions>
                                 </div>
                               </div>
-                              <div class="col text-right">
-                                <img src="src/assets/silang.svg" style="width: 20px; height: 20px;" />
+                            </q-card>
+                          </q-dialog>
+                          <div>Analyze & Design (1)</div>
+                        </div>
+                      </div>
+                      <!-- Status di sebelah kanan -->
+                      <q-avatar v-for="n in 5" :key="n" size="30px" class="overlapping" :style="`left: ${n * -10}px`">
+                        <img :src="`https://cdn.quasar.dev/img/avatar${n + 1}.jpg`">
+                      </q-avatar>
+                      <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      <q-menu anchor="bottom right" self="top right">
+                        <q-list dense style="min-width: 200px">
+                          <q-item clickable v-close-popup>
+                            <q-item-section side>
+                              <q-icon name="visibility" />
+                            </q-item-section>
+                            <q-item-section>Detail</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup @click="showBoard2 = true">
+                            <q-item-section side>
+                              <q-icon name="edit" />
+                            </q-item-section>
+                            <q-item-section>Edit</q-item-section>
+                          </q-item>
+                          <q-dialog v-model="showBoard2" persistent>
+                            <q-card style="min-width: 805px; height: 450px; border-radius: 12px;">
+
+                              <!-- Dialog Header -->
+                              <q-card-section>
+                                <div class="header-dialog row justify-between items-center">
+                                  <div class="text-h6">Edit Board</div>
+                                  <q-btn flat icon="close" @click="showBoard2 = false" />
+                                </div>
+                              </q-card-section>
+
+                              <q-separator />
+
+                              <!-- Dialog Content -->
+                              <q-card-section>
+                                <div class="jarak">
+                                  <!-- Title Input -->
+                                  <span>Title</span>
+                                  <q-input outlined v-model="text" color="grey" label="Insert Board Title" />
+
+                                  <!-- Sequence Input -->
+                                  <span>Sequence</span>
+                                  <q-input v-model="numberValue" type="number" outlined :min="0" :max="100" :step="1" />
+
+                                  <!-- Board Privileges Input -->
+                                  <span>Board Privileges</span>
+                                  <q-input outlined v-model="text" color="grey"
+                                    label="Insert Name or Badge Privileges" />
+                                </div>
+                              </q-card-section>
+
+                              <!-- Action Buttons -->
+                              <div class="column">
+                                <div class="col self-end q-mr-md">
+                                  <q-card-actions>
+                                    <q-btn flat label="Cancel" color="red" @click="showBoard2 = false" />
+                                    <q-btn label="Submit" color="red" @click="submitForm" />
+                                  </q-card-actions>
+                                </div>
                               </div>
-                              <div class="col text-right">
-                                <img src="src/assets/centang.svg" style="width: 20px; height: 20px;" />
-                              </div>
-                            </div>
-                          </q-td>
-                        </q-tr>
-                      </template>
-                    </q-table>
-                  </div>
-                </div> -->
-                <!-- <q-table :rows="rowsMile" :columns="columnsMile" row-key="id" :expand="expand" class="table--with-avatar" hide-pagination >
-                  <template v-slot:body-cell-title="props">
-                    <q-expansion-item :label="props.row.title" :default-opened="props.row.defaultOpened">
-                      <q-table :rows="props.row.tasks" :columns="columns" dense flat no-header row-key="id">
-                        <template v-slot:body-cell-color="props">
-                          <q-chip :color="props.row.color" square />
-                        </template>
 
-                        <template v-slot:body-cell-canRetreat="props">
-                          <q-icon :name="props.row.canRetreat ? 'close' : 'check'"
-                            :color="props.row.canRetreat ? 'red' : 'green'" />
-                        </template>
+                            </q-card>
+                          </q-dialog>
 
-                        <template v-slot:body-cell-haveProgress="props">
-                          <q-icon :name="props.row.haveProgress ? 'check' : 'close'"
-                            :color="props.row.haveProgress ? 'green' : 'red'" />
-                        </template>
+                          <!-- Edit Board Dialog -->
 
-                        <template v-slot:body-cell-privilege="props">
-                          <q-avatar-group :max="5">
-                            <q-avatar v-for="(person, index) in props.row.privilege" :key="index" :icon="person"
-                              size="xs" />
-                          </q-avatar-group>
-                        </template>
-                      </q-table>
-                    </q-expansion-item>
-                  </template>
-                </q-table> -->
-                <div class="q-pa-sm"
-                  :style="{ 'list-style-type': 'none', display: 'flex', 'flex-wrap': 'wrap', 'background': '#f3f4f5' }">
-                  <div class="col text-black text-capitalize text-body2" style="flex: 1;">no</div>
-                  <div class="col text-black text-capitalize text-body2" align="left" style="flex: 2;">title</div>
-                  <div class="col text-black text-capitalize text-body2" style="flex: 1;">sequence</div>
-                  <div class="col text-black text-capitalize text-body2" style="flex: 1;">Progress weight</div>
-                  <div class="col text-black text-capitalize text-body2" style="flex: 1;">color</div>
-                  <div class="col text-black text-capitalize text-body2" style="flex: 1;">can retreat</div>
-                  <div class="col text-black text-capitalize text-body2" style="flex: 1;">Have Progress</div>
-                  <div class="col text-black text-capitalize text-body2" style="flex: 1;">privilage</div>
+                          <q-item clickable v-close-popup @click="showDeleteDialog = true">
+                            <q-item-section side>
+                              <q-icon name="delete" />
+                            </q-item-section>
+                            <q-item-section>Delete</q-item-section>
+                          </q-item>
+
+                          <!-- Delete Confirmation Dialog -->
+                          <q-dialog v-model="showDeleteDialog" persistent>
+                            <q-card style="width: 500px;">
+
+                              <!-- Icon Section -->
+                              <q-card-section class="row justify-center">
+                                <q-icon size="83px" color="yellow" name="img:src/assets/Vector_Yellow.svg" />
+                              </q-card-section>
+
+                              <!-- Text Section -->
+                              <q-card-section style="text-align: center;">
+                                <div class="text-h6">
+                                  <b>Do you want to delete project?</b>
+                                </div>
+                                <div>
+                                  Deleted projects cannot be recovered.
+                                </div>
+                              </q-card-section>
+
+                              <!-- Action Buttons Section -->
+                              <q-card-section class="row justify-center q-gutter-sm">
+                                <q-btn label="No" padding="sm 50px" flat text-color="negative"
+                                  @click="showDeleteDialog = false" />
+                                <q-btn label="Yes" padding="sm 50px" color="negative" @click="onDelete(selectedRow)" />
+                              </q-card-section>
+                            </q-card>
+                          </q-dialog>
+                        </q-list>
+                      </q-menu>
+                    </template>
+                    <q-separator />
+
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">1</div>
+                      <div class="col-5 q-pa-sm ">To do</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">1</div>
+                      <div class="col-1 q-pa-sm ">0</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/blue_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">2</div>
+                      <div class="col-5 q-pa-sm ">To do</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">2</div>
+                      <div class="col-1 q-pa-sm ">10</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/orange_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">3</div>
+                      <div class="col-5 q-pa-sm ">Script Testing</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">3</div>
+                      <div class="col-1 q-pa-sm ">100</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/pink_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">4</div>
+                      <div class="col-5 q-pa-sm ">Done</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">3</div>
+                      <div class="col-1 q-pa-sm ">100</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/green_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">5</div>
+                      <div class="col-5 q-pa-sm ">Backlog</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">4</div>
+                      <div class="col-1 q-pa-sm ">0</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/grey_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                  </q-expansion-item>
+                  <q-separator />
+
+                  <q-expansion-item v-model="expanded" expand-icon-toggle icon="perm_identity"
+                    label="menyala abang kuu " switch-toggle-side>
+                    <template v-slot:header>
+                      <div class="flex items-center justify-between" style="width: 100%;">
+                        <!-- Ikon SVG di depan teks -->
+                        <div class="flex" style="gap : 3px;">
+                          <q-icon name="add_box" color="grey" size="25px" />
+                          <div>Development (2)</div>
+                        </div>
+                      </div>
+                      <!-- Status di sebelah kanan -->
+                      <q-avatar v-for="n in 5" :key="n" size="30px" class="overlapping" :style="`left: ${n * -10}px`">
+                        <img :src="`https://cdn.quasar.dev/img/avatar${n + 1}.jpg`">
+                      </q-avatar>
+                      <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                    </template>
+                    <q-separator />
+
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">1</div>
+                      <div class="col-5 q-pa-sm ">To do</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">1</div>
+                      <div class="col-1 q-pa-sm ">0</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/blue_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">2</div>
+                      <div class="col-5 q-pa-sm ">Analyze</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">2</div>
+                      <div class="col-1 q-pa-sm ">17</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/yellow_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">3</div>
+                      <div class="col-5 q-pa-sm ">Ready to Develop</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">3</div>
+                      <div class="col-1 q-pa-sm ">34</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/purple_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">4</div>
+                      <div class="col-5 q-pa-sm ">In Progress</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">4</div>
+                      <div class="col-1 q-pa-sm ">51</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/orange_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">5</div>
+                      <div class="col-5 q-pa-sm ">Code Review</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">5</div>
+                      <div class="col-1 q-pa-sm ">68</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/pink_muda.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">6</div>
+                      <div class="col-5 q-pa-sm ">SIT</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">6</div>
+                      <div class="col-1 q-pa-sm ">85</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/grey_muda.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">7</div>
+                      <div class="col-5 q-pa-sm ">Done</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">7</div>
+                      <div class="col-1 q-pa-sm ">100</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/green_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                  </q-expansion-item>
+                  <q-separator />
+
+                  <q-expansion-item v-model="expanded" expand-icon-toggle icon="perm_identity"
+                    label="menyala abang kuu " switch-toggle-side>
+                    <template v-slot:header>
+                      <div class="flex items-center justify-between" style="width: 100%;">
+                        <!-- Ikon SVG di depan teks -->
+                        <div class="flex" style="gap : 3px;">
+                          <q-icon name="add_box" color="grey" size="25px" />
+                          <div>UAT & Release (3)</div>
+                        </div>
+                      </div>
+                      <!-- Status di sebelah kanan -->
+                      <q-avatar v-for="n in 5" :key="n" size="30px" class="overlapping" :style="`left: ${n * -10}px`">
+                        <img :src="`https://cdn.quasar.dev/img/avatar${n + 1}.jpg`">
+                      </q-avatar>
+                      <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                    </template>
+                    <q-separator />
+
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">1</div>
+                      <div class="col-5 q-pa-sm ">To do</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">1</div>
+                      <div class="col-1 q-pa-sm ">0</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/blue_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/silang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">2</div>
+                      <div class="col-5 q-pa-sm ">UAT</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">2</div>
+                      <div class="col-1 q-pa-sm ">20</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/grey_muda.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">3</div>
+                      <div class="col-5 q-pa-sm ">Ready to Release</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">3</div>
+                      <div class="col-1 q-pa-sm ">40</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/purple_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">4</div>
+                      <div class="col-5 q-pa-sm ">Release</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">4</div>
+                      <div class="col-1 q-pa-sm ">60</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/grey_muda.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">5</div>
+                      <div class="col-5 q-pa-sm ">Documentation</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">5</div>
+                      <div class="col-1 q-pa-sm ">80</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/pink_muda.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+
+                    <q-separator />
+                    <div class="row child-column">
+                      <div class="col-1 q-pa-sm ">6</div>
+                      <div class="col-5 q-pa-sm ">Done</div>
+                      <div class="col-1 q-pa-sm "></div>
+                      <div class="col-1 q-pa-sm ">6</div>
+                      <div class="col-1 q-pa-sm ">100</div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/green_color.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm ">
+                        <img src="src/assets/centang.svg" class="icon-class" />
+                      </div>
+                      <div class="col-1 q-pa-sm q-ml-xl ">
+                        <q-icon name="more_vert" class="cursor-pointer q-mt-sm" @click="onIconClick(props.row)" />
+                      </div>
+                    </div>
+                  </q-expansion-item>
+                  <q-separator />
+
                 </div>
-
               </div>
 
               <!-- Documentation -->
@@ -1830,7 +2373,7 @@
                       <q-card style="min-width: 805px; height: 500px; border-radius: 12px">
                         <q-card-section>
                           <div class="header-dialog">
-                            <div class="text-h6">Add Group</div>
+                            <div class="text-h6">Edit Group</div>
                             <q-btn flat icon="close" v-close-popup />
                           </div>
                         </q-card-section>
@@ -1871,272 +2414,15 @@
                   <q-list bordered class="rounded-borders">
 
                     <!-- Level 1: Login -->
-                    <q-expansion-item icon="add_box" label="Login" default-opened switch-toggle-side
+                    <q-expansion-item icon="add_box" expand-icon-toggle label="Login" default-opened switch-toggle-side
                       header-class="header-expand">
                       <template v-slot:header>
                         <div class="flex items-center justify-between" style="width: 100%;">
                           <!-- Ikon SVG di depan teks -->
                           <div class="flex" style="gap : 3px;">
-                            <q-icon name="add_box" color="grey" size="20px" />
-                            <q-icon size="20px" name="img:src/assets/group.svg" />
-                            <div>Project</div>
-                          </div>
-                        </div>
-                        <!-- Status di sebelah kanan -->
-                        <q-badge text-color="black" color="amber-2" align="top">IN PROGRESS (58%)</q-badge>
-                      </template>
-                      <q-separator />
-                      <!-- Level 2: Module Login -->
-                      <q-expansion-item :header-inset-level="1" icon="add_box" label="Login" default-opened
-                        switch-toggle-side header-class="header-expand">
-                        <template v-slot:header>
-                          <div class="flex items-center justify-between" style="width: 100%;">
-                            <!-- Ikon SVG di depan teks -->
-                            <div class="flex" style="gap : 3px;">
-                              <q-icon name="add_box" color="grey" size="20px" />
-                              <q-icon size="20px" name="img:src/assets/module.svg" />
-                              <div>Module Login</div>
-                            </div>
-                          </div>
-                          <!-- Status di sebelah kanan -->
-                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                        </template>
-                        <q-separator />
-                        <!-- Level 3: Project -->
-                        <q-expansion-item :header-inset-level="2" icon="add_box" label="Login" default-opened
-                          switch-toggle-side header-class="header-expand">
-                          <template v-slot:header>
-                            <div class="flex items-center justify-between" style="width: 100%;">
-                              <!-- Ikon SVG di depan teks -->
-                              <div class="flex" style="gap : 3px;">
-                                <q-icon name="add_box" color="grey" size="20px" />
-                                <q-icon size="20px" name="img:src/assets/group.svg" />
-                                <div>Project</div>
-                              </div>
-                            </div>
-                            <!-- Status di sebelah kanan -->
-                            <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                          </template>
-                          <q-separator />
-                          <q-item>
-                            <q-item-section>
-                              <div class="flex" style="gap : 12px;">
-                                <q-icon size="20px" name="img:src/assets/feature.svg" />
-                                <div>Login (Login)</div>
-                              </div>
-                            </q-item-section>
-                            <q-badge text-color="black" color="amber-2" align="top">IN PROGRESS (25%)</q-badge>
-                          </q-item>
-                          <q-separator />
-                          <q-item>
-                            <q-item-section>
-                              <div class="flex" style="gap : 12px;">
-                                <q-icon size="20px" name="img:src/assets/feature.svg" />
-                                <div>Reset Password (Forgot Password)</div>
-                              </div>
-                            </q-item-section>
-                            <q-badge text-color="black" color="amber-2" align="top">IN PROGRESS (50%)</q-badge>
-                          </q-item>
-                          <q-separator />
-                          <q-item>
-                            <q-item-section>
-                              <div class="flex" style="gap : 12px;">
-                                <q-icon size="20px" name="img:src/assets/feature.svg" />
-                                <div>Register Account (Register)</div>
-                              </div>
-                            </q-item-section>
-                            <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                          </q-item>
-                        </q-expansion-item>
-                      </q-expansion-item>
-                    </q-expansion-item>
-                    <q-separator />
-
-                    <!-- Level 1: Project Summary -->
-                    <q-expansion-item icon="add_box" label="Login" default-opened switch-toggle-side
-                      header-class="header-expand">
-                      <template v-slot:header>
-                        <div class="flex items-center justify-between" style="width: 100%;">
-                          <!-- Ikon SVG di depan teks -->
-                          <div class="flex" style="gap : 3px;">
-                            <q-icon name="add_box" color="grey" size="20px" />
-                            <q-icon size="20px" name="img:src/assets/group.svg" />
-                            <div>Project Summary</div>
-                          </div>
-                        </div>
-                        <!-- Status di sebelah kanan -->
-                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                      </template>
-                      <q-separator />
-                      <!-- Level 2: Module Project Summary -->
-                      <q-expansion-item :header-inset-level="1" icon="add_box" label="Login" default-opened
-                        switch-toggle-side header-class="header-expand">
-                        <template v-slot:header>
-                          <div class="flex items-center justify-between" style="width: 100%;">
-                            <!-- Ikon SVG di depan teks -->
-                            <div class="flex" style="gap : 3px;">
-                              <q-icon name="add_box" color="grey" size="20px" />
-                              <q-icon size="20px" name="img:src/assets/module.svg" />
-                              <div>Module Project Summary</div>
-                            </div>
-                          </div>
-                          <!-- Status di sebelah kanan -->
-                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                        </template>
-
-                        <q-separator />
-                        <q-item>
-                          <q-item-section>
-                            <div class="flex" style="gap : 12px;">
-                              <q-icon size="20px" name="img:src/assets/feature.svg" />
-                              <div>View Project (Read)</div>
-                            </div>
-                          </q-item-section>
-                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                        </q-item>
-                        <q-separator />
-                        <q-item>
-                          <q-item-section>
-                            <div class="flex" style="gap : 12px;">
-                              <q-icon size="20px" name="img:src/assets/feature.svg" />
-                              <div>Share Project (Read)</div>
-                            </div>
-                          </q-item-section>
-                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                        </q-item>
-                      </q-expansion-item>
-                    </q-expansion-item>
-                    <q-separator />
-
-                    <!-- Level 1: Project -->
-                    <q-expansion-item :header-inset-level="1" icon="add_box" label="Login" default-opened
-                      switch-toggle-side header-class="header-expand">
-                      <template v-slot:header>
-                        <div class="flex items-center justify-between" style="width: 100%;">
-                          <!-- Ikon SVG di depan teks -->
-                          <div class="flex" style="gap : 3px;">
-                            <q-icon name="add_box" color="grey" size="20px" />
-                            <q-icon size="20px" name="img:src/assets/group.svg" />
-                            <div>Project</div>
-                          </div>
-                        </div>
-                        <!-- Status di sebelah kanan -->
-                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                      </template>
-
-                      <q-separator />
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Planning Project (Read)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                      </q-item>
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Activities Project (Read)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                      </q-item>
-                      <q-separator />
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Requirements (Read)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                      </q-item>
-                      <q-separator />
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Performance (Read)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                      </q-item>
-                      <q-separator />
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Sprint (Read)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
-                      </q-item>
-                    </q-expansion-item>
-                    <q-separator />
-
-                    <!-- Level 1: Another Project Section -->
-                    <q-expansion-item :header-inset-level="1" icon="add_box" label="Login" default-opened
-                      switch-toggle-side header-class="header-expand">
-                      <template v-slot:header>
-                        <div class="flex items-center justify-between" style="width: 100%;">
-                          <!-- Ikon SVG di depan teks -->
-                          <div class="flex" style="gap : 3px;">
-                            <q-icon name="add_box" color="grey" size="20px" />
-                            <q-icon size="20px" name="img:src/assets/group.svg" />
-                            <div>Project</div>
-                          </div>
-                        </div>
-                        <!-- Status di sebelah kanan -->
-                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
-                      </template>
-
-                      <q-separator />
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Add Project (Add)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
-                      </q-item>
-                      <q-separator />
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Edit Project (Edit)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
-                      </q-item>
-                      <q-separator />
-                      <q-item>
-                        <q-item-section>
-                          <div class="flex" style="gap : 12px;">
-                            <q-icon size="20px" name="img:src/assets/feature.svg" />
-                            <div>Delete Project (Delete)</div>
-                          </div>
-                        </q-item-section>
-                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
-                      </q-item>
-                    </q-expansion-item>
-                  </q-list>
-                </div>
-
-                <!-- <div class="q-pa-md q-gutter-sm">
-                  <div id="q-app" style="min-height: 100vh;">
-                    <q-tree :nodes="treeData" node-key="id" :filter-method="filterMethod" no-tick>
-                      <template v-slot:default-header="props">
-                        <q-item v-ripple @click="props.node.expand = !props.node.expand">
-
-                          <q-item-section side
-                            v-if="['Login', 'Module Login', 'Project', 'Project Summary', 'Module Project Summary'].includes(props.node.label)">
-                            <q-btn flat dense icon="add_box" @click="showAdd = true" />
-                            <q-dialog v-model="showAdd" persistent>
-                              <q-card style="min-width: 800px; height: 715px;">
+                            <q-icon name="add_box" color="grey" size="20px" @click="showAddBoard = true" />
+                            <q-dialog v-model="showAddBoard" persistent>
+                              <q-card style="min-width: 805px; height: 620px; border-radius: 12px">
                                 <q-card-section>
                                   <div class="header-dialog">
                                     <div class="text-h6">Add Group or Module</div>
@@ -2147,39 +2433,28 @@
                                 <q-separator />
 
                                 <q-card-section>
+                                  <!-- Title Input -->
                                   <div class="jarak">
-
-                                    <div class="q-mt-md">
+                                    <div class="q-ma-sm">
                                       <span>Type</span>
-                                      <q-option-group inline v-model="form.tipe" :options="TipeeOptions"
-                                        @input="onTipeeChange" color="primary" />
+                                      <q-select outlined v-model="form.filter" :options="BoardOptions"
+                                        label="All Type" />
                                     </div>
 
-
-                                    <span>Title</span>
-                                    <q-input outlined v-model="text" color="grey"
-                                      label="Insert Title.Max 100 characters  " />
-
-                                    <div v-if="form.tipe === 'Module'" class="row q-gutter-md">
-                                      <div class="col">
-                                        <span>Relation Module</span>
-                                        <q-select outlined v-model="form.module" :options="moduleOptions" />
-                                      </div>
+                                    <div class="q-ma-sm q-mt-md">
+                                      <span>Title</span>
+                                      <q-input outlined v-model="text" color="grey"
+                                        label="Insert Group Title. Max 100 characters" />
                                     </div>
 
-                                    <span>Description</span>
-                                    <q-editor v-model="form.content" label="Content" filled :toolbar="[
-                                      ['bold', 'italic', 'underline', 'strike', 'link', 'unordered', 'ordered', 'fullscreen'],
-                                    ]" />
-
-                                    <div v-if="form.tipe === 'Module'" class="row q-gutter-md">
-                                      <div class="col">
-                                        <span>Multiple Image (Optional)</span>
-                                        <q-input outlined color="grey" @update:model-value="val => { file = val[0] }"
-                                          type="file" />
-                                      </div>
+                                    <div class="q-ma-sm q-mt-md">
+                                      <span>Description</span>
+                                      <q-editor v-model="form.description" label="Insert Content of Requirement" filled
+                                        :toolbar="[
+                                          ['bold', 'italic', 'underline', 'strike'],
+                                          ['link', 'unordered', 'ordered', 'fullscreen']
+                                        ]" />
                                     </div>
-
                                   </div>
                                 </q-card-section>
                                 <div class="column">
@@ -2192,74 +2467,374 @@
                                 </div>
                               </q-card>
                             </q-dialog>
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label>{{ props.node.label }}</q-item-label>
-                          </q-item-section>
-                          <q-item style="display: flex; justify-content: flex-end;">
-                            <q-item-section side>
-                              <q-chip :color="props.node.statusColor" :outline="true" square>
-                                {{ props.node.status }} ({{ props.node.progress }})
-                              </q-chip>
-                            </q-item-section>
-                          </q-item>
-                        </q-item>
-                      </template>
-                    </q-tree>
-                  </div>
-                </div> -->
-
-                <!-- <q-list style="border: none" v-for="(list, index) in backlog" :key="index" bordered>
-                  <q-item-label header clickable>
-                    <div class="row q-col-gutter-xs">
-                      <div class="col-1" style="width: 15px; height: 20px; background-color: #e6e3e3">
-                        {{ index + 1 }}.
-                      </div>
-                      <div class="col-2">
-                        Design and Analye
-                        <q-btn color="grey" flat round padding="none" icon="visibility" @click="minimizeModal"></q-btn>
-                      </div>
-                    </div>
-                  </q-item-label>
-
-                  <q-item class="active-header q-px-md q-py-none" headar v-ripple dense> -->
-                <!-- <div class="div-header"></div> -->
-                <!-- <q-item-section side>
-                      <q-icon color="positive" name="attach_file" />
-                    </q-item-section>
-
-                    <q-item-section><b>{{ list.title }}</b></q-item-section>
-                    <q-item-section side>
-                      <q-btn flat dense round icon="more_vert">
-                        <OptionSprint />
-                      </q-btn>
-                    </q-item-section>
-                  </q-item>
-                  <q-item class="active-item" v-ripple dense v-for="(item, index) in list.task" :key="index">
-                    <q-item-section side>
-                      <q-icon :color="item.color" :name="item.icon" />
-                    </q-item-section> -->
-                <!-- <div class="div-list"></div> -->
-                <!-- <q-item-section>
-                      <q-item-label>{{ item.task }}</q-item-label>
-                    </q-item-section>
-                    <q-item-section side class="q-py-none">
-                      <div class="row"> -->
-                <!-- <div class="todopersen q-ma-xs q-pt-xs">To Do (0%)</div> -->
-                <!-- <div class="q-pt-xs">
-                          <q-badge class="q-py-xs" align="middle" color="light-blue-3" text-color="black"
-                            label="To Do (0%)"></q-badge>
+                            <q-icon size="20px" name="img:src/assets/group.svg" />
+                            <div>Project</div>
+                          </div>
                         </div>
-                      </div>
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-btn flat dense round icon="more_vert">
-                        <OptionSprint />
-                      </q-btn>
-                    </q-item-section>
-                  </q-item>
-                </q-list> -->
+                        <q-badge text-color="black" color="amber-2" align="top">IN PROGRESS (58%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                        <q-menu anchor="bottom right" self="top right">
+                          <q-list dense style="min-width: 200px">
+                            <q-item clickable v-close-popup>
+                              <q-item-section side>
+                                <q-icon name="visibility" />
+                              </q-item-section>
+                              <q-item-section>Detail</q-item-section>
+                            </q-item>
+                            <q-item clickable v-close-popup @click="showModal = true">
+                              <q-item-section side>
+                                <q-icon name="edit" />
+                              </q-item-section>
+                              <q-item-section>Edit</q-item-section>
+                            </q-item>
+                            <q-dialog v-model="showModal" persistent>
+                              <q-card style="min-width: 805px; height: 500px; border-radius: 12px">
+                                <q-card-section>
+                                  <div class="header-dialog">
+                                    <div class="text-h6">Add Group</div>
+                                    <q-btn flat icon="close" v-close-popup />
+                                  </div>
+                                </q-card-section>
+
+                                <q-separator />
+
+                                <q-card-section>
+                                  <!-- Title Input -->
+                                  <div class="jarak">
+                                    <span>Title</span>
+                                    <q-input outlined v-model="text" color="grey"
+                                      label="Insert Group Title. Max 100 characters" />
+
+                                    <div class="q-mt-md">
+                                      <span>Description</span>
+                                      <q-editor v-model="form.description" label="Insert Content of Requirement" filled
+                                        :toolbar="[
+                                          ['bold', 'italic', 'underline', 'strike'],
+                                          ['link', 'unordered', 'ordered', 'fullscreen']
+                                        ]" />
+                                    </div>
+                                  </div>
+                                </q-card-section>
+                                <div class="column">
+                                  <div class="col self-end q-mr-md">
+                                    <q-card-actions>
+                                      <q-btn flat label="Cancel" color="red" v-close-popup />
+                                      <q-btn label="Submit" color="red" @click="submitForm" />
+                                    </q-card-actions>
+                                  </div>
+                                </div>
+                              </q-card>
+                            </q-dialog>
+                            <q-item clickable v-close-popup @click="showDeleteDialog = true">
+                              <q-item-section side>
+                                <q-icon name="delete" />
+                              </q-item-section>
+                              <q-item-section>Delete</q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </template>
+
+                      <q-separator />
+                      <!-- Level 2: Module Login -->
+                      <q-expansion-item :header-inset-level="1" expand-icon-toggle icon="add_box" label="Login"
+                        default-opened switch-toggle-side header-class="header-expand">
+                        <template v-slot:header>
+                          <div class="flex items-center justify-between" style="width: 100%;">
+                            <!-- Ikon SVG di depan teks -->
+                            <div class="flex" style="gap : 3px;">
+                              <q-icon name="add_box" color="grey" size="20px" />
+                              <q-icon size="20px" name="img:src/assets/module.svg" />
+                              <div>Module Login</div>
+                            </div>
+                          </div>
+                          <!-- Status di sebelah kanan -->
+                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                          <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                            @click="onIconClick(props.row)" />
+                        </template>
+                        <q-separator />
+                        <!-- Level 3: Project -->
+                        <q-expansion-item :header-inset-level="2" expand-icon-toggle icon="add_box" label="Login"
+                          default-opened switch-toggle-side header-class="header-expand">
+                          <template v-slot:header>
+                            <div class="flex items-center justify-between" style="width: 100%;">
+                              <!-- Ikon SVG di depan teks -->
+                              <div class="flex" style="gap : 3px;">
+                                <q-icon name="add_box" color="grey" size="20px" />
+                                <q-icon size="20px" name="img:src/assets/group.svg" />
+                                <div>Project</div>
+                              </div>
+                            </div>
+                            <!-- Status di sebelah kanan -->
+                            <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                            <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                              @click="onIconClick(props.row)" />
+                          </template>
+                          <q-separator />
+                          <q-item>
+                            <q-item-section>
+                              <div class="flex" style="gap : 12px;">
+                                <q-icon size="20px" name="img:src/assets/feature.svg" />
+                                <div>Login (Login)</div>
+                              </div>
+                            </q-item-section>
+                            <q-badge text-color="black" color="amber-2" align="top">IN PROGRESS (25%)</q-badge>
+                            <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                              @click="onIconClick(props.row)" />
+                          </q-item>
+                          <q-separator />
+                          <q-item>
+                            <q-item-section>
+                              <div class="flex" style="gap : 12px;">
+                                <q-icon size="20px" name="img:src/assets/feature.svg" />
+                                <div>Reset Password (Forgot Password)</div>
+                              </div>
+                            </q-item-section>
+                            <q-badge text-color="black" color="amber-2" align="top">IN PROGRESS (50%)</q-badge>
+                            <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                              @click="onIconClick(props.row)" />
+                          </q-item>
+                          <q-separator />
+                          <q-item>
+                            <q-item-section>
+                              <div class="flex" style="gap : 12px;">
+                                <q-icon size="20px" name="img:src/assets/feature.svg" />
+                                <div>Register Account (Register)</div>
+                              </div>
+                            </q-item-section>
+                            <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                            <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                              @click="onIconClick(props.row)" />
+                          </q-item>
+                        </q-expansion-item>
+                      </q-expansion-item>
+                    </q-expansion-item>
+                    <q-separator />
+
+                    <!-- Level 1: Project Summary -->
+                    <q-expansion-item icon="add_box" expand-icon-toggle label="Login" default-opened switch-toggle-side
+                      header-class="header-expand">
+                      <template v-slot:header>
+                        <div class="flex items-center justify-between" style="width: 100%;">
+                          <!-- Ikon SVG di depan teks -->
+                          <div class="flex" style="gap : 3px;">
+                            <q-icon name="add_box" color="grey" size="20px" />
+                            <q-icon size="20px" name="img:src/assets/group.svg" />
+                            <div>Project Summary</div>
+                          </div>
+                        </div>
+                        <!-- Status di sebelah kanan -->
+                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </template>
+                      <q-separator />
+                      <!-- Level 2: Module Project Summary -->
+                      <q-expansion-item :header-inset-level="1" expand-icon-toggle icon="add_box" label="Login"
+                        default-opened switch-toggle-side header-class="header-expand">
+                        <template v-slot:header>
+                          <div class="flex items-center justify-between" style="width: 100%;">
+                            <!-- Ikon SVG di depan teks -->
+                            <div class="flex" style="gap : 3px;">
+                              <q-icon name="add_box" color="grey" size="20px" />
+                              <q-icon size="20px" name="img:src/assets/module.svg" />
+                              <div>Module Project Summary</div>
+                            </div>
+                          </div>
+                          <!-- Status di sebelah kanan -->
+                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                          <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                            @click="onIconClick(props.row)" />
+                        </template>
+                        <q-separator />
+                        <q-item>
+                          <q-item-section>
+                            <div class="flex" style="gap : 12px;">
+                              <q-icon size="20px" name="img:src/assets/feature.svg" />
+                              <div>View Project (Read)</div>
+                            </div>
+                          </q-item-section>
+                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                          <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                            @click.stop="onIconClick(props.row)" />
+                          <q-menu>
+                            <q-list dense style="min-width: 200px">
+                              <q-item clickable @click="showDetails = true" v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="visibility" />
+                                </q-item-section>
+                                <q-item-section>Detail</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup>
+                                <q-item-section side>
+                                  <q-icon name="edit" />
+                                </q-item-section>
+                                <q-item-section>Edit</q-item-section>
+                              </q-item>
+                              <q-item clickable v-close-popup @click="showDeleteDialog = true">
+                                <q-item-section side>
+                                  <q-icon name="delete" />
+                                </q-item-section>
+                                <q-item-section>Delete</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-item>
+                        <q-separator />
+                        <q-item>
+                          <q-item-section>
+                            <div class="flex" style="gap : 12px;">
+                              <q-icon size="20px" name="img:src/assets/feature.svg" />
+                              <div>Share Project (Read)</div>
+                            </div>
+                          </q-item-section>
+                          <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                          <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                            @click="onIconClick(props.row)" />
+                        </q-item>
+                      </q-expansion-item>
+                    </q-expansion-item>
+                    <q-separator />
+
+                    <!-- Level 1: Project -->
+                    <q-expansion-item :header-inset-level="1" expand-icon-toggle icon="add_box" label="Login"
+                      default-opened switch-toggle-side header-class="header-expand">
+                      <template v-slot:header>
+                        <div class="flex items-center justify-between" style="width: 100%;">
+                          <!-- Ikon SVG di depan teks -->
+                          <div class="flex" style="gap : 3px;">
+                            <q-icon name="add_box" color="grey" size="20px" />
+                            <q-icon size="20px" name="img:src/assets/group.svg" />
+                            <div>Project</div>
+                          </div>
+                        </div>
+                        <!-- Status di sebelah kanan -->
+                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </template>
+                      <q-separator />
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Planning Project (Read)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Activities Project (Read)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                      <q-separator />
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Requirements (Read)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                      <q-separator />
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Performance (Read)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                      <q-separator />
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Sprint (Read)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="green-2" align="top">COMPLETE (100%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                    </q-expansion-item>
+                    <q-separator />
+
+                    <!-- Level 1: Another Project Section -->
+                    <q-expansion-item :header-inset-level="1" expand-icon-toggle icon="add_box" label="Login"
+                      default-opened switch-toggle-side header-class="header-expand">
+                      <template v-slot:header>
+                        <div class="flex items-center justify-between" style="width: 100%;">
+                          <!-- Ikon SVG di depan teks -->
+                          <div class="flex" style="gap : 3px;">
+                            <q-icon name="add_box" color="grey" size="20px" />
+                            <q-icon size="20px" name="img:src/assets/group.svg" />
+                            <div>Project</div>
+                          </div>
+                        </div>
+                        <!-- Status di sebelah kanan -->
+                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </template>
+                      <q-separator />
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Add Project (Add)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                      <q-separator />
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Edit Project (Edit)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                      <q-separator />
+                      <q-item>
+                        <q-item-section>
+                          <div class="flex" style="gap : 12px;">
+                            <q-icon size="20px" name="img:src/assets/feature.svg" />
+                            <div>Delete Project (Delete)</div>
+                          </div>
+                        </q-item-section>
+                        <q-badge text-color="black" color="grey-5" align="top">NOT STARTED (0%)</q-badge>
+                        <q-icon name="more_vert" class="cursor-pointer q-ml-md q-mt-sm"
+                          @click="onIconClick(props.row)" />
+                      </q-item>
+                    </q-expansion-item>
+                  </q-list>
+                </div>
               </div>
+
 
               <!-- Activities -->
               <div v-if="isActivitiesActive">
@@ -2472,8 +3047,10 @@
                     </template>
                     <template v-slot:body-cell="props">
                       <q-td :props="props">
-                        <div v-if="props.col.field === 'Status'">
-                        </div>
+                        <q-badge v-if="props.col.field === 'statusss'" :color="statusssColor(props.row.status)"
+                          align="center">
+                          {{ props.row.status }}
+                        </q-badge>
 
                         <div v-else-if="props.col.field === 'participant'" class="q-gutter-xs flex">
                           <div class="avatar" style="background-image: url('src/assets/auraa.png');"></div>
@@ -2487,11 +3064,6 @@
                         <q-badge v-else-if="props.col.field === 'activity'" :color="ActivityColor(props.row.activity)"
                           align="center">
                           {{ props.row.activity }}
-                        </q-badge>
-
-                        <q-badge v-else-if="props.col.field === 'statusss'" :color="statusssColor(props.row.status)"
-                          align="center">
-                          {{ props.row.status }}
                         </q-badge>
 
                         <div v-else>
@@ -2563,7 +3135,7 @@ const typeColor = (type) => {
   }
 };
 
-const statusColor = (statuss) => {
+const statussColor = (statuss) => {
   switch (statuss) {
     case 'Completed':
       return 'green';
@@ -2574,8 +3146,8 @@ const statusColor = (statuss) => {
   }
 };
 
-const statusssColor = (statusss) => {
-  switch (statusss) {
+const statusssColor = (status) => {
+  switch (status) {
     case 'Done':
       return 'green';
     case 'On Going':
@@ -3711,6 +4283,8 @@ const isDialogOpen = ref(false);
 const selectedProject = ref('');
 const showModal = ref(false)
 const showBoard = ref(false)
+const showBoard2 = ref(false)
+const showAddBoard = ref(false)
 const showEdit = ref(false)
 const showProject = ref(false)
 const showStekh = ref(false)
@@ -3726,6 +4300,8 @@ const showEditepic = ref(false)
 const showEditor = ref(false)
 const showDeleteDialog = ref(false)
 const selectedRow = null
+const showMilestone = ref(false)
+
 
 // List of projects
 const projects = ref([
@@ -3745,7 +4321,7 @@ const addProject = () => {
 };
 
 const TypeOptions = [
-  { label: 'Requirement', value: 'Requirement' },
+  { label: 'New', value: 'New' },
   { label: 'Change Request', value: 'Change Request' },
   { label: 'Issue', value: 'Issue' }
 ]
@@ -3847,6 +4423,11 @@ const StekhOptions = [
   { label: 'Alex Sirait (200431)', value: 'stekh4' },
   { label: 'Febby Fakhrian (038886)', value: 'stekh5' },
 ];
+
+const BoardOptions = [
+  { label: 'Group', value: 'tipe1' },
+  { label: 'Module', value: 'tipe2' },
+]
 
 const TipeOptions = [
   { label: 'Requirement', value: 'tipe1' },
@@ -4083,6 +4664,7 @@ function toggleDetail() {
   this.details = true
 }
 
+const color = ref('#563D7C');  // Initial color value
 const model = ref({})
 
 const optionss = [
@@ -4104,56 +4686,86 @@ const optionss = [
   },
 ]
 
-const columnsMile = [
-  { name: 'title', label: 'Title', align: 'left', field: 'title' },
+const columnsMile = ref([
+  { name: 'title', required: true, label: 'Title', align: 'left', field: 'title' },
   { name: 'sequence', label: 'Sequence', align: 'center', field: 'sequence' },
   { name: 'progressWeight', label: 'Progress Weight', align: 'center', field: 'progressWeight' },
   { name: 'color', label: 'Color', align: 'center', field: 'color' },
   { name: 'canRetreat', label: 'Can Retreat', align: 'center', field: 'canRetreat' },
   { name: 'haveProgress', label: 'Have Progress', align: 'center', field: 'haveProgress' },
-  { name: 'pic', label: 'PIC', align: 'center', field: 'pic' }
-]
+  { name: 'privilege', label: 'Privilege', align: 'center', field: 'privilege' },
+])
 
-const rowsMile = [
+const columnsSubtasks = ref([
+  { name: 'title', required: true, label: 'Subtask Title', align: 'left', field: 'title' },
+  { name: 'sequence', label: 'Sequence', align: 'center', field: 'sequence' },
+  { name: 'progressWeight', label: 'Progress Weight', align: 'center', field: 'progressWeight' },
+  { name: 'color', label: 'Color', align: 'center', field: 'color' },
+  { name: 'canRetreat', label: 'Can Retreat', align: 'center', field: 'canRetreat' },
+  { name: 'haveProgress', label: 'Have Progress', align: 'center', field: 'haveProgress' },
+  { name: 'privilege', label: 'Privilege', align: 'center', field: 'privilege' },
+])
+
+const rowsMile = ref([
   {
     id: 1,
     title: 'Analyze & Design (1)',
-    sequence: '1',
-    defaultOpened: true,
-    tasks: [
-      { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: true, haveProgress: true, pic: ['face'] },
-      { id: 2, title: 'In Progress', sequence: 2, progressWeight: 10, color: 'orange', canRetreat: false, haveProgress: true, pic: ['face'] },
-      { id: 3, title: 'Script Testing', sequence: 3, progressWeight: 100, color: 'pink', canRetreat: true, haveProgress: true, pic: ['face'] },
-      { id: 4, title: 'Done', sequence: 3, progressWeight: 100, color: 'green', canRetreat: true, haveProgress: true, pic: ['face'] },
-      { id: 5, title: 'Backlog', sequence: 4, progressWeight: 0, color: 'grey', canRetreat: true, haveProgress: true, pic: ['face'] }
+    expanded: false,
+    subtasks: [
+      { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: false, haveProgress: true, privilege: ['person1'] },
+      { id: 2, title: 'In Progress', sequence: 2, progressWeight: 10, color: 'orange', canRetreat: true, haveProgress: true, privilege: ['person2', 'person3'] },
     ]
   },
   {
     id: 2,
     title: 'Development (2)',
-    defaultOpened: false,
-    tasks: [
-      { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: true, haveProgress: true, privilege: ['face'] },
-      { id: 2, title: 'Analyze', sequence: 2, progressWeight: 17, color: 'orange', canRetreat: false, haveProgress: true, privilege: ['face'] },
-      { id: 3, title: 'Ready to Develop', sequence: 3, progressWeight: 34, color: 'purple', canRetreat: true, haveProgress: true, privilege: ['face'] },
-      { id: 4, title: 'In Progress', sequence: 4, progressWeight: 51, color: 'yellow', canRetreat: true, haveProgress: true, privilege: ['face'] },
-      { id: 5, title: 'Code Review', sequence: 5, progressWeight: 68, color: 'pink', canRetreat: false, haveProgress: true, privilege: ['face'] },
-      { id: 6, title: 'SIT', sequence: 6, progressWeight: 85, color: 'grey', canRetreat: true, haveProgress: true, privilege: ['face'] },
-      { id: 7, title: 'Done', sequence: 7, progressWeight: 100, color: 'green', canRetreat: true, haveProgress: true, privilege: ['face'] }
+    expanded: false,
+    subtasks: [
+      { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: false, haveProgress: true, privilege: ['person5'] },
+      { id: 2, title: 'Analyze', sequence: 2, progressWeight: 17, color: 'orange', canRetreat: true, haveProgress: true, privilege: ['person6', 'person7'] },
     ]
   },
   {
     id: 3,
     title: 'UAT & Release (3)',
-    defaultOpened: false,
-    tasks: [
-      { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: true, haveProgress: true, privilege: ['face'] },
-      { id: 2, title: 'UAT', sequence: 2, progressWeight: 20, color: 'grey', canRetreat: true, haveProgress: true, privilege: ['face'] },
-      { id: 3, title: 'Ready to Release', sequence: 3, progressWeight: 40, color: 'orange', canRetreat: false, haveProgress: true, privilege: ['face'] },
-      { id: 4, title: 'Release', sequence: 4, progressWeight: 60, color: 'yellow', canRetreat: true, haveProgress: true, privilege: ['face'] }
+    expanded: false,
+    subtasks: [
+      { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: false, haveProgress: true, privilege: ['person5'] },
+      { id: 2, title: 'Analyze', sequence: 2, progressWeight: 17, color: 'orange', canRetreat: true, haveProgress: true, privilege: ['person6', 'person7'] },
     ]
-  }
-]
+  },
+])
+// const rowsMile = ref([
+//   {
+//     id: 1,
+//     title: 'Analyze & Design (1)',
+//     expanded: false, // Controls whether subtasks are shown
+//     subtasks: [
+//       { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: false, haveProgress: true, privilege: ['person1'] },
+//       { id: 2, title: 'In Progress', sequence: 2, progressWeight: 10, color: 'orange', canRetreat: true, haveProgress: true, privilege: ['person2', 'person3'] },
+//       { id: 3, title: 'Script Testing', sequence: 3, progressWeight: 100, color: 'pink', canRetreat: false, haveProgress: true, privilege: ['person4'] },
+//     ]
+//   },
+//   {
+//     id: 2,
+//     title: 'Development (2)',
+//     expanded: false, // Controls whether subtasks are shown
+//     subtasks: [
+//       { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: false, haveProgress: true, privilege: ['person5'] },
+//       { id: 2, title: 'Analyze', sequence: 2, progressWeight: 17, color: 'orange', canRetreat: true, haveProgress: true, privilege: ['person6', 'person7'] },
+//     ]
+//   },
+//   {
+//     id: 2,
+//     title: 'UAT & Release (3)',
+//     expanded: false, // Controls whether subtasks are shown
+//     subtasks: [
+//       { id: 1, title: 'To do', sequence: 1, progressWeight: 0, color: 'blue', canRetreat: false, haveProgress: true, privilege: ['person5'] },
+//       { id: 2, title: 'Analyze', sequence: 2, progressWeight: 17, color: 'orange', canRetreat: true, haveProgress: true, privilege: ['person6', 'person7'] },
+//     ]
+//   },
+// ])
+
 
 </script>
 
@@ -4256,7 +4868,7 @@ const rowsMile = [
 }
 
 .text-h3 {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .text-h6 {
@@ -4317,6 +4929,10 @@ const rowsMile = [
 }
 
 .font-active {
+  font-size: 12px;
+}
+
+.iicon-group {
   font-size: 12px;
 }
 
@@ -4388,4 +5004,18 @@ const rowsMile = [
   background-color: #f2f2f2;
   border-radius: 12px;
 }
+
+.board-table {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  /* Each column fraction matches */
+  background-color: #f0f0f0;
+}
+
+.child-column {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+
 </style>
